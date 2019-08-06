@@ -9,9 +9,12 @@ namespace WebApplication.Web.DAL
 {
     public class IngredientSqlDAL : IIngredientDAL
     {
-        private string connectionString;
-        private string sqlQueryGetIngredients = "SELECT * FROM ingredient";
-        private string sqlInsertIngredient = "INSERT INTO ingredient VALUES(@name)";        
+        private string connectionString; 
+        private string sqlQueryGetIngredients = "SELECT * FROM ingredient"; 
+        private string sqlInsertIngredient = "INSERT INTO ingredient VALUES(@name)";
+        private string sqlQueryGetUnits = "SELECT unit FROM unit";
+        private string sqlQueryGetFractions = "SELECT fraction FROM fraction";
+        private string sqlQueryGetNumbers = "SELECT number FROM number";
 
         public IngredientSqlDAL(string connectionString)
         {
@@ -24,13 +27,11 @@ namespace WebApplication.Web.DAL
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(sqlQueryGetIngredients, conn);
-
-                    conn.Open();
-
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlQueryGetIngredients, connection);
+                    SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -55,20 +56,43 @@ namespace WebApplication.Web.DAL
             return ingredient;
         }
 
+        private string MapRowToUnit(SqlDataReader reader)
+        {
+            string unit;
+
+            unit = Convert.ToString(reader["unit"]);
+
+            return unit;
+        }
+
+        private string MapRowToFraction(SqlDataReader reader)
+        {            
+            string fraction = Convert.ToString(reader["fraction"]);
+
+            return fraction;
+        }
+
+        private string MapRowToNumber(SqlDataReader reader)
+        {
+            string number = Convert.ToString(reader["number"]);
+
+            return number;
+        }
+
+
         public bool AddIngredient(string name)
         {
             bool result = false;
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(sqlInsertIngredient, conn);
-                    cmd.Parameters.AddWithValue("@name", name);
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlInsertIngredient, connection);
+                    command.Parameters.AddWithValue("@name", name);
 
-                    conn.Open();
-
-                    int rowsAffected = cmd.ExecuteNonQuery();
+                    int rowsAffected = command.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
                     {
@@ -86,6 +110,7 @@ namespace WebApplication.Web.DAL
         public List<Ingredient> FilterNewIngredients(List<Ingredient> ingredients)
         {
             List<Ingredient> newIngredients = new List<Ingredient>();
+
             List<Ingredient> existingIngredients = GetIngredients();
 
             foreach (Ingredient item in ingredients)
@@ -95,9 +120,82 @@ namespace WebApplication.Web.DAL
                     newIngredients.Add(item);
                 }
             }
-
             return newIngredients;
+        }
 
+        public List<string> GetUnits()
+        {
+            List<string> units = new List<string>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlQueryGetUnits, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        units.Add(MapRowToUnit(reader));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return units;
+        }
+
+        public List<string> GetFractions()
+        {
+            List<string> fractions = new List<string>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlQueryGetFractions, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        fractions.Add(MapRowToUnit(reader));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return fractions;
+        }
+
+        public List<string> GetNumbers()
+        {
+            List<string> numbers = new List<string>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlQueryGetNumbers, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        numbers.Add(MapRowToUnit(reader));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return numbers;
         }
     }
 }
