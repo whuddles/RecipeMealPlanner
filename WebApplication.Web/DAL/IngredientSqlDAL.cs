@@ -9,9 +9,9 @@ namespace WebApplication.Web.DAL
 {
     public class IngredientSqlDAL : IIngredientDAL
     {
-        private string connectionString = "";
+        private string connectionString = ""; //todo what is the connection string to our db?
         private string sqlQueryGetIngredients = ""; //todo create SQL query to get name, quantity, unit type from db
-        private string sqlInsertIngredient = "INSERT INTO ingredient VALUES(@name)"; //todo create sql insert to add ingredient to db
+        private string sqlInsertIngredient = "INSERT INTO ingredient VALUES(@name)"; //todo create sql insert to add ingredient with quantity and unit to db
 
         public IngredientSqlDAL(string connectionString)
         {
@@ -47,12 +47,11 @@ namespace WebApplication.Web.DAL
         {
             Ingredient ingredient = new Ingredient();
             ingredient.Name = Convert.ToString(reader["name"]);
-            ingredient.Quantity = Convert.ToString(reader["quantity"]);
-            ingredient.UnitType = Convert.ToString(reader["type"]);     
+
             return ingredient;
         }
 
-        public bool AddIngredient(string ingredient)
+        public bool AddIngredient(string name, string number, string unit, string fraction)
         {
             bool result = false;
 
@@ -62,7 +61,7 @@ namespace WebApplication.Web.DAL
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand(sqlInsertIngredient, connection);
-                    command.Parameters.AddWithValue("@name", ingredient);                    
+                    command.Parameters.AddWithValue("@name", name);
 
                     int rowsAffected = command.ExecuteNonQuery();
 

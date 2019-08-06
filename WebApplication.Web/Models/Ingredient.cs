@@ -8,7 +8,8 @@ namespace WebApplication.Web.Models
     public class Ingredient
     {
         public string Name { get; set; }
-        public string UnitType { get; set; }
-        public string Quantity { get; set; }
+        public string Unit { get; set; }
+        public string Number { get; set; }
+        public string Fraction { get; set; }
     }
 }
