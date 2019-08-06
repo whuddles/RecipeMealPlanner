@@ -107,7 +107,7 @@ namespace WebApplication.Web.DAL
             }
             catch
             {
-
+                throw;
             }
 
             return ingredients;

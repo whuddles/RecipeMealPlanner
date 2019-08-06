@@ -95,8 +95,6 @@ namespace WebApplication.Web.DAL
                 }
             }
 
-
-
             return newIngredients;
 
         }
