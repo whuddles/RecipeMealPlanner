@@ -10,7 +10,7 @@ namespace WebApplication.Web.DAL
 {
     public class RecipeSqlDAL : IRecipeDAL
     {
-        private string connectionString = "";
+        private string connectionString;
         private string sqlInsertRecipe = @"INSERT INTO recipe (name, description, instructions, prep_time, cook_time) 
                                            VALUES (@name, @description, @instructions, @prepTime, @cookTime);
                                            SELECT SCOPE_IDENTITY()";
