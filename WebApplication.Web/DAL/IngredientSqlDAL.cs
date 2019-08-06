@@ -9,10 +9,10 @@ namespace WebApplication.Web.DAL
 {
     public class IngredientSqlDAL : IIngredientDAL
     {
-        private string connectionString = ""; //todo what is the connection string to our db?
+        private string connectionString; //todo what is the connection string to our db?
         private string sqlQueryGetIngredients = "SELECT * FROM ingredient"; //todo create SQL query to get name, quantity, unit type from db
         private string sqlInsertIngredient = "INSERT INTO ingredient VALUES(@name)";
-        private string SqlFilterNewIngredientQuery = "SELECT name FROM ingredient WHERE name = @name";
+        
 
         public IngredientSqlDAL(string connectionString)
         {
@@ -95,32 +95,7 @@ namespace WebApplication.Web.DAL
                 }
             }
 
-            //try
-            //{
-            //    using (SqlConnection connection = new SqlConnection(connectionString))
-            //    {
-            //        connection.Open();
-            //        SqlCommand command = new SqlCommand(SqlFilterNewIngredientQuery, connection);
-            //        SqlDataReader reader = command.ExecuteReader();
 
-            //        while (reader.Read())
-            //        {
-            //            foreach (Ingredient item in newIngredients)
-            //            {
-            //                if (item.Name == reader["name"] as string)
-            //                {
-            //                    newIngredients.Remove(item);
-            //                }
-            //            }
-
-            //        }
-
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
 
             return newIngredients;
 
