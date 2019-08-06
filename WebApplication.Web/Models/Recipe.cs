@@ -15,6 +15,7 @@ namespace WebApplication.Web.Models
         public int TotalTime { get; set; }
 
         public List<Ingredient> Ingredients { get; set; }
+        public IList<Recipe> Recipes { get; set; }
 
     }
 }

@@ -22,8 +22,8 @@ namespace WebApplication.Web.DAL
         public bool AddRecipe(Recipe recipe)
         {
             {
-                bool result = false;                
-                ingredientDal.
+                bool result = false;
+               
                 try
                 {
                     using (SqlConnection connection = new SqlConnection(connectionString))
