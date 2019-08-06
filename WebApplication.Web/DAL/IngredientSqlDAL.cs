@@ -16,8 +16,6 @@ namespace WebApplication.Web.DAL
         private string sqlQueryGetFractions = "SELECT fraction FROM fraction";
         private string sqlQueryGetNumbers = "SELECT number FROM number";
 
-
-
         public IngredientSqlDAL(string connectionString)
         {
             this.connectionString = connectionString;
@@ -122,9 +120,7 @@ namespace WebApplication.Web.DAL
                     newIngredients.Add(item);
                 }
             }
-
             return newIngredients;
-
         }
 
         public List<string> GetUnits()
