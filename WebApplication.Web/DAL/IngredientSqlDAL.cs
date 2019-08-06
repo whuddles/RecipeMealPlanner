@@ -162,7 +162,7 @@ namespace WebApplication.Web.DAL
 
                     while (reader.Read())
                     {
-                        fractions.Add(MapRowToUnit(reader));
+                        fractions.Add(MapRowToFraction(reader));
                     }
                 }
             }
@@ -187,7 +187,7 @@ namespace WebApplication.Web.DAL
 
                     while (reader.Read())
                     {
-                        numbers.Add(MapRowToUnit(reader));
+                        numbers.Add(MapRowToNumber(reader));
                     }
                 }
             }
