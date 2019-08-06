@@ -12,7 +12,7 @@ namespace WebApplication.Web.DAL
     {
         private string connectionString = "";
         private string sqlInsertRecipe = "INSERT INTO recipe (name, description, instructions, prep_time, cook_time) VALUES (@name, @description, @instructions, @prepTime, @cookTime)";
-        private IIngredientDAL ingredientDal;
+        private IngredientSqlDAL ingredientDal;
 
         public RecipeSqlDAL(string connectionString)
         {
@@ -22,8 +22,14 @@ namespace WebApplication.Web.DAL
         public bool AddRecipe(Recipe recipe)
         {
             {
-                bool result = false;                
-                ingredientDal.
+                bool result = false;
+                List<Ingredient> newIngredients = ingredientDal.FilterNewIngredients(recipe.Ingredients);
+
+                foreach (Ingredient item in newIngredients)
+                {
+                    ingredientDal.AddIngredient(item.Name);
+                }
+
                 try
                 {
                     using (SqlConnection connection = new SqlConnection(connectionString))
@@ -34,7 +40,7 @@ namespace WebApplication.Web.DAL
                         command.Parameters.AddWithValue("@description", recipe.Description);
                         command.Parameters.AddWithValue("@instructions", recipe.Instructions);
                         command.Parameters.AddWithValue("@prepTime", recipe.PrepTime);
-                        command.Parameters.AddWithValue("@cookTime", recipe.CookTime);
+                        command.Parameters.AddWithValue("@cookTime", recipe.CookTime); 
 
                         int rowsAffected = command.ExecuteNonQuery();
 
