@@ -15,21 +15,53 @@
         <label asp-for="Description" class="control-label">Description</label>
         <input asp-for="Description" class="form-control" />
     </div>
-    <div>
+    <div id="ingredients">
+        <div class="ingredient-group">
+            <label class="control-label">Number</label>
+            <select class="form-control" name="Unit">
+                @for(int i = 0; i < ViewBag.numbers; i++)
+                {
+                    <option value="i">@ViewBag.numbers[i]</option>
+                }
+            </select>
+            <label class="form-control">Fraction</label>
+            <select class="form-control" name="Fraction">
+                @for(int i = 0; i < ViewBag.fractions; i++)
+                {
+                    <option value="i">@ViewBag.fractions[i]</option>
+                }
+            </select>
+            <label class="form-control">Unit</label>
+            <select class="form-control" name="Unit">
+                @for (int i = 0; i < ViewBag.units; i++)
+                {
+                    <option value="i + 1">@ViewBag.units[i]</option>
+                }
+            </select>
+            <label class="form-control">Ingredient</label>
+            <select class="form-control" name="Ingredient">
+                @for (int i = 0; i < ViewBag.ingredients; i++)
+                {
+                    <option value="i + 1">@ViewBag.ingredient[i].Name</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label class="form-control" name="NewIngredient">Add ingredient not found in list</label>
+            <input class="form-control" />
+            <button class="btn btn-success" id="addIngredientButton">Add Ingredient</button>
+        </div>
+    </div>
         <label asp-for="Instructions" class="control-label">Instructions</label>
         <input asp-for="Instructions" class="form-control" />
     </div>
     <div>
-        <label asp-for="PrepTime" class="control-label">Preparation Time</label>
+        <label asp-for="PrepTime" class="control-label">Preparation Time (in minutes)</label>
         <input asp-for="PrepTime" class="form-control" />
     </div>
     <div>
-        <label asp-for="CookTime" class="control-label">Cook Time</label>
+        <label asp-for="CookTime" class="control-label">Cook Time (in minutes)</label>
         <input asp-for="CookTime" class="form-control" />
-    </div>
-    <div>
-        <label asp-for="TotalTime" class="control-label">Total Time</label>
-        <input asp-for="TotalTime" class="form-control" />
     </div>
     <div>
         <input type="submit" value="Submit New Recipe" class="btn btn-default" />
