@@ -169,7 +169,7 @@ namespace WebApplication.Web.DAL
                     cmd.Parameters.AddWithValue("@ingredientId", ingredient.IngredientId);
                     cmd.Parameters.AddWithValue("@unitId", ingredient.UnitId);
                     cmd.Parameters.AddWithValue("@fractionId", ingredient.FractionId);
-                    cmd.Parameters.AddWithValue("@numberId", ingredient.Number);
+                    cmd.Parameters.AddWithValue("@numberId", Convert.ToInt32(ingredient.Number));
 
                     cmd.ExecuteNonQuery();
                 }
