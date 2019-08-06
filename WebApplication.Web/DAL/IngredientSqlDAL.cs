@@ -9,8 +9,8 @@ namespace WebApplication.Web.DAL
 {
     public class IngredientSqlDAL : IIngredientDAL
     {
-        private string connectionString; //todo what is the connection string to our db?
-        private string sqlQueryGetIngredients = "SELECT * FROM ingredient"; //todo create SQL query to get name, quantity, unit type from db
+        private string connectionString; 
+        private string sqlQueryGetIngredients = "SELECT * FROM ingredient"; 
         private string sqlInsertIngredient = "INSERT INTO ingredient VALUES(@name)";
         private string sqlQueryGetUnits = "SELECT unit FROM unit";
         private string sqlQueryGetFractions = "SELECT fraction FROM fraction";
