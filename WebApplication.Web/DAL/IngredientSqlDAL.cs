@@ -24,11 +24,13 @@ namespace WebApplication.Web.DAL
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(sqlQueryGetIngredients, connection);
-                    SqlDataReader reader = command.ExecuteReader();
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetIngredients, conn);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -59,13 +61,14 @@ namespace WebApplication.Web.DAL
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(sqlInsertIngredient, connection);
-                    command.Parameters.AddWithValue("@name", name);
+                    SqlCommand cmd = new SqlCommand(sqlInsertIngredient, conn);
+                    cmd.Parameters.AddWithValue("@name", name);
 
-                    int rowsAffected = command.ExecuteNonQuery();
+                    conn.Open();
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
                     {
