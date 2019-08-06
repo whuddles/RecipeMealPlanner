@@ -9,6 +9,6 @@ namespace WebApplication.Web.DAL
     public interface IIngredientDAL
     {
         List<Ingredient> GetIngredients();
-        bool AddIngredient(string name, string number, string unit, string fraction);
+        bool AddIngredient(string name);
     }
 }

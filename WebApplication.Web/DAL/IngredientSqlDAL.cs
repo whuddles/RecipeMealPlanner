@@ -51,7 +51,7 @@ namespace WebApplication.Web.DAL
             return ingredient;
         }
 
-        public bool AddIngredient(string name, string number, string unit, string fraction)
+        public bool AddIngredient(string name)
         {
             bool result = false;
 
