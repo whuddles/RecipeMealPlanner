@@ -1,7 +1,41 @@
-﻿
+﻿@model WebApplication.Web.Models.Recipe
+
 @{
     ViewData["Title"] = "Create";
 }
 
 <h2>Add a Recipe</h2>
 
+<form method="post" asp-controller="Recipe" asp-action="Detail">
+    <div>
+        <label asp-for="Name" class="control-label">Title</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Description" class="control-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Instructions" class="control-label">Instructions</label>
+        <input asp-for="Instructions" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="PrepTime" class="control-label">Preparation Time</label>
+        <input asp-for="PrepTime" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="CookTime" class="control-label">Cook Time</label>
+        <input asp-for="CookTime" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="TotalTime" class="control-label">Total Time</label>
+        <input asp-for="TotalTime" class="form-control" />
+    </div>
+    <div>
+        <input type="submit" value="Submit New Recipe" class="btn btn-default" />
+    </div>
+</form>
+
+<div>
+    <span><a asp-controller="Home" asp-action="Index">Back to Home</a></span>
+</div>

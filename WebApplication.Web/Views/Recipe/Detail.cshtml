@@ -1,7 +1,57 @@
-﻿
+﻿@model IEnumerable<WebApplication.Web.Models.Recipe>
 @{
     ViewData["Title"] = "Detail";
 }
 
 <h2>Detail</h2>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Instructions
+            </th>
+            <th>
+                Preparation Time
+            </th>
+            <th>
+                Cook Time
+            </th>
+            <th>
+                Total Time
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Instructions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrepTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CookTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
