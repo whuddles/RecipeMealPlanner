@@ -16,42 +16,47 @@
         <input asp-for="Description" class="form-control" />
     </div>
     <div id="ingredients">
-        <div class="ingredient-group">
+        <div class="ingredient-container">
             <label class="control-label">Number</label>
             <select class="form-control" name="Unit">
-                @for(int i = 0; i < ViewBag.numbers; i++)
+                @for(int i = 0; i < ViewBag.numbers.Count; i++)
                 {
                     <option value="i">@ViewBag.numbers[i]</option>
                 }
             </select>
-            <label class="form-control">Fraction</label>
+            <label class="control-label">Fraction</label>
             <select class="form-control" name="Fraction">
-                @for(int i = 0; i < ViewBag.fractions; i++)
+                @for(int i = 0; i < ViewBag.fractions.Count; i++)
                 {
                     <option value="i">@ViewBag.fractions[i]</option>
                 }
             </select>
-            <label class="form-control">Unit</label>
+            <label class="control-label">Unit</label>
             <select class="form-control" name="Unit">
-                @for (int i = 0; i < ViewBag.units; i++)
+                @for (int i = 0; i < ViewBag.units.Count; i++)
                 {
                     <option value="i + 1">@ViewBag.units[i]</option>
                 }
             </select>
-            <label class="form-control">Ingredient</label>
+            <label class="control-label">Ingredient</label>
             <select class="form-control" name="Ingredient">
-                @for (int i = 0; i < ViewBag.ingredients; i++)
+                @for (int i = 0; i < ViewBag.ingredients.Count; i++)
                 {
-                    <option value="i + 1">@ViewBag.ingredient[i].Name</option>
+                    <option value="i + 1">@ViewBag.ingredients[i].Name</option>
                 }
             </select>
         </div>
         <div>
-            <label class="form-control" name="NewIngredient">Add ingredient not found in list</label>
+            <label class="control-label" name="NextIngredient">Add another ingredient to the recipe</label>
+            <button class="btn btn-primary" id="nextIngredient">Next Ingredient</button>
+        </div>
+        <div>
+            <label class="control-label" name="NewIngredient">Add ingredient not found in list</label>
             <input class="form-control" />
             <button class="btn btn-success" id="addIngredientButton">Add Ingredient</button>
         </div>
     </div>
+    <div>
         <label asp-for="Instructions" class="control-label">Instructions</label>
         <input asp-for="Instructions" class="form-control" />
     </div>
