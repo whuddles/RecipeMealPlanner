@@ -11283,23 +11283,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\wardh\\.nuget\\packages\\": {},
+    "C:\\Users\\jesseb\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\wardh\\wardhuddleston-c-sharp-material\\final-capstone-team-kilo\\WebApplication.Tests\\WebApplication.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\jesseb\\final-capstone-team-kilo\\WebApplication.Tests\\WebApplication.Tests.csproj",
       "projectName": "WebApplication.Tests",
-      "projectPath": "C:\\Users\\wardh\\wardhuddleston-c-sharp-material\\final-capstone-team-kilo\\WebApplication.Tests\\WebApplication.Tests.csproj",
-      "packagesPath": "C:\\Users\\wardh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\wardh\\wardhuddleston-c-sharp-material\\final-capstone-team-kilo\\WebApplication.Tests\\obj\\",
+      "projectPath": "C:\\Users\\jesseb\\final-capstone-team-kilo\\WebApplication.Tests\\WebApplication.Tests.csproj",
+      "packagesPath": "C:\\Users\\jesseb\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jesseb\\final-capstone-team-kilo\\WebApplication.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\wardh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jesseb\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11312,8 +11312,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "C:\\Users\\wardh\\wardhuddleston-c-sharp-material\\final-capstone-team-kilo\\WebApplication.Web\\WebApplication.Web.csproj": {
-              "projectPath": "C:\\Users\\wardh\\wardhuddleston-c-sharp-material\\final-capstone-team-kilo\\WebApplication.Web\\WebApplication.Web.csproj"
+            "C:\\Users\\jesseb\\final-capstone-team-kilo\\WebApplication.Web\\WebApplication.Web.csproj": {
+              "projectPath": "C:\\Users\\jesseb\\final-capstone-team-kilo\\WebApplication.Web\\WebApplication.Web.csproj"
             }
           }
         }
