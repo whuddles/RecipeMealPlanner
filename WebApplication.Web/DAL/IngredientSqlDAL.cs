@@ -12,10 +12,15 @@ namespace WebApplication.Web.DAL
         private string connectionString = ""; //todo what is the connection string to our db?
         private string sqlQueryGetIngredients = ""; //todo create SQL query to get name, quantity, unit type from db
         private string sqlInsertIngredient = "INSERT INTO ingredient VALUES(@name)"; //todo create sql insert to add ingredient with quantity and unit to db
+        private string SqlFilterNewIngredientQuery = "SELECT name FROM ingredient WHERE name = @name";
 
         public IngredientSqlDAL(string connectionString)
         {
             this.connectionString = connectionString;
+        }
+
+        public IngredientSqlDAL()
+        {
         }
 
         public List<Ingredient> GetIngredients()
@@ -76,6 +81,51 @@ namespace WebApplication.Web.DAL
                 result = false;
             }
             return result;
+        }
+
+        public List<Ingredient> FilterNewIngredients(List<Ingredient> ingredients)
+        {
+            List<Ingredient> newIngredients = new List<Ingredient>();
+
+            List<Ingredient> existingIngredients = GetIngredients();
+
+            foreach (Ingredient item in ingredients)
+            {
+                if (!existingIngredients.Exists(x => x.Name == item.Name))
+                {
+                    newIngredients.Add(item);
+                }
+            }
+
+            //try
+            //{
+            //    using (SqlConnection connection = new SqlConnection(connectionString))
+            //    {
+            //        connection.Open();
+            //        SqlCommand command = new SqlCommand(SqlFilterNewIngredientQuery, connection);
+            //        SqlDataReader reader = command.ExecuteReader();
+
+            //        while (reader.Read())
+            //        {
+            //            foreach (Ingredient item in newIngredients)
+            //            {
+            //                if (item.Name == reader["name"] as string)
+            //                {
+            //                    newIngredients.Remove(item);
+            //                }
+            //            }
+
+            //        }
+
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
+
+            return newIngredients;
+
         }
 
     }
