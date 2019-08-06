@@ -40,20 +40,20 @@ CREATE TABLE recipe
 	name			varchar(100)	not null,
 	description		varchar(300)	not null,
 	instructions	varchar(max)	not null,
-	prep_time		int				not null DEFAULT(0),
-	cook_time		int				not null DEFAULT(0)
+	prep_time		int				not null			DEFAULT(0),
+	cook_time		int				not null			DEFAULT(0)
 );
 
 CREATE TABLE number
 (
 	number_id		int			IDENTITY			PRIMARY KEY,
-	number			varchar(3)	--NOT NULL			DEFAULT(0)
+	number			varchar(3)	NOT NULL			DEFAULT('0')
 );
 
 CREATE TABLE fraction
 (
 	fraction_id		int			IDENTITY			PRIMARY KEY,
-	fraction		varchar(3)  --NOT NULL			DEFAULT(0)
+	fraction		varchar(3)  NOT NULL			DEFAULT('-')
 );
 
 CREATE TABLE unit
@@ -72,14 +72,6 @@ CREATE TABLE recipe_ingredient_unit_number_fraction
 
 	CONSTRAINT pk_recipe_ingredient PRIMARY KEY CLUSTERED (recipe_id, ingredient_id, unit_id, number_id, fraction_id)
 );
-
---CREATE TABLE quantity_ingredient
---(
---	quantity_id			int			FOREIGN KEY REFERENCES quantity(quantity_id),
---	ingredient_id		int			FOREIGN KEY REFERENCES ingredient(ingredient_id)
-
---	CONSTRAINT pk_unit_ingredient PRIMARY KEY CLUSTERED (quantity_id, ingredient_id)
---);
 
 SET IDENTITY_INSERT unit ON;
 
@@ -124,18 +116,12 @@ INSERT INTO number (number_id, number) VALUES (17, '17');
 INSERT INTO number (number_id, number) VALUES (18, '18');
 INSERT INTO number (number_id, number) VALUES (19, '19');
 INSERT INTO number (number_id, number) VALUES (20, '20');
-----INSERT INTO number (number_id, number) VALUES (1, '2', '', 'slices');
-----INSERT INTO number (number_id, number) VALUES (2, '2', '', 'Tbsp.');
-----INSERT INTO number (number_id, number) VALUES (3, '1', '', 'Tbsp.');
-----INSERT INTO number (number_id, number) VALUES (4, '3', '', '');
-----INSERT INTO number (number_id, number) VALUES (5, '1', '', '');
-----INSERT INTO number (number_id, number) VALUES (6, '12', '', 'ounce');
 
 SET IDENTITY_INSERT number OFF;
 
 SET IDENTITY_INSERT fraction ON
 
-INSERT INTO fraction (fraction_id, fraction) VALUES (0, '');
+INSERT INTO fraction (fraction_id, fraction) VALUES (0, '-');
 INSERT INTO fraction (fraction_id, fraction) VALUES (1, '1/8');
 INSERT INTO fraction (fraction_id, fraction) VALUES (2, '1/4');
 INSERT INTO fraction (fraction_id, fraction) VALUES (3, '1/3');
@@ -176,14 +162,5 @@ INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, un
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (2, 6, 1, 0, 3);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (2, 7, 11, 2, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (2, 8, 10, 2, 0);
-
---INSERT INTO quantity_ingredient (quantity_id, ingredient_id) VALUES (1, 1);
---INSERT INTO quantity_ingredient (quantity_id, ingredient_id) VALUES (2, 2);
---INSERT INTO quantity_ingredient (quantity_id, ingredient_id) VALUES (2, 3);
---INSERT INTO quantity_ingredient (quantity_id, ingredient_id) VALUES (4, 4);
---INSERT INTO quantity_ingredient (quantity_id, ingredient_id) VALUES (2, 5);
---INSERT INTO quantity_ingredient (quantity_id, ingredient_id) VALUES (5, 6);
---INSERT INTO quantity_ingredient (quantity_id, ingredient_id) VALUES (6, 7);
---INSERT INTO quantity_ingredient (quantity_id, ingredient_id) VALUES (3, 8);
 
 COMMIT TRANSACTION;
