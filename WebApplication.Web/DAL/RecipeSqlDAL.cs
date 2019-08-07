@@ -78,7 +78,7 @@ namespace WebApplication.Web.DAL
             return result;
         }
 
-        private List<Ingredient> AddIdsToIngredients(List<Ingredient> ingredients)
+        public List<Ingredient> AddIdsToIngredients(List<Ingredient> ingredients)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace WebApplication.Web.DAL
             return ingredients;
         }
 
-        private int GetUnitId(Ingredient ingredient)
+        public int GetUnitId(Ingredient ingredient)
         {
             int unitId = 0;
 
@@ -134,7 +134,7 @@ namespace WebApplication.Web.DAL
             return unitId;
         }
 
-        private int GetFractionId(Ingredient ingredient)
+        public int GetFractionId(Ingredient ingredient)
         {
             int unitId = 0;
 
@@ -155,7 +155,7 @@ namespace WebApplication.Web.DAL
             return unitId;
         }
 
-        private void UpdateCompositeTable(Recipe recipe)
+        public void UpdateCompositeTable(Recipe recipe)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
