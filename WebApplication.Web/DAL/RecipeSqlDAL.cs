@@ -211,9 +211,11 @@ namespace WebApplication.Web.DAL
                         recipe.CookTime = Convert.ToInt32(reader["cook_time"]);
                         recipe.Description = Convert.ToString(reader["description"]);
                     }
+                    conn.Close();
 
                     SqlCommand cmd2 = new SqlCommand(sqlQueryGetIngredientsByRecipeId, conn);
-                    cmd.Parameters.AddWithValue("@recipeId", recipeId);
+                    cmd2.Parameters.AddWithValue("@recipeId", recipeId);
+                    conn.Open();
                     reader = cmd2.ExecuteReader();
 
                     while (reader.Read())
@@ -222,6 +224,7 @@ namespace WebApplication.Web.DAL
                     }
 
                     recipe.Ingredients = ingredients;
+                    recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
                 }
             }
             catch
