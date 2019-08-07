@@ -6,73 +6,127 @@
 
 <h2>Add a Recipe</h2>
 
-<form method="post" asp-controller="Recipe" asp-action="Detail">
+@if (ViewBag.NewRecipeStatus == "Partial")
+{
+    <br />
+    <span class="text-danger">Your entry was missing one or more required fields. Please try again.</span>
+}
+<br />
+<form method="post" asp-controller="Recipe" asp-action="Create">
     <div>
         <label asp-for="Name" class="control-label">Title</label>
         <input asp-for="Name" class="form-control" />
     </div>
+    <br />
     <div>
         <label asp-for="Description" class="control-label">Description</label>
         <input asp-for="Description" class="form-control" />
     </div>
-    <div id="ingredients">
-        <div class="ingredient-container">
-            <label class="control-label">Number</label>
-            <select class="form-control" name="Unit">
-                @for(int i = 0; i < ViewBag.numbers.Count; i++)
+    <br />
+    <div id="ingredient-container">
+        <label>Ingredients</label>
+        <hr />
+        <div class="ingredient-description">
+            <label class="control-label ingredient-number-label">Number</label>
+            <select class="form-control ingredient-number-list" name="Unit">
+                @for (int i = 0; i < ViewBag.Numbers.Count; i++)
                 {
-                    <option value="i">@ViewBag.numbers[i]</option>
+                    <option>@ViewBag.Numbers[i]</option>
                 }
             </select>
             <label class="control-label">Fraction</label>
             <select class="form-control" name="Fraction">
-                @for(int i = 0; i < ViewBag.fractions.Count; i++)
+                @for (int i = 0; i < ViewBag.Fractions.Count; i++)
                 {
-                    <option value="i">@ViewBag.fractions[i]</option>
+                    <option>@ViewBag.Fractions[i]</option>
                 }
             </select>
             <label class="control-label">Unit</label>
             <select class="form-control" name="Unit">
-                @for (int i = 0; i < ViewBag.units.Count; i++)
+                @for (int i = 0; i < ViewBag.Units.Count; i++)
                 {
-                    <option value="i + 1">@ViewBag.units[i]</option>
+                    <option>@ViewBag.Units[i]</option>
                 }
             </select>
-            <label class="control-label">Ingredient</label>
-            <select class="form-control" name="Ingredient">
-                @for (int i = 0; i < ViewBag.ingredients.Count; i++)
+            <label class="control-label">Ingredient Name</label>           
+            <select class="form-control ingredient-name-dropdown standard" name="Name">
+                <option selected disabled>Choose an ingredient...</option>
+                @for (int i = 0; i < ViewBag.ExistingIngredients.Count; i++)
                 {
-                    <option value="i + 1">@ViewBag.ingredients[i].Name</option>
+                    <option>@ViewBag.ExistingIngredients[i].Name</option>
                 }
             </select>
         </div>
+    </div>
+    <br />
+    <div>
         <div>
             <label class="control-label" name="NextIngredient">Add another ingredient to the recipe</label>
-            <button class="btn btn-primary" id="nextIngredient">Next Ingredient</button>
+            <br />
+            <button class="btn btn-danger" id="nextIngredientButton">Next Ingredient</button>
         </div>
+        <hr />
         <div>
-            <label class="control-label" name="NewIngredient">Add ingredient not found in list</label>
-            <input class="form-control" />
-            <button class="btn btn-success" id="addIngredientButton">Add Ingredient</button>
+            <label class="control-label" name="NewIngredient">Can't find the ingredients you want in the dropdown list? Add them to our database here!</label>
+            <br>
+            <a class="btn btn-success" id="addIngredientButton" asp-action="AddIngredient">Add New Ingredient</a>
         </div>
     </div>
+    <hr />
     <div>
-        <label asp-for="Instructions" class="control-label">Instructions</label>
-        <input asp-for="Instructions" class="form-control" />
+        <label asp-for="Instructions" class="control-label">Instructions </label>
+        <span> *Begin each new instruction with a number and a close parenthesis, e.g.: 1), 2), 3)...</span>
+        <textarea asp-for="Instructions" class="form-control" rows="4"></textarea>
     </div>
+    <br />
     <div>
-        <label asp-for="PrepTime" class="control-label">Preparation Time (in minutes)</label>
+        <label asp-for="PrepTime" class="control-label">Preparation Time </label><span> (in minutes)</span>
         <input asp-for="PrepTime" class="form-control" />
     </div>
     <div>
-        <label asp-for="CookTime" class="control-label">Cook Time (in minutes)</label>
+        <label asp-for="CookTime" class="control-label">Cook Time </label><span> (in minutes)</span>
         <input asp-for="CookTime" class="form-control" />
     </div>
+    <br />
     <div>
-        <input type="submit" value="Submit New Recipe" class="btn btn-default" />
+        <input type="submit" class="btn btn-primary"/>
     </div>
 </form>
 
-<div>
-    <span><a asp-controller="Home" asp-action="Index">Back to Home</a></span>
-</div>
+<template>
+    <div class="ingredient-description">
+        <label class="control-label ingredient-number-label">Number</label>
+        <select class="form-control ingredient-number-list" name="Unit">
+            @for (int i = 0; i < ViewBag.Numbers.Count; i++)
+            {
+                <option>@ViewBag.Numbers[i]</option>
+            }
+        </select>
+        <label class="control-label">Fraction</label>
+        <select class="form-control" name="Fraction">
+            @for (int i = 0; i < ViewBag.Fractions.Count; i++)
+            {
+                <option>@ViewBag.Fractions[i]</option>
+            }
+        </select>
+        <label class="control-label">Unit</label>
+        <select class="form-control" name="Unit">
+            @for (int i = 0; i < ViewBag.Units.Count; i++)
+            {
+                <option>@ViewBag.Units[i]</option>
+            }
+        </select>
+        <label class="control-label">Ingredient Name</label>
+        @*<button class="btn btn-default ingredient-dropdown-button" >Ingredients</button>
+            <div class="ingredient-name-dropdown">
+                <input type="text" placeholder="Search for your ingredient..." class="ingredient-dropdown-button-search">
+            </div>*@
+        <select class="form-control ingredient-name-dropdown" name="Name">
+            <option selected disabled>Choose an ingredient...</option>
+            @for (int i = 0; i < ViewBag.ExistingIngredients.Count; i++)
+            {
+                <option>@ViewBag.ExistingIngredients[i].Name</option>
+            }
+        </select>
+    </div>
+</template>

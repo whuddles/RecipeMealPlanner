@@ -225,6 +225,7 @@ namespace WebApplication.Web.DAL
 
                     recipe.Ingredients = ingredients;
                     recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
+                    recipe.RecipeId = Convert.ToInt32(recipeId);
                 }
             }
             catch
