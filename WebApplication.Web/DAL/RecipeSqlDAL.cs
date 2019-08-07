@@ -25,6 +25,17 @@ namespace WebApplication.Web.DAL
                                             WHERE fraction = @fraction";
         private string sqlUpdateCompositeTable = @"INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id)
                                                    VALUES (@recipeId, @ingredientId, @unitId, @numberId, @fractionId)";
+        private string sqlQueryGetRecipeById = @"SELECT name as recipeName, description, instructions, prep_time, cook_time
+                                                FROM recipe
+                                                WHERE recipe.recipe_id = @recipeId";
+        private string sqlQueryGetIngredientsByRecipeId = @"SELECT ingredient.name as ingredientName, unit.unit, number.number, fraction.fraction
+                                                            FROM recipe
+                                                            JOIN recipe_ingredient_unit_number_fraction on recipe.recipe_id = recipe_ingredient_unit_number_fraction.recipe_id
+                                                            JOIN ingredient on ingredient.ingredient_id = recipe_ingredient_unit_number_fraction.ingredient_id
+                                                            JOIN unit on unit.unit_id = recipe_ingredient_unit_number_fraction.unit_id
+                                                            JOIN number on number.number_id = recipe_ingredient_unit_number_fraction.number_id
+                                                            JOIN fraction on fraction.fraction_id = recipe_ingredient_unit_number_fraction.fraction_id
+                                                            WHERE recipe.recipe_id = @recipeId";
 
         private IngredientSqlDAL ingredientDal;
 
@@ -174,6 +185,64 @@ namespace WebApplication.Web.DAL
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        public Recipe GetRecipeById(string recipeId)
+        {
+            Recipe recipe = new Recipe();
+
+            List<Ingredient> ingredients = new List<Ingredient>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetRecipeById, conn);
+                    cmd.Parameters.AddWithValue("@recipeId", recipeId);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                     
+                    while (reader.Read())
+                    {
+                        recipe.Name = Convert.ToString(reader["recipeName"]);
+                        recipe.Description = Convert.ToString(reader["description"]);
+                        recipe.Instructions = Convert.ToString(reader["instructions"]);
+                        recipe.PrepTime = Convert.ToInt32(reader["prep_time"]);
+                        recipe.CookTime = Convert.ToInt32(reader["cook_time"]);
+                        recipe.Description = Convert.ToString(reader["description"]);
+                    }
+                    conn.Close();
+
+                    SqlCommand cmd2 = new SqlCommand(sqlQueryGetIngredientsByRecipeId, conn);
+                    cmd2.Parameters.AddWithValue("@recipeId", recipeId);
+                    conn.Open();
+                    reader = cmd2.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        ingredients.Add(MapRowToIngredient(reader));
+                    }
+
+                    recipe.Ingredients = ingredients;
+                    recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return recipe;
+        }
+
+        public Ingredient MapRowToIngredient(SqlDataReader reader)
+        {
+            Ingredient ingredient = new Ingredient();
+            ingredient.Name = Convert.ToString(reader["ingredientName"]);
+            ingredient.Unit = Convert.ToString(reader["unit"]);
+            ingredient.Number = Convert.ToString(reader["number"]);
+            ingredient.Fraction = Convert.ToString(reader["fraction"]);
+
+            return ingredient;
         }
     }
 }

@@ -17,9 +17,10 @@ namespace WebApplication.Web.Controllers
         //    this.dao = dao;
         //}
 
-        public IActionResult Detail()
+        public IActionResult Detail(string id = "1")
         {
-            IList<Recipe> recipe = new List<Recipe>();
+            Recipe recipe = recipeDAL.GetRecipeById(id);
+
             return View(recipe);
         }
 
