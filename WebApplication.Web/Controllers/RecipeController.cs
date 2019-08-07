@@ -10,18 +10,19 @@ namespace WebApplication.Web.Controllers
 {
     public class RecipeController : Controller
     {
-        //private IRecipeDAL dao;
+        private IRecipeDAL dao;
 
-        //public RecipeController(IRecipeDAL dao)
-        //{
-        //    this.dao = dao;
-        //}
+        public RecipeController(IRecipeDAL dao)
+        {
+            this.dao = dao;
+        }
 
         public IActionResult Detail()
         {
            IList<Recipe> recipe = new List<Recipe>();
             return View(recipe);
         }
+
         public IActionResult Create()
         {
             Recipe newRecipe = new Recipe();
