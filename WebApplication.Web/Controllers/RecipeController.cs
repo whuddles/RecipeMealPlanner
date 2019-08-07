@@ -21,9 +21,10 @@ namespace WebApplication.Web.Controllers
             this.ingredientDAL = ingredientDAL;
         }
 
-        public IActionResult Detail()
+        public IActionResult Detail(string id = "1")
         {
-            IList<Recipe> recipe = new List<Recipe>();
+            Recipe recipe = recipeDAL.GetRecipeById(id);
+
             return View(recipe);
         }
 
@@ -81,6 +82,13 @@ namespace WebApplication.Web.Controllers
             }
 
             return RedirectToAction("Create");
+        }
+
+        public IActionResult Modify(string id = "1")
+        {
+            Recipe recipe = recipeDAL.GetRecipeById(id);
+
+            return View(recipe);
         }
     }
 }

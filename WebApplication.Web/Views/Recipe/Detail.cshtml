@@ -1,57 +1,50 @@
-﻿@model IEnumerable<WebApplication.Web.Models.Recipe>
+﻿@model Recipe;
 @{
     ViewData["Title"] = "Detail";
+    string[] instructions = Model.Instructions.Split('/');
+    string id = Convert.ToString(Model.RecipeId);
 }
 
-<h2>Detail</h2>
+<h1>@Model.Name</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Instructions
-            </th>
-            <th>
-                Preparation Time
-            </th>
-            <th>
-                Cook Time
-            </th>
-            <th>
-                Total Time
-            </th>
-        </tr>
-    </thead>
+<div>
+    <h3>Description: @Model.Description.</h3>
+    
+</div>
 
-    <tbody>
-        @foreach (var item in Model)
+<div>
+    <h3>Time</h3>
+    <ul>
+        <li> Prep Time: @Model.PrepTime minutes.   </li>
+        <li>Cook Time: @Model.CookTime minutes.</li>
+        <li>Total Time: @Model.TotalTime minutes.</li>
+    </ul>
+</div>
+
+<div>
+    <h3>Ingredients</h3>
+    <ul>
+    @for (int i = 0; i < Model.Ingredients.Count; i++)
+    {
+        <li>@if (Model.Ingredients[i].Number != "0") {@Model.Ingredients[i].Number} 
+        @if (Model.Ingredients[i].Fraction != "-") {@Model.Ingredients[i].Fraction} 
+        @if (Model.Ingredients[i].Unit != "item(s)") {@Model.Ingredients[i].Unit} 
+        @Model.Ingredients[i].Name.</li>        
+    }
+    </ul>
+</div>
+
+<div>
+    <h3>Instructions</h3>
+    <ul>
+        @for (int i = 0; i < instructions.Length; i++)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Instructions)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrepTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CookTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalTime)
-                </td>
-            </tr>
+            <li>@instructions[i]</li>
         }
-    </tbody>
-</table>
+    </ul>
+
+</div>
+
+<button><a asp-controller="Recipe" asp-action="Modify" asp-route-id="@id">Modify Recipe</a></button>
+
+
