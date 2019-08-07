@@ -19,7 +19,7 @@ namespace WebApplication.Web.Controllers
             this.ingredientDAL = ingredientDAL;
         }
 
-        public IActionResult Detail(string id)
+        public IActionResult Detail(string id = "1")
         {
             Recipe recipe = recipeDAL.GetRecipeById(id);
 
