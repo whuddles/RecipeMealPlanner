@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Detail";
     string[] instructions = Model.Instructions.Split('/');
+    string id = Convert.ToString(Model.RecipeId);
 }
 
 <h1>@Model.Name</h1>
@@ -43,5 +44,7 @@
     </ul>
 
 </div>
+
+<button><a asp-controller="Recipe" asp-action="Modify" asp-route-id="@id">Modify Recipe</a></button>
 
 
