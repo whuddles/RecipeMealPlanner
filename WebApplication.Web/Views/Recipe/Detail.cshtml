@@ -7,15 +7,17 @@
 <h1>@Model.Name</h1>
 
 <div>
-    <h3>Description</h3>
-    @Model.Description.
+    <h3>Description: @Model.Description.</h3>
+    
 </div>
 
 <div>
     <h3>Time</h3>
-    <p> Prep Time: @Model.PrepTime minutes.   </p> 
-    <p>Cook Time: @Model.CookTime minutes.</p>
-    <p>Total Time: @Model.TotalTime minutes.</p>
+    <ul>
+        <li> Prep Time: @Model.PrepTime minutes.   </li>
+        <li>Cook Time: @Model.CookTime minutes.</li>
+        <li>Total Time: @Model.TotalTime minutes.</li>
+    </ul>
 </div>
 
 <div>
