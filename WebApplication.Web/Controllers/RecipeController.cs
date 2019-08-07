@@ -19,9 +19,10 @@ namespace WebApplication.Web.Controllers
             this.ingredientDAL = ingredientDAL;
         }
 
-        public IActionResult Detail()
+        public IActionResult Detail(string id)
         {
-            IList<Recipe> recipe = new List<Recipe>();
+            Recipe recipe = recipeDAL.GetRecipeById(id);
+
             return View(recipe);
         }
 
