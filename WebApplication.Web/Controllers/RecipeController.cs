@@ -36,5 +36,12 @@ namespace WebApplication.Web.Controllers
             
             return View();
         }
+
+        public IActionResult Modify(string id = "1")
+        {
+            Recipe recipe = recipeDAL.GetRecipeById(id);
+
+            return View(recipe);
+        }
     }
 }
