@@ -10,7 +10,7 @@ namespace WebApplication.Web.DAL
 {
     public class RecipeSqlDAL : IRecipeDAL
     {
-        private string connectionString = "";
+        private string connectionString;
         private string sqlInsertRecipe = @"INSERT INTO recipe (name, description, instructions, prep_time, cook_time) 
                                            VALUES (@name, @description, @instructions, @prepTime, @cookTime);
                                            SELECT SCOPE_IDENTITY()";
@@ -78,7 +78,7 @@ namespace WebApplication.Web.DAL
             return result;
         }
 
-        private List<Ingredient> AddIdsToIngredients(List<Ingredient> ingredients)
+        public List<Ingredient> AddIdsToIngredients(List<Ingredient> ingredients)
         {
             try
             {
@@ -107,13 +107,13 @@ namespace WebApplication.Web.DAL
             }
             catch
             {
-
+                throw;
             }
 
             return ingredients;
         }
 
-        private int GetUnitId(Ingredient ingredient)
+        public int GetUnitId(Ingredient ingredient)
         {
             int unitId = 0;
 
@@ -134,7 +134,7 @@ namespace WebApplication.Web.DAL
             return unitId;
         }
 
-        private int GetFractionId(Ingredient ingredient)
+        public int GetFractionId(Ingredient ingredient)
         {
             int unitId = 0;
 
@@ -155,7 +155,7 @@ namespace WebApplication.Web.DAL
             return unitId;
         }
 
-        private void UpdateCompositeTable(Recipe recipe)
+        public void UpdateCompositeTable(Recipe recipe)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -169,7 +169,7 @@ namespace WebApplication.Web.DAL
                     cmd.Parameters.AddWithValue("@ingredientId", ingredient.IngredientId);
                     cmd.Parameters.AddWithValue("@unitId", ingredient.UnitId);
                     cmd.Parameters.AddWithValue("@fractionId", ingredient.FractionId);
-                    cmd.Parameters.AddWithValue("@numberId", ingredient.Number);
+                    cmd.Parameters.AddWithValue("@numberId", Convert.ToInt32(ingredient.Number));
 
                     cmd.ExecuteNonQuery();
                 }
