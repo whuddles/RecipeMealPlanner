@@ -1,11 +1,13 @@
-﻿@model IEnumerable<WebApplication.Web.Models.Recipe>
+﻿@model Recipe;
 @{
     ViewData["Title"] = "Detail";
 }
 
-<h2>Detail</h2>
+<h2>@Model.Name</h2>
 
-<table class="table">
+
+
+@*<table class="table">
     <thead>
         <tr>
             <th>
@@ -54,4 +56,4 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@
