@@ -7,7 +7,7 @@
 
 
 
-@*<table class="table">
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -32,28 +32,27 @@
     </thead>
 
     <tbody>
-        @foreach (var item in Model)
-        {
+   
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => Model.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => Model.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Instructions)
+                    @Html.DisplayFor(modelItem => Model.Instructions)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PrepTime)
+                    @Html.DisplayFor(modelItem => Model.PrepTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CookTime)
+                    @Html.DisplayFor(modelItem => Model.CookTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TotalTime)
+                    @Html.DisplayFor(modelItem => Model.TotalTime)
                 </td>
             </tr>
-        }
+        
     </tbody>
-</table>*@
+</table>
