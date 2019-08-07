@@ -17,16 +17,16 @@ GO
 
 BEGIN TRANSACTION;
 
---CREATE TABLE users
---(
---	id			int			identity(1,1),
---	username	varchar(50)	not null,
---	password	varchar(50)	not null,
---	salt		varchar(50)	not null,
---	role		varchar(50)	default('user'),
+CREATE TABLE users
+(
+	id			int			identity(1,1),
+	username	varchar(50)	not null,
+	password	varchar(50)	not null,
+	salt		varchar(50)	not null,
+	role		varchar(50)	default('user'),
 
---	constraint pk_users primary key (id)
---);
+	constraint pk_users primary key (id)
+);
 
 CREATE TABLE ingredient
 (
@@ -71,6 +71,14 @@ CREATE TABLE recipe_ingredient_unit_number_fraction
 	fraction_id		int		FOREIGN KEY REFERENCES fraction(fraction_id)
 
 	CONSTRAINT pk_recipe_ingredient PRIMARY KEY CLUSTERED (recipe_id, ingredient_id, unit_id, number_id, fraction_id)
+);
+
+CREATE TABLE users_recipe
+(
+	id				int		FOREIGN KEY REFERENCES users(id),
+	recipe_id		int		FOREIGN KEY REFERENCES recipe(recipe_id)
+
+	CONSTRAINT pk_users_recipe PRIMARY KEY CLUSTERED (id, recipe_id)
 );
 
 SET IDENTITY_INSERT unit ON;
