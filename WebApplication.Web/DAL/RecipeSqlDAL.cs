@@ -44,15 +44,15 @@ namespace WebApplication.Web.DAL
             this.connectionString = connectionString;
         }
 
-        public bool AddRecipe(Recipe recipe)
+        public int AddRecipe(Recipe recipe)
         {
             bool result = false;
-            List<Ingredient> newIngredients = ingredientDal.FilterNewIngredients(recipe.Ingredients);
+            //List<Ingredient> newIngredients = ingredientDal.FilterNewIngredients(recipe.Ingredients);
 
-            foreach (Ingredient item in newIngredients)
-            {
-                ingredientDal.AddIngredient(item.Name);
-            }
+            //foreach (Ingredient item in newIngredients)
+            //{
+            //    ingredientDal.AddIngredient(item.Name);
+            //}
 
             recipe.Ingredients = AddIdsToIngredients(recipe.Ingredients);
 
@@ -86,7 +86,7 @@ namespace WebApplication.Web.DAL
                 UpdateCompositeTable(recipe);
             }
 
-            return result;
+            return recipe.RecipeId;
         }
 
         public List<Ingredient> AddIdsToIngredients(List<Ingredient> ingredients)

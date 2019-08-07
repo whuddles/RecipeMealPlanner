@@ -54,13 +54,13 @@ namespace WebApplication.Web.Controllers
 
             recipe.Ingredients = ingredients;
 
-            bool recipeAdded = recipeDAL.AddRecipe(recipe);
+            int recipeId = recipeDAL.AddRecipe(recipe);
 
-            if(recipeAdded)
+            if(recipeId > 0)
             {
                 HttpContext.Session.SetString("NewRecipeStatus", "Complete");
 
-                return RedirectToAction("Detail");
+                return RedirectToAction("Detail", "Recipe", new { id = Convert.ToString(recipeId) } );
             }
 
             return RedirectToAction("Create");

@@ -8,7 +8,7 @@ namespace WebApplication.Web.DAL
 {
     public interface IRecipeDAL
     {
-        bool AddRecipe(Recipe recipe);
+        int AddRecipe(Recipe recipe);
         int GetUnitId(Ingredient ingredient);
         int GetFractionId(Ingredient ingredient);
         void UpdateCompositeTable(Recipe recipe);
