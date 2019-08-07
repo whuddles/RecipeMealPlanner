@@ -10,14 +10,12 @@ namespace WebApplication.Web.Controllers
 {
     public class RecipeController : Controller
     {
-        private IRecipeDAL recipeDAL;
-        private IIngredientDAL ingredientDAL;
+        //private IRecipeDAL dao;
 
-        public RecipeController(IRecipeDAL recipeDAL, IIngredientDAL ingredientDAL)
-        {
-            this.recipeDAL = recipeDAL;
-            this.ingredientDAL = ingredientDAL;
-        }
+        //public RecipeController(IRecipeDAL dao)
+        //{
+        //    this.dao = dao;
+        //}
 
         public IActionResult Detail()
         {
