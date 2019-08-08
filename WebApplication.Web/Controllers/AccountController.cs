@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.Web.Models.Account;
 using WebApplication.Web.Providers.Auth;
@@ -42,8 +43,10 @@ namespace WebApplication.Web.Controllers
                 bool validLogin = authProvider.SignIn(loginViewModel.Email, loginViewModel.Password);
                 if (validLogin)
                 {
+                    //HttpContext.Session.SetString("userId", Convert.ToString(authProvider.GetCurrentUser()));
                     // Redirect the user where you want them to go after successful login
                     return RedirectToAction("Index", "Home");
+
                 }
             }
 

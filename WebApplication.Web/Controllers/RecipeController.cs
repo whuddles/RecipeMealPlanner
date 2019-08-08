@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.Web.DAL;
 using WebApplication.Web.Models;
-using Newtonsoft.Json;
+using WebApplication.Web.Providers.Auth;
 
 namespace WebApplication.Web.Controllers
 {
@@ -15,11 +15,13 @@ namespace WebApplication.Web.Controllers
     {
         private IRecipeDAL recipeDAL;
         private IIngredientDAL ingredientDAL;
+        private IAuthProvider authProvider;
 
-        public RecipeController(IRecipeDAL recipeDAL, IIngredientDAL ingredientDAL)
+        public RecipeController(IRecipeDAL recipeDAL, IIngredientDAL ingredientDAL, IAuthProvider authProvider)
         {
             this.recipeDAL = recipeDAL;
             this.ingredientDAL = ingredientDAL;
+            this.authProvider = authProvider;
         }
 
         public IActionResult Detail(int id = 1)
@@ -86,13 +88,13 @@ namespace WebApplication.Web.Controllers
 
             recipe.Ingredients = ingredientList;
 
-            bool recipeAdded = recipeDAL.AddRecipe(recipe);
+            int recipeId = recipeDAL.AddRecipe(recipe);
 
-            if (recipeAdded)
+            if(recipeId > 0)
             {
                 HttpContext.Session.SetString("NewRecipeStatus", "Complete");
 
-                return RedirectToAction("Detail");
+                return RedirectToAction("Detail", "Recipe", new { id = Convert.ToString(recipeId) } );
             }
 
             return RedirectToAction("Create");
@@ -131,6 +133,29 @@ namespace WebApplication.Web.Controllers
             Recipe recipe = recipeDAL.GetRecipeById(id);
 
             return View(recipe);
+        }
+
+        [HttpGet]
+        public IActionResult AllRecipes()
+        {
+            if (authProvider.GetCurrentUser() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            List<Recipe> allRecipes = recipeDAL.GetAllRecipes();
+
+                return View(allRecipes);
+            
+        }
+
+        [HttpPost]
+        public IActionResult AddRecipeToUser(int recipeId)
+        {
+            User user = authProvider.GetCurrentUser();
+            recipeDAL.AddRecipeToUserAccount(recipeId, user.Id);
+
+            return RedirectToAction("AllRecipes");
         }
     }
 }

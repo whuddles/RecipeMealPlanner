@@ -50,15 +50,18 @@ namespace WebApplication.Web.DAL
                                                             JOIN number on number.number_id = recipe_ingredient_unit_number_fraction.number_id
                                                             JOIN fraction on fraction.fraction_id = recipe_ingredient_unit_number_fraction.fraction_id
                                                             WHERE recipe.recipe_id = @recipeId";
+        private string sqlQueryGetAllRecipes = @"SELECT * FROM recipe";
 
-        //private IngredientSqlDAL ingredientDal = new IngredientSqlDAL(connectionString);
+        private string sqlInsertUserIdAndRecipeIdToUsersRecipe = @"INSERT INTO users_recipe (id, recipe_id) VALUES (@userId, @recipeId)";
+
+        private IngredientSqlDAL ingredientDal;
 
         public RecipeSqlDAL(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
-        public bool AddRecipe(Recipe recipe)
+        public int AddRecipe(Recipe recipe)
         {
             bool result = false;
             //List<Ingredient> newIngredients = ingredientDal.FilterNewIngredients(recipe.Ingredients);
@@ -70,6 +73,9 @@ namespace WebApplication.Web.DAL
             //        ingredientDal.AddIngredient(item.Name);
             //    }
 
+            //foreach (Ingredient item in newIngredients)
+            //{
+            //    ingredientDal.AddIngredient(item.Name);
             //}
 
             recipe.Ingredients = AddIdsToIngredients(recipe.Ingredients);
@@ -104,7 +110,7 @@ namespace WebApplication.Web.DAL
                 UpdateCompositeTable(recipe);
             }
 
-            return result;
+            return recipe.RecipeId;
         }
 
         public List<Ingredient> AddIdsToIngredients(List<Ingredient> ingredients)
@@ -219,7 +225,7 @@ namespace WebApplication.Web.DAL
                     cmd.Parameters.AddWithValue("@recipeId", recipeId);
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
-                     
+
                     while (reader.Read())
                     {
                         recipe.Name = Convert.ToString(reader["recipeName"]);
@@ -262,6 +268,97 @@ namespace WebApplication.Web.DAL
             ingredient.Fraction = Convert.ToString(reader["fraction"]);
 
             return ingredient;
+        }
+
+        public List<Recipe> GetAllRecipes()
+        {
+            List<Recipe> allRecipes = new List<Recipe>();
+            Recipe recipe = new Recipe();
+            List<Ingredient> ingredients = new List<Ingredient>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetAllRecipes, conn);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        allRecipes.Add(MapRowToRecipe(reader));
+                    }                   
+
+                }
+            }
+            catch
+            {
+                throw;
+            }
+
+            return allRecipes;
+        }
+
+        public Recipe MapRowToRecipe(SqlDataReader reader)
+        {
+            List<Ingredient> ingredients = new List<Ingredient>();
+
+            Recipe recipe = new Recipe();
+
+            recipe.Name = Convert.ToString(reader["name"]);
+            recipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
+            recipe.Description = Convert.ToString(reader["description"]);
+            recipe.Instructions = Convert.ToString(reader["instructions"]);
+            recipe.PrepTime = Convert.ToInt32(reader["prep_time"]);
+            recipe.CookTime = Convert.ToInt32(reader["cook_time"]);
+            recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetIngredientsByRecipeId, conn);
+                    cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
+                    conn.Open();
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        ingredients.Add(MapRowToIngredient(reader));
+                    }
+
+                    recipe.Ingredients = ingredients;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+
+            return recipe;
+        }
+
+        public bool AddRecipeToUserAccount(int recipeId, int userId)
+        {
+            bool result = false;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlInsertUserIdAndRecipeIdToUsersRecipe, conn);
+                cmd.Parameters.AddWithValue("@recipeId", recipeId);
+                cmd.Parameters.AddWithValue("@userId", userId);
+
+                conn.Open();
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
     }
 }
