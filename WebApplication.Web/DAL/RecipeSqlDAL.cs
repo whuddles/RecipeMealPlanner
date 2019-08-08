@@ -187,7 +187,7 @@ namespace WebApplication.Web.DAL
             }
         }
 
-        public Recipe GetRecipeById(string recipeId)
+        public Recipe GetRecipeById(int recipeId)
         {
             Recipe recipe = new Recipe();
 
@@ -225,7 +225,7 @@ namespace WebApplication.Web.DAL
 
                     recipe.Ingredients = ingredients;
                     recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
-                    recipe.RecipeId = Convert.ToInt32(recipeId);
+                    recipe.RecipeId = recipeId;
                 }
             }
             catch
