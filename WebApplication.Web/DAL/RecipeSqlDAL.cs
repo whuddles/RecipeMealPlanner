@@ -58,6 +58,10 @@ namespace WebApplication.Web.DAL
                                                     FROM recipe
                                                     JOIN users_recipe ON recipe.recipe_id = users_recipe.recipe_id
                                                     WHERE users_recipe.id = @userId";
+        private string sqlCheckUserAccountForRecipe = @"SELECT COUNT(recipe_id) as recipeCount 
+                                                        FROM users_recipe
+                                                        WHERE id = @userId
+                                                        AND recipe_id = @recipeId";
 
         private IngredientSqlDAL ingredientDal;
 
@@ -345,28 +349,42 @@ namespace WebApplication.Web.DAL
             return recipe;
         }
 
-        public bool AddRecipeToUserAccount(int recipeId, int userId)
+        public void AddRecipeToUserAccount(int recipeId, int userId)
+        {            
+            if (!CheckUserAccountForRecipe(recipeId, userId))
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlInsertUserIdAndRecipeIdToUsersRecipe, conn);
+                    cmd.Parameters.AddWithValue("@recipeId", recipeId);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool CheckUserAccountForRecipe(int recipeId, int userId)
         {
             bool result = false;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sqlInsertUserIdAndRecipeIdToUsersRecipe, conn);
+                SqlCommand cmd = new SqlCommand(sqlCheckUserAccountForRecipe, conn);
                 cmd.Parameters.AddWithValue("@recipeId", recipeId);
                 cmd.Parameters.AddWithValue("@userId", userId);
-
                 conn.Open();
 
-                int rowsAffected = cmd.ExecuteNonQuery();
-
-                if (rowsAffected > 0)
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    result = true;
+                    result = Convert.ToBoolean(reader["recipeCount"]);
                 }
             }
             return result;
         }
 
-       public List<Recipe> GetRecipesByUserId(int userId)
+        public List<Recipe> GetRecipesByUserId(int userId)
         {
             List<Recipe> userRecipes = new List<Recipe>();
 

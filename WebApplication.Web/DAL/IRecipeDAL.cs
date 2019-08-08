@@ -16,6 +16,8 @@ namespace WebApplication.Web.DAL
 
         List<Recipe> GetAllRecipes();
         List<Recipe> GetRecipesByUserId(int userId);
-        bool AddRecipeToUserAccount(int recipeId, int userId);
+        void AddRecipeToUserAccount(int recipeId, int userId);
+
+
     }
 }
