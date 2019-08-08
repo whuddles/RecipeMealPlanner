@@ -91,11 +91,20 @@ namespace WebApplication.Web.Controllers
             return View(recipe);
         }
 
+        [HttpGet]
         public IActionResult AllRecipes()
         {
             List<Recipe> allRecipes = recipeDAL.GetAllRecipes();
 
             return View(allRecipes);
+        }
+
+        [HttpPost]
+        public IActionResult AddRecipeToUser(int recipeId)
+        {
+            //recipeDAL.AddRecipeToUserAccount(recipeId, );
+
+            return RedirectToAction("AllRecipes");
         }
     }
 }
