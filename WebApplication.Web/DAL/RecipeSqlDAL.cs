@@ -265,9 +265,7 @@ namespace WebApplication.Web.DAL
                     while (reader.Read())
                     {
                         allRecipes.Add(MapRowToRecipe(reader));
-                    }
-
-                    recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
+                    }                   
 
                 }
             }
@@ -291,6 +289,7 @@ namespace WebApplication.Web.DAL
             recipe.Instructions = Convert.ToString(reader["instructions"]);
             recipe.PrepTime = Convert.ToInt32(reader["prep_time"]);
             recipe.CookTime = Convert.ToInt32(reader["cook_time"]);
+            recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
 
             try
             {
