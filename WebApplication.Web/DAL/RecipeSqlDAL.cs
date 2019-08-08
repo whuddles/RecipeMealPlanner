@@ -24,7 +24,21 @@ namespace WebApplication.Web.DAL
                                             FROM fraction   
                                             WHERE fraction = @fraction";
         private string sqlUpdateCompositeTable = @"INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id)
-                                                   VALUES (@recipeId, @ingredientId, @unitId, @numberId, @fractionId)";
+                                                   VALUES ((SELECT recipe_id
+                                                           FROM recipe
+                                                           WHERE recipe_id = @recipeId), 
+                                                           (SELECT ingredient_id
+                                                           FROM ingredient
+                                                           WHERE ingredient_id = @ingredientId), 
+                                                           (SELECT unit_id
+                                                           FROM unit
+                                                           WHERE unit_id = @unitId), 
+                                                           (SELECT number_id
+                                                           FROM number
+                                                           WHERE number_id = @numberId), 
+                                                           (SELECT fraction_id
+                                                           FROM fraction
+                                                           WHERE fraction_id = @fractionId))";
         private string sqlQueryGetRecipeById = @"SELECT name as recipeName, description, instructions, prep_time, cook_time
                                                 FROM recipe
                                                 WHERE recipe.recipe_id = @recipeId";
@@ -37,7 +51,7 @@ namespace WebApplication.Web.DAL
                                                             JOIN fraction on fraction.fraction_id = recipe_ingredient_unit_number_fraction.fraction_id
                                                             WHERE recipe.recipe_id = @recipeId";
 
-        private IngredientSqlDAL ingredientDal;
+        //private IngredientSqlDAL ingredientDal = new IngredientSqlDAL(connectionString);
 
         public RecipeSqlDAL(string connectionString)
         {
@@ -47,12 +61,16 @@ namespace WebApplication.Web.DAL
         public bool AddRecipe(Recipe recipe)
         {
             bool result = false;
-            List<Ingredient> newIngredients = ingredientDal.FilterNewIngredients(recipe.Ingredients);
+            //List<Ingredient> newIngredients = ingredientDal.FilterNewIngredients(recipe.Ingredients);
 
-            foreach (Ingredient item in newIngredients)
-            {
-                ingredientDal.AddIngredient(item.Name);
-            }
+            //if(newIngredients.Count != 0)
+            //{
+            //    foreach (Ingredient item in newIngredients)
+            //    {
+            //        ingredientDal.AddIngredient(item.Name);
+            //    }
+
+            //}
 
             recipe.Ingredients = AddIdsToIngredients(recipe.Ingredients);
 
@@ -95,7 +113,7 @@ namespace WebApplication.Web.DAL
             {
                 for (int i = 0; i < ingredients.Count; i++)
                 {
-                    if (String.IsNullOrEmpty(ingredients[i].IngredientId.ToString()))
+                    if (String.IsNullOrEmpty(ingredients[i].IngredientId.ToString()) || ingredients[i].IngredientId == 0)
                     {
                         using (SqlConnection conn = new SqlConnection(connectionString))
                         {
