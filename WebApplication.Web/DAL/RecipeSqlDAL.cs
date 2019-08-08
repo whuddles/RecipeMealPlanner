@@ -192,19 +192,19 @@ namespace WebApplication.Web.DAL
 
         public void UpdateCompositeTable(Recipe recipe)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            foreach (Ingredient ingredient in recipe.Ingredients)
             {
-                SqlCommand cmd = new SqlCommand(sqlUpdateCompositeTable, conn);
-                cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
-
-                conn.Open();
-
-                foreach (Ingredient ingredient in recipe.Ingredients)
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
+
+                    SqlCommand cmd = new SqlCommand(sqlUpdateCompositeTable, conn);
+                    cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
                     cmd.Parameters.AddWithValue("@ingredientId", ingredient.IngredientId);
                     cmd.Parameters.AddWithValue("@unitId", ingredient.UnitId);
                     cmd.Parameters.AddWithValue("@fractionId", ingredient.FractionId);
                     cmd.Parameters.AddWithValue("@numberId", Convert.ToInt32(ingredient.Number));
+
+                    conn.Open();
 
                     cmd.ExecuteNonQuery();
                 }
@@ -288,7 +288,7 @@ namespace WebApplication.Web.DAL
                     while (reader.Read())
                     {
                         allRecipes.Add(MapRowToRecipe(reader));
-                    }                   
+                    }
 
                 }
             }
