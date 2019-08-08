@@ -36,6 +36,7 @@ namespace WebApplication.Web.DAL
                                                             JOIN number on number.number_id = recipe_ingredient_unit_number_fraction.number_id
                                                             JOIN fraction on fraction.fraction_id = recipe_ingredient_unit_number_fraction.fraction_id
                                                             WHERE recipe.recipe_id = @recipeId";
+        private string sqlQueryGetAllRecipes = @"SELECT * FROM recipe";
 
         private IngredientSqlDAL ingredientDal;
 
@@ -201,7 +202,7 @@ namespace WebApplication.Web.DAL
                     cmd.Parameters.AddWithValue("@recipeId", recipeId);
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
-                     
+
                     while (reader.Read())
                     {
                         recipe.Name = Convert.ToString(reader["recipeName"]);
@@ -244,6 +245,77 @@ namespace WebApplication.Web.DAL
             ingredient.Fraction = Convert.ToString(reader["fraction"]);
 
             return ingredient;
+        }
+
+        public List<Recipe> GetAllRecipes()
+        {
+            List<Recipe> allRecipes = new List<Recipe>();
+            Recipe recipe = new Recipe();
+            List<Ingredient> ingredients = new List<Ingredient>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetAllRecipes, conn);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        allRecipes.Add(MapRowToRecipe(reader));
+                    }
+
+                    recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
+
+                }
+            }
+            catch
+            {
+                throw;
+            }
+
+            return allRecipes;
+        }
+
+        public Recipe MapRowToRecipe(SqlDataReader reader)
+        {
+            List<Ingredient> ingredients = new List<Ingredient>();
+
+            Recipe recipe = new Recipe();
+
+            recipe.Name = Convert.ToString(reader["name"]);
+            recipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
+            recipe.Description = Convert.ToString(reader["description"]);
+            recipe.Instructions = Convert.ToString(reader["instructions"]);
+            recipe.PrepTime = Convert.ToInt32(reader["prep_time"]);
+            recipe.CookTime = Convert.ToInt32(reader["cook_time"]);
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetIngredientsByRecipeId, conn);
+                    cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
+                    conn.Open();
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        ingredients.Add(MapRowToIngredient(reader));
+                    }
+
+                    recipe.Ingredients = ingredients;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+
+            return recipe;
         }
     }
 }

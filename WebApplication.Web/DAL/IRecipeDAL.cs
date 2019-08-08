@@ -14,5 +14,6 @@ namespace WebApplication.Web.DAL
         void UpdateCompositeTable(Recipe recipe);
         Recipe GetRecipeById(string recipeId);
 
+        List<Recipe> GetAllRecipes();
     }
 }
