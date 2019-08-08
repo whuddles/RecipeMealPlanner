@@ -90,5 +90,12 @@ namespace WebApplication.Web.Controllers
 
             return View(recipe);
         }
+
+        public IActionResult AllRecipes()
+        {
+            List<Recipe> allRecipes = recipeDAL.GetAllRecipes();
+
+            return View(allRecipes);
+        }
     }
 }
