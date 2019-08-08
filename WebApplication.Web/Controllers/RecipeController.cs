@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.Web.DAL;
 using WebApplication.Web.Models;
+using WebApplication.Web.Providers.Auth;
 
 namespace WebApplication.Web.Controllers
 {
@@ -14,11 +15,13 @@ namespace WebApplication.Web.Controllers
     {
         private IRecipeDAL recipeDAL;
         private IIngredientDAL ingredientDAL;
+        private IAuthProvider authProvider;
 
-        public RecipeController(IRecipeDAL recipeDAL, IIngredientDAL ingredientDAL)
+        public RecipeController(IRecipeDAL recipeDAL, IIngredientDAL ingredientDAL, IAuthProvider authProvider)
         {
             this.recipeDAL = recipeDAL;
             this.ingredientDAL = ingredientDAL;
+            this.authProvider = authProvider;
         }
 
         public IActionResult Detail(string id = "1")
@@ -94,15 +97,22 @@ namespace WebApplication.Web.Controllers
         [HttpGet]
         public IActionResult AllRecipes()
         {
+            if (authProvider.GetCurrentUser() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             List<Recipe> allRecipes = recipeDAL.GetAllRecipes();
 
-            return View(allRecipes);
+                return View(allRecipes);
+            
         }
 
         [HttpPost]
         public IActionResult AddRecipeToUser(int recipeId)
         {
-            //recipeDAL.AddRecipeToUserAccount(recipeId, );
+            User user = authProvider.GetCurrentUser();
+            recipeDAL.AddRecipeToUserAccount(recipeId, user.Id);
 
             return RedirectToAction("AllRecipes");
         }
