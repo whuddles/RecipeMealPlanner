@@ -12,7 +12,7 @@ namespace WebApplication.Web.DAL
         int GetUnitId(Ingredient ingredient);
         int GetFractionId(Ingredient ingredient);
         void UpdateCompositeTable(Recipe recipe);
-        Recipe GetRecipeById(string recipeId);
+        Recipe GetRecipeById(int recipeId);
 
         List<Recipe> GetAllRecipes();
         List<Recipe> GetRecipesByUserId(int userId);

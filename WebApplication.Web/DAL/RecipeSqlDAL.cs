@@ -24,7 +24,21 @@ namespace WebApplication.Web.DAL
                                             FROM fraction   
                                             WHERE fraction = @fraction";
         private string sqlUpdateCompositeTable = @"INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id)
-                                                   VALUES (@recipeId, @ingredientId, @unitId, @numberId, @fractionId)";
+                                                   VALUES ((SELECT recipe_id
+                                                           FROM recipe
+                                                           WHERE recipe_id = @recipeId), 
+                                                           (SELECT ingredient_id
+                                                           FROM ingredient
+                                                           WHERE ingredient_id = @ingredientId), 
+                                                           (SELECT unit_id
+                                                           FROM unit
+                                                           WHERE unit_id = @unitId), 
+                                                           (SELECT number_id
+                                                           FROM number
+                                                           WHERE number_id = @numberId), 
+                                                           (SELECT fraction_id
+                                                           FROM fraction
+                                                           WHERE fraction_id = @fractionId))";
         private string sqlQueryGetRecipeById = @"SELECT name as recipeName, description, instructions, prep_time, cook_time
                                                 FROM recipe
                                                 WHERE recipe.recipe_id = @recipeId";
@@ -56,6 +70,13 @@ namespace WebApplication.Web.DAL
         {
             bool result = false;
             //List<Ingredient> newIngredients = ingredientDal.FilterNewIngredients(recipe.Ingredients);
+
+            //if(newIngredients.Count != 0)
+            //{
+            //    foreach (Ingredient item in newIngredients)
+            //    {
+            //        ingredientDal.AddIngredient(item.Name);
+            //    }
 
             //foreach (Ingredient item in newIngredients)
             //{
@@ -103,7 +124,7 @@ namespace WebApplication.Web.DAL
             {
                 for (int i = 0; i < ingredients.Count; i++)
                 {
-                    if (String.IsNullOrEmpty(ingredients[i].IngredientId.ToString()))
+                    if (String.IsNullOrEmpty(ingredients[i].IngredientId.ToString()) || ingredients[i].IngredientId == 0)
                     {
                         using (SqlConnection conn = new SqlConnection(connectionString))
                         {
@@ -176,26 +197,26 @@ namespace WebApplication.Web.DAL
 
         public void UpdateCompositeTable(Recipe recipe)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            foreach (Ingredient ingredient in recipe.Ingredients)
             {
-                SqlCommand cmd = new SqlCommand(sqlUpdateCompositeTable, conn);
-                cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
-
-                conn.Open();
-
-                foreach (Ingredient ingredient in recipe.Ingredients)
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
+
+                    SqlCommand cmd = new SqlCommand(sqlUpdateCompositeTable, conn);
+                    cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
                     cmd.Parameters.AddWithValue("@ingredientId", ingredient.IngredientId);
                     cmd.Parameters.AddWithValue("@unitId", ingredient.UnitId);
                     cmd.Parameters.AddWithValue("@fractionId", ingredient.FractionId);
                     cmd.Parameters.AddWithValue("@numberId", Convert.ToInt32(ingredient.Number));
+
+                    conn.Open();
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        public Recipe GetRecipeById(string recipeId)
+        public Recipe GetRecipeById(int recipeId)
         {
             Recipe recipe = new Recipe();
 
@@ -233,7 +254,7 @@ namespace WebApplication.Web.DAL
 
                     recipe.Ingredients = ingredients;
                     recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
-                    recipe.RecipeId = Convert.ToInt32(recipeId);
+                    recipe.RecipeId = recipeId;
                 }
             }
             catch
@@ -272,7 +293,7 @@ namespace WebApplication.Web.DAL
                     while (reader.Read())
                     {
                         allRecipes.Add(MapRowToRecipe(reader));
-                    }                   
+                    }
 
                 }
             }
