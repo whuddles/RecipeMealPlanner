@@ -38,6 +38,8 @@ namespace WebApplication.Web.DAL
                                                             WHERE recipe.recipe_id = @recipeId";
         private string sqlQueryGetAllRecipes = @"SELECT * FROM recipe";
 
+        private string sqlInsertUserIdAndRecipeIdToUsersRecipe = @"INSERT INTO users_recipe (id, recipe_id) VALUES (@userId, @recipeId)";
+
         private IngredientSqlDAL ingredientDal;
 
         public RecipeSqlDAL(string connectionString)
@@ -315,6 +317,27 @@ namespace WebApplication.Web.DAL
             }
 
             return recipe;
+        }
+
+        public bool AddRecipeToUserAccount(int recipeId, int userId)
+        {
+            bool result = false;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlInsertUserIdAndRecipeIdToUsersRecipe, conn);
+                cmd.Parameters.AddWithValue("@recipeId", recipeId);
+                cmd.Parameters.AddWithValue("@userId", userId);
+
+                conn.Open();
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
     }
 }
