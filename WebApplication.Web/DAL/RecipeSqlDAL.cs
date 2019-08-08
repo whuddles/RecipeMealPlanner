@@ -40,6 +40,11 @@ namespace WebApplication.Web.DAL
 
         private string sqlInsertUserIdAndRecipeIdToUsersRecipe = @"INSERT INTO users_recipe (id, recipe_id) VALUES (@userId, @recipeId)";
 
+        private string sqlQueryGetRecipesByUserId = @"SELECT recipe.name as name, recipe.description, recipe.instructions, recipe.prep_time, recipe.cook_time, recipe.recipe_id
+                                                    FROM recipe
+                                                    JOIN users_recipe ON recipe.recipe_id = users_recipe.recipe_id
+                                                    WHERE users_recipe.id = @userId";
+
         private IngredientSqlDAL ingredientDal;
 
         public RecipeSqlDAL(string connectionString)
@@ -338,6 +343,36 @@ namespace WebApplication.Web.DAL
                 }
             }
             return result;
+        }
+
+       public List<Recipe> GetRecipesByUserId(int userId)
+        {
+            List<Recipe> userRecipes = new List<Recipe>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetRecipesByUserId, conn);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        userRecipes.Add(MapRowToRecipe(reader));
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return userRecipes;
         }
     }
 }
