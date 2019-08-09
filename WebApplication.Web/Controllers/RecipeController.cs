@@ -45,7 +45,6 @@ namespace WebApplication.Web.Controllers
             Recipe recipe = recipeDAL.GetRecipeById(id);
             ViewModel viewModel = new ViewModel();
             viewModel.ModelRecipe = recipe;
-            viewModel.ModelList = new List<string>();
             ViewBag.IngredientCount = recipe.Ingredients.Count;
 
             return View("Create", viewModel);
@@ -130,9 +129,7 @@ namespace WebApplication.Web.Controllers
 
         public IActionResult Modify(int id = 0)
         {
-            Recipe recipe = recipeDAL.GetRecipeById(id);
-
-            return View(recipe);
+            return RedirectToAction("Create", "Recipe", new { id });
         }
 
         [HttpGet]
