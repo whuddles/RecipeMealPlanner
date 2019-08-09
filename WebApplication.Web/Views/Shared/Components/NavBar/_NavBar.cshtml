@@ -12,6 +12,9 @@
 }
 else
 {
+    <li><a asp-area="" asp-controller="Recipe" asp-action="AllRecipes">View All Recipes</a></li>
+    <li><a asp-area="" asp-controller="Recipe" asp-action="MyRecipes">View My Recipes</a></li>
+    <li><a asp-area="" asp-controller="Recipe" asp-action="Create">Create Recipe</a></li>
     <li><a asp-area="" asp-controller="Account" asp-action="Index">Welcome @Model.Username</a></li>
     <li><a asp-area="" asp-controller="Account" asp-action="Logoff">Logout</a></li>
 }
