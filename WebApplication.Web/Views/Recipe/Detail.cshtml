@@ -75,9 +75,10 @@
 
 <br />
 <div id="container">
-    <form asp-controller="Recipe" asp-action="Modify" asp-route-recipeId="@Model.RecipeId">
-        <input type="submit" value="Modify Recipe" class="btn btn-info" id="modify"/>
-    </form>
+  <form asp-controller="Recipe" asp-action="Modify" asp-route-id="@Model.RecipeId">
+      <input type="submit" value="Modify Recipe" class="btn btn-info" id="add" />
+</form>
+
     <br />
     <form asp-controller="Recipe" asp-action="AddRecipeToUser" asp-route-recipeId="@Model.RecipeId">
         <input type="submit" value="Add To My Recipes" class="btn btn-success" id="add" />
