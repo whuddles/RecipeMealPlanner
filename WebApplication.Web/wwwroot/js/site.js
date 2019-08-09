@@ -6,15 +6,15 @@ $(function () {
     $(".ingredient-name-dropdown").chosen();
 });
 
-let extraIngredientIndex = 5;
+let ingredientCount = parseInt($("#visibleIngredients").attr("value"));
+let extraIngredientIndex = ingredientCount * 4 + 5;
 
 function addNextIngredientField() {
     let container = document.getElementById("ingredient-container");
-    let ingredientCount = parseInt($("#visibleIngredients").attr("value"));
     let ingredient = document.importNode(document.querySelector("template").content, true);
 
     ingredientCount++;
-    
+
     ingredient.querySelector(".ingredient-number-dropdown").setAttribute('name', 'ModelList[' + parseInt(extraIngredientIndex) + ']');
     ingredient.querySelector(".ingredient-fraction-dropdown").setAttribute('name', 'ModelList[' + parseInt(extraIngredientIndex + 1) + ']');
     ingredient.querySelector(".ingredient-unit-dropdown").setAttribute('name', 'ModelList[' + parseInt(extraIngredientIndex + 2) + ']');
@@ -103,7 +103,7 @@ nextIngredientButton.addEventListener("click", (event) => {
 //submitButton.addEventListener("click", () => {
 //    let ingredientsToPost = JSON.stringify(ingredientArr);
 //    let recipeToPost = JSON.stringify(recipe);
-    
+
 //    $.ajax({
 //        type: "POST",
 //        url: "Create",
