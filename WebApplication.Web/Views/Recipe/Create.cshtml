@@ -149,14 +149,12 @@ else
             }
         </select>
         <select class="ingredient-unit-dropdown col-sm-1">
-            <option selected disabled>...</option>
             @for (int i = 0; i < ViewBag.Units.Count; i++)
             {
                 <option>@ViewBag.Units[i]</option>
             }
         </select>
         <select class="ingredient-name-dropdown col-sm-9">
-            <option selected disabled>Choose an ingredient...</option>
             @for (int j = 0; j < ViewBag.ExistingIngredients.Count; j++)
             {
                 <option>@ViewBag.ExistingIngredients[j].Name</option>
