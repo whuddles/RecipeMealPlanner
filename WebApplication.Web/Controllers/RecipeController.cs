@@ -161,9 +161,14 @@ namespace WebApplication.Web.Controllers
         [HttpGet]
         public IActionResult MyRecipes(int userId)
         {
+            User user = authProvider.GetCurrentUser();
             if (authProvider.GetCurrentUser() == null)
             {
                 return RedirectToAction("Login", "Account");
+            }
+            else if (authProvider.GetCurrentUser().Id != userId)
+            {
+                return RedirectToAction("MyRecipes", "Recipe", new { userId = user.Id });
             }
 
             List<Recipe> userRecipes = recipeDAL.GetRecipesByUserId(userId);
