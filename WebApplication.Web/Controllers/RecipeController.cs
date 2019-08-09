@@ -34,6 +34,11 @@ namespace WebApplication.Web.Controllers
         [HttpGet]
         public IActionResult Create(int id = 0)
         {
+            if (authProvider.GetCurrentUser() == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             string recipeStatus = HttpContext.Session.GetString("NewRecipeStatus");
             ViewBag.RecipeStatus = recipeStatus;
 
