@@ -38,14 +38,12 @@
             @for (int i = 0; i < count; i++)
             {
                 <select class="ingredient-number-dropdown col-sm-1" name="ModelRecipe.Ingredients[@i].Number">
-                    <option selected disabled>...</option>
                     @for (int j = 0; j < ViewBag.Numbers.Count; j++)
                     {
                         <option>@ViewBag.Numbers[j]</option>
                     }
                 </select>
                 <select class="ingredient-fraction-dropdown col-sm-1" name="ModelRecipe.Ingredients[@i].Fraction">
-                    <option selected disabled>...</option>
                     @for (int j = 0; j < ViewBag.Fractions.Count; j++)
                     {
                         <option>@ViewBag.Fractions[j]</option>
@@ -106,14 +104,12 @@
 <template>
     <div class="ingredient-description form-inline">
         <select class="ingredient-number-dropdown col-sm-1" >
-            <option selected disabled>...</option>
             @for (int i = 0; i < ViewBag.Numbers.Count; i++)
             {
                 <option>@ViewBag.Numbers[i]</option>
             }
         </select>
         <select class="ingredient-fraction-dropdown col-sm-1" >
-            <option selected disabled>...</option>
             @for (int i = 0; i < ViewBag.Fractions.Count; i++)
             {
                 <option>@ViewBag.Fractions[i]</option>
