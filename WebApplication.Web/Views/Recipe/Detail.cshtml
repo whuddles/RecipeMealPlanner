@@ -45,6 +45,13 @@
 
 </div>
 
-<button><a asp-controller="Recipe" asp-action="Modify" asp-route-id="@id">Modify Recipe</a></button>
+    <button><a asp-controller="Recipe" asp-action="Modify" asp-route-id="@id">Modify Recipe</a></button>
+
+
+    <form asp-controller="Recipe" asp-action="AddRecipeToUser" asp-route-recipeId="@Model.RecipeId">
+        <input type="submit" value="Add To My Recipes" />
+    </form>
+
+
 
 
