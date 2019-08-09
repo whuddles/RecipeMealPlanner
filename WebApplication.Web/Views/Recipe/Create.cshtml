@@ -44,7 +44,7 @@ else
         <div class="ingredient-description form-inline">
             @for (int i = 0; i < count; i++)
             {
-                <select class="ingredient-number-dropdown col-sm-1" name="ModelList[@(i * count + 5)]">
+                <select class="ingredient-number-dropdown col-sm-1" name="ModelList[@((i * 4) + 5)]">
                     @for (int j = 0; j < ViewBag.Numbers.Count; j++)
                     {
                         if (Model.ModelRecipe.Ingredients[i].Number == ViewBag.Numbers[j])
@@ -57,7 +57,7 @@ else
                         }
                     }
                 </select>
-                <select class="ingredient-fraction-dropdown col-sm-1" name="ModelList[@(i * count + 6)]">
+                <select class="ingredient-fraction-dropdown col-sm-1" name="ModelList[@((i * 4) + 6)]">
                     @for (int j = 0; j < ViewBag.Fractions.Count; j++)
                     {
                         if (Model.ModelRecipe.Ingredients[i].Fraction == ViewBag.Fractions[j])
@@ -70,7 +70,7 @@ else
                         }
                     }
                 </select>
-                <select class="ingredient-unit-dropdown col-sm-1" name="ModelList[@(i * count + 7)]">
+                <select class="ingredient-unit-dropdown col-sm-1" name="ModelList[@((i * 4) + 7)]">
                     @for (int j = 0; j < ViewBag.Units.Count; j++)
                     {
                         if (Model.ModelRecipe.Ingredients[i].Unit == ViewBag.Units[j])
@@ -83,7 +83,7 @@ else
                         }
                     }
                 </select>
-                <select class="ingredient-name-dropdown col-sm-9" name="ModelList[@(i * count + 8)]">
+                <select class="ingredient-name-dropdown col-sm-9" name="ModelList[@((i * 4) + 8)]">
                     @for (int j = 0; j < ViewBag.ExistingIngredients.Count; j++)
                     {
                         if (Model.ModelRecipe.Ingredients[i].Name == ViewBag.ExistingIngredients[j].Name)
