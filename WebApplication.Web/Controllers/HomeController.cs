@@ -5,11 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.Web.Models;
+using WebApplication.Web.Providers.Auth;
 
 namespace WebApplication.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private IAuthProvider authProvider;
+
+        public HomeController(IAuthProvider authProvider)
+        {
+            this.authProvider = authProvider;
+        }
+
         public IActionResult Index()
         {            
             return View();
