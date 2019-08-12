@@ -79,6 +79,12 @@ namespace WebApplication.Web.Controllers
         {
             MealPlanViewModel mealPlanViewModel = new MealPlanViewModel();
             MealPlan mealPlan = mealPlanDAL.GetMealPlanById(id);
+            List<Day> days = new List<Day>();
+            if(id == 0)
+            {
+                mealPlan.Days = days;
+            }
+
             mealPlanViewModel.ModelMealPlan = mealPlan;
 
             ViewBag.ExistingMeals = mealPlanDAL.GetAllMeals();
