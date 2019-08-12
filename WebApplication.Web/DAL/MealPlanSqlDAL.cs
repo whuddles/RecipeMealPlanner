@@ -65,7 +65,7 @@ namespace WebApplication.Web.DAL
             
             try
             {
-                if(mealPlan.Meals.Count > 0)
+                if(mealPlan.Days.Count > 0)
                 {
                     AddMealsToMealPlan(mealPlan);
                 }
@@ -100,13 +100,13 @@ namespace WebApplication.Web.DAL
 
         public void AddMealsToMealPlan(MealPlan mealPlan)
         {
-            for (int i = 0; i < mealPlan.Meals.Count; i++)
+            for (int i = 0; i < mealPlan.Days.Count; i++)
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     SqlCommand cmd = new SqlCommand(sqlAddMealToMealPlan, conn);
                     cmd.Parameters.AddWithValue("@mealPlanId", mealPlan.MealPlanId);
-                    cmd.Parameters.AddWithValue("@mealId", mealPlan.Meals[i].MealId);
+                    cmd.Parameters.AddWithValue("@mealId", mealPlan.Days[i].Breakfast);
 
                     conn.Open();
 
@@ -149,7 +149,7 @@ namespace WebApplication.Web.DAL
                 {
                     mealPlan.MealPlanId = Convert.ToInt32(reader["mealPlan_id"]);
                     mealPlan.Name = Convert.ToString(reader["mealPlan_name"]);
-                    mealPlan.Meals = GetMealsInMealPlan(mealPlan.MealPlanId);
+                    mealPlan.Days = GetDaysInMealPlan(mealPlanId);
                 }
             }
            
@@ -185,10 +185,10 @@ namespace WebApplication.Web.DAL
             return meals;
         }
 
-        public List<Meal> GetMealsInMealPlan(int mealPlanId)
+        public List<Day> GetDaysInMealPlan(int mealPlanId)
         {
-            List<Meal> meals = new List<Meal>();
-            Meal meal = new Meal();
+            List<Day> days = new List<Day>();
+            Day day = new Day();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -200,15 +200,16 @@ namespace WebApplication.Web.DAL
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    meal.MealId = Convert.ToInt32(reader["meal_id"]);
-                    meal.Name = reader["meal_name"] as string;
-                    meal.Recipes = GetRecipesInMeal(meal.MealId);
+                    day.DayId = Convert.ToInt32(reader["day_id"]);
+                    day.Breakfast.MealId = Convert.ToInt32(reader["breakfast"]);
+                    day.Lunch.MealId = Convert.ToInt32(reader["lunch"]);
+                    day.Dinner.MealId = Convert.ToInt32(reader["dinner"]);                    
 
-                    meals.Add(meal);
+                    days.Add(day);
                 }
             }
 
-            return meals;
+            return days;
         }
 
         public Meal GetMealById(int mealId)
@@ -262,7 +263,7 @@ namespace WebApplication.Web.DAL
         public List<Recipe> GetRecipesInMeal(int mealId)
         {
             List<Recipe> recipes = new List<Recipe>();
-            Recipe recipe = new Recipe();
+            
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -274,6 +275,7 @@ namespace WebApplication.Web.DAL
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    Recipe recipe = new Recipe();
                     recipe.Name = Convert.ToString(reader["name"]);
                     recipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
                     recipe.Description = Convert.ToString(reader["description"]);
