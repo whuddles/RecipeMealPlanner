@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using WebApplication.Web.Models;
+
+namespace WebApplication.Web.DAL
+{
+    public interface IMealPlanDAL
+    {
+        int CreateMealPlan(MealPlan mealPlan);
+        int CreateMeal(Meal meal);
+        void AddRecipesToMeal(Meal meal);
+        void AddMealsToMealPlan(MealPlan mealPlan);
+        MealPlan GetMealPlan(int mealPlanId);
+        List<Meal> GetAllMeals();
+        List<Meal> GetMealsInMealPlan(int mealPlanId);
+        List<Recipe> GetRecipesInMeal(int mealId);
+    }
+}
