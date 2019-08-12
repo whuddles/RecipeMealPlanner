@@ -7,10 +7,10 @@ namespace WebApplication.Web.Models
 {
     public class Day
     {
-        int DayId { get; set; }
-        string DayName { get; set; }
-        Meal Breakfast { get; set; }
-        Meal Lunch { get; set; }
-        Meal Dinner { get; set; }
+        public int DayId { get; set; }
+        public string DayName { get; set; }
+        public Meal Breakfast { get; set; }
+        public Meal Lunch { get; set; }
+        public Meal Dinner { get; set; }
     }
 }
