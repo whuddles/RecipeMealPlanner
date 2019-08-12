@@ -6,24 +6,19 @@
     int elementsPerIngredient = 4;
     int elementsPerRecipe = 5;
 }
-<hidden id="visibleIngredients" value="@(Model.ModelRecipe.Ingredients.Count)" />
-<hidden id="elementsPerIngredient" value="@elementsPerIngredient" />
-<hidden id="elementsPerRecipe" value="@elementsPerRecipe" />
+<hidden id="visibleIngredients" value="@(Model.ModelRecipe.Ingredients.Count)"></hidden>
+<hidden id="elementsPerIngredient" value="@elementsPerIngredient"></hidden>
+<hidden id="elementsPerRecipe" value="@elementsPerRecipe"></hidden>
 
 @if (Model.ModelRecipe.RecipeId == 0)
 {
-    <h2>Add a Recipe</h2>
+    <h2>Create a Recipe</h2>
 }
 else
 {
-    <h2>Modify Recipe</h2>
+    <h2>Edit Recipe</h2>
 }
 
-@if (ViewBag.NewRecipeStatus == "Partial")
-{
-    <br />
-    <span class="text-danger">Your entry was missing one or more required fields. Please try again.</span>
-}
 <br />
 <form method="post" asp-controller="Recipe" asp-action="Create">
     <div>
