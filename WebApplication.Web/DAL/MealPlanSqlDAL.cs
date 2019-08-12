@@ -27,18 +27,20 @@ namespace WebApplication.Web.DAL
                                                     VALUES (@userId, @mealPlanId)";
         private string sqlGetAllMeals =           @"SELECT * 
                                                     FROM meal";
-        private string sqlGetMealsInPlan =        @"SELECT *
-                                                    FROM meal
-                                                    WHERE meal_id = @mealId";
         private string sqlGetMealById =           @"SELECT meal_id, meal_name
                                                     FROM meal
                                                     WHERE meal_id = @mealId";
-        private string sqlGetRecipesByMealId =    @"SELECT r.recipe_id, name, description
-                                                    FROM meal_recipe m
-                                                    JOIN recipe r
-                                                    ON r.recipe_id = m.recipe_id
-                                                    WHERE meal_id = @mealId";
-        private string sqlGetMealPlanById =       @"SELECT mealPlan_id, mealPlan_name
+        private string sqlGetMealsInPlan = @"SELECT meal.meal_id, meal.meal_name
+                                             FROM meal
+                                             JOIN mealPlan_meal ON meal.meal_id = mealPlan_meal.meal_id
+                                             WHERE mealPlan_id = @mealPlanId";
+        private string sqlGetRecipesByMealId = @"SELECT r.recipe_id, r.name, r.description
+                                                 FROM recipe r
+                                                 JOIN meal_recipe mr
+                                                 ON r.recipe_id = mr.recipe_id
+                                                 WHERE meal_id = @mealId";
+
+        private string sqlGetMealPlanById = @"SELECT mealPlan_id, mealPlan_name
                                                     FROM mealPlan
                                                     WHERE mealPlan_id = @mealPlanId";
         private string sqlGetMealsByMealPlanId =  @"SELECT meal_id, meal_name
@@ -133,6 +135,7 @@ namespace WebApplication.Web.DAL
         public MealPlan GetMealPlanById(int mealPlanId)
         {
             MealPlan mealPlan = new MealPlan();
+            
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -140,15 +143,16 @@ namespace WebApplication.Web.DAL
                 cmd.Parameters.AddWithValue("@mealPlanId", mealPlanId);
 
                 conn.Open();
-
                 SqlDataReader reader = cmd.ExecuteReader();
-                while(reader.Read())
+
+                while (reader.Read())
                 {
                     mealPlan.MealPlanId = Convert.ToInt32(reader["mealPlan_id"]);
                     mealPlan.Name = Convert.ToString(reader["mealPlan_name"]);
+                    mealPlan.Meals = GetMealsInMealPlan(mealPlan.MealPlanId);
                 }
             }
-
+           
             return mealPlan;
         }
 
@@ -188,7 +192,7 @@ namespace WebApplication.Web.DAL
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sqlGetRecipesByMealId, conn);
+                SqlCommand cmd = new SqlCommand(sqlGetMealsInPlan, conn);
                 cmd.Parameters.AddWithValue("@mealPlanId", mealPlanId);
 
                 conn.Open();
@@ -196,8 +200,8 @@ namespace WebApplication.Web.DAL
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    meal.MealId = Convert.ToInt32(reader["recipe_id"]);
-                    meal.Name = reader["name"] as string;
+                    meal.MealId = Convert.ToInt32(reader["meal_id"]);
+                    meal.Name = reader["meal_name"] as string;
                     meal.Recipes = GetRecipesInMeal(meal.MealId);
 
                     meals.Add(meal);
@@ -233,7 +237,7 @@ namespace WebApplication.Web.DAL
                     reader.Close();
 
                     reader = cmd2.ExecuteReader();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Recipe recipe = new Recipe();
                         recipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
@@ -263,6 +267,19 @@ namespace WebApplication.Web.DAL
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand(sqlGetRecipesByMealId, conn);
+                cmd.Parameters.AddWithValue("@mealId", mealId);
+
+                conn.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    recipe.Name = Convert.ToString(reader["name"]);
+                    recipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
+                    recipe.Description = Convert.ToString(reader["description"]);
+
+                    recipes.Add(recipe);
+                }
             }
 
             return recipes;
