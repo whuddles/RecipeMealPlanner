@@ -49,7 +49,7 @@ namespace WebApplication.Web.Controllers
             ViewBag.Fractions = ingredientDAL.GetFractions();
 
             Recipe recipe = recipeDAL.GetRecipeById(id);
-            ViewModel viewModel = new ViewModel();
+            RecipeViewModel viewModel = new RecipeViewModel();
             viewModel.ModelRecipe = recipe;
             ViewBag.IngredientCount = recipe.Ingredients.Count;
 
@@ -57,7 +57,7 @@ namespace WebApplication.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ViewModel viewModel)
+        public IActionResult Create(RecipeViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

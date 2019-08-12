@@ -19,11 +19,11 @@ BEGIN TRANSACTION;
 
 CREATE TABLE users
 (
-	id			int			identity(1,1),
-	username	varchar(50)	not null,
-	password	varchar(50)	not null,
-	salt		varchar(50)	not null,
-	role		varchar(50)	default('user'),
+	id				int			identity(1,1),
+	username		varchar(50)	not null,
+	password		varchar(50)	not null,
+	salt			varchar(50)	not null,
+	role			varchar(50)	default('user'),
 
 	constraint pk_users primary key (id)
 );
@@ -46,39 +46,75 @@ CREATE TABLE recipe
 
 CREATE TABLE number
 (
-	number_id		int			IDENTITY			PRIMARY KEY,
-	number			varchar(3)	NOT NULL			DEFAULT('0')
+	number_id		int				IDENTITY			PRIMARY KEY,
+	number			varchar(3)		NOT NULL			DEFAULT('0')
 );
 
 CREATE TABLE fraction
 (
-	fraction_id		int			IDENTITY			PRIMARY KEY,
-	fraction		varchar(3)  NOT NULL			DEFAULT('-')
+	fraction_id		int				IDENTITY			PRIMARY KEY,
+	fraction		varchar(3)		NOT NULL			DEFAULT('-')
 );
 
 CREATE TABLE unit
 (
-	unit_id			INT			IDENTITY			PRIMARY KEY,
-	unit			VARCHAR(20) NOT NULL
+	unit_id			INT				IDENTITY			PRIMARY KEY,
+	unit			VARCHAR(20)		NOT NULL
 );
 
 CREATE TABLE recipe_ingredient_unit_number_fraction
 (
-	recipe_id		int		FOREIGN KEY REFERENCES recipe(recipe_id),
-	ingredient_id	int		FOREIGN KEY REFERENCES ingredient(ingredient_id),
-	unit_id			int		FOREIGN KEY REFERENCES unit(unit_id),
-	number_id		int		FOREIGN KEY REFERENCES number(number_id),
-	fraction_id		int		FOREIGN KEY REFERENCES fraction(fraction_id)
+	recipe_id		int				FOREIGN KEY REFERENCES recipe(recipe_id),
+	ingredient_id	int				FOREIGN KEY REFERENCES ingredient(ingredient_id),
+	unit_id			int				FOREIGN KEY REFERENCES unit(unit_id),
+	number_id		int				FOREIGN KEY REFERENCES number(number_id),
+	fraction_id		int				FOREIGN KEY REFERENCES fraction(fraction_id)
 
 	CONSTRAINT pk_recipe_ingredient PRIMARY KEY CLUSTERED (recipe_id, ingredient_id, unit_id, number_id, fraction_id)
 );
 
 CREATE TABLE users_recipe
 (
-	id				int		FOREIGN KEY REFERENCES users(id),
-	recipe_id		int		FOREIGN KEY REFERENCES recipe(recipe_id)
+	id				int				FOREIGN KEY REFERENCES users(id),
+	recipe_id		int				FOREIGN KEY REFERENCES recipe(recipe_id)
 
 	CONSTRAINT pk_users_recipe PRIMARY KEY CLUSTERED (id, recipe_id)
+);
+
+CREATE TABLE mealPlan
+(
+	mealPlan_id		int				IDENTITY			PRIMARY KEY,
+	mealPlan_name	varchar(100)	NOT NULL
+);
+
+CREATE TABLE meal
+(
+	meal_id			int				IDENTITY			PRIMARY KEY,
+	meal_name		varchar(100)	NOT NULL
+);
+
+CREATE TABLE users_mealPlan
+(
+	users_id		int				FOREIGN KEY REFERENCES users(id),
+	mealPlan_id		int				FOREIGN KEY REFERENCES mealPlan(mealPlan_id)
+
+	CONSTRAINT pk_users_mealPlan PRIMARY KEY CLUSTERED (users_id, mealPlan_id)
+);
+
+CREATE TABLE mealPlan_meal
+(
+	mealPlan_id		int				FOREIGN KEY REFERENCES mealPlan(mealPlan_id),
+	meal_id			int				FOREIGN KEY REFERENCES meal(meal_id)
+
+	CONSTRAINT pk_mealPlan_meal PRIMARY KEY CLUSTERED (mealPlan_id, meal_id)
+);
+
+CREATE TABLE meal_recipe
+(
+	meal_id			int				FOREIGN KEY REFERENCES meal(meal_id),
+	recipe_id		int				FOREIGN KEY REFERENCES recipe(recipe_id)
+
+	CONSTRAINT pk_meal_recipe PRIMARY KEY CLUSTERED (meal_id, recipe_id)
 );
 
 SET IDENTITY_INSERT unit ON;
@@ -161,6 +197,12 @@ INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_
 INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (2, 'Cheesy Scrambled Eggs', 'A breakfast favorite', '1) Heat 10" skillet on medium-low heat. / 2) Crack eggs into bowl, discard shells, and add milk. / 3) Whisk eggs and milk vigorously until pale and slightly frothy. / 4) Grate or slice cheese as desired. / 5) Chop onion finely, reserving some green for garnish. / 6) Melt butter in skillet. / 7) Sautee onion in butter for 30 seconds to 1 minute. / 8) Pour eggs into skillet and stir continuously with wooden spoon or chopsticks for about 90 seconds, or until mostly solid, but still slightly runny. / 9) Add cheese to top of eggs and cover for 20-30 seconds to melt. / 10) Scoop eggs onto plate, garnish with reserved green onion rounds, and serve.', 5, 3)
 
 SET IDENTITY_INSERT recipe OFF;
+
+SET IDENTITY_INSERT meal ON;
+
+INSERT INTO meal (meal_id, meal_name) VALUES (1, 'Example Meal');
+
+SET IDENTITY_INSERT meal OFF;
 
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (1, 1, 2, 2, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (1, 2, 10, 2, 0);

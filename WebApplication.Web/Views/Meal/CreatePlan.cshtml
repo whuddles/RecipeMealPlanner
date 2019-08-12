@@ -1,0 +1,61 @@
+﻿@model WebApplication.Web.Models.MealPlanViewModel
+
+@{
+    ViewData["Title"] = "CreatePlan";
+}
+
+@if (Model.ModelMealPlan.MealPlanId == 0)
+{
+    <h2>Create a New Meal Plan</h2>
+}
+else
+{
+    <h2>Edit Meal Plan</h2>
+}
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreatePlan">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.ModelMealPlan.MealPlanId != 0)
+            {
+                <div hidden>
+                    <input hidden asp-for="ModelMealPlan.MealPlanId" value="@Model.ModelMealPlan.MealPlanId" />
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="ModelMealPlan.Name" class="control-label"></label>
+                <input asp-for="ModelMealPlan.Name" class="form-control mealPlan-name" value="@Model.ModelMealPlan.Name"/>
+                <span asp-validation-for="ModelMealPlan.Name" class="text-danger"></span>
+            </div>
+
+            @*Add existing meal field*@
+            <div class="mealPlan-container">
+                <div class="meal-container">
+                    <select class="existing-meal-dropdown">
+                        @for (int i = 0; i < ViewBag.ExistingMeals.Count; i++)
+                        {
+                            <option value="@ViewBag.ExistingMeals[i].MealId">@ViewBag.ExistingMeals[i].Name</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="control-label" name="NextMeal">Add another meal to the plan</label>
+                    <br />
+                    <button class="btn btn-warning" id="nextExistingMealButton">Add Existing Meal</button>
+                    <button class="btn btn-warning" id="nextNewMealButton">Create New Meal</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

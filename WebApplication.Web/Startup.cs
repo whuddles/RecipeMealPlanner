@@ -54,6 +54,7 @@ namespace WebApplication.Web
 
             services.AddTransient<IRecipeDAL>(m => new RecipeSqlDAL(connectionString));
             services.AddTransient<IIngredientDAL>(m => new IngredientSqlDAL(connectionString));
+            services.AddTransient<IMealPlanDAL>(m => new MealPlanSqlDAL(connectionString));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

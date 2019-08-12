@@ -2,12 +2,17 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+// Create Recipe - Begin
+
 $(function () {
     $(".ingredient-name-dropdown").chosen();
 });
 
 let ingredientCount = parseInt($("#visibleIngredients").attr("value"));
-let extraIngredientIndex = ingredientCount * 4 + 5;
+let elementsPerIngredient = parseInt($("#elementsPerIngredient").attr("value"));
+let elementsPerRecipe = parseInt($("#elementsPerRecipe").attr("value"));
+let extraIngredientIndex = ingredientCount * elementsPerIngredient + elementsPerRecipe;
 
 function addNextIngredientField() {
     let container = document.getElementById("ingredient-container");
@@ -25,7 +30,7 @@ function addNextIngredientField() {
     ingredient.querySelector(".ingredient-unit-dropdown").setAttribute('id', 'ModelList[' + parseInt(extraIngredientIndex + 2) + ']');
     ingredient.querySelector(".ingredient-name-dropdown").setAttribute('id', 'ModelList[' + parseInt(extraIngredientIndex + 3) + ']');
 
-    extraIngredientIndex += 4;
+    extraIngredientIndex += elementsPerIngredient;
 
     container.appendChild(document.createElement("br"));
     container.appendChild(ingredient);
@@ -40,6 +45,49 @@ nextIngredientButton.addEventListener("click", (event) => {
     event.stopPropagation();
     addNextIngredientField();
 });
+
+// Create Recipe - End
+
+// Create Meal - Begin
+
+$(function () {
+    $(".recipe-name-dropdown").chosen();
+});
+
+let recipeCount = parseInt($("#visibleRecipes").attr("value"));
+let elementsPerMeal = parseInt($("#elementsPerMeal").attr("value"));
+
+function addNextRecipeField() {
+    let container = document.getElementById("recipe-container");
+    let recipe = document.importNode(document.querySelector);
+
+    recipeCount++;
+
+    recipe.$(".recipe-name-dropdown").setAttribute('name', 'ModelList[' + recipeCount + elementsPerMeal + ']');
+
+    container.appendChild(document.createElement("br"));
+    container.appendChild(recipe);
+    $(".recipe-name-dropdown").chosen();
+}
+
+let nextRecipeButton = document.getElementById("nextRecipeButton");
+
+nextRecipeButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    addNextRecipeField();
+});
+
+// Create Meal - End
+
+// Create MealPlan - Begin
+
+
+
+// Create MealPlan - End
+
+
+
 
 //let ingredient = {
 //    Number: "",

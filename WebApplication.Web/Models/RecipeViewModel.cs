@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication.Web.Models
 {
-    public class ViewModel
+    public class RecipeViewModel
     {
         public Recipe ModelRecipe { get; set; }
         public List<string> ModelList { get; set; }
