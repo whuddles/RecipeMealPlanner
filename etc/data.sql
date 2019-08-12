@@ -81,17 +81,37 @@ CREATE TABLE users_recipe
 	CONSTRAINT pk_users_recipe PRIMARY KEY CLUSTERED (id, recipe_id)
 );
 
-CREATE TABLE mealPlan
-(
-	mealPlan_id		int				IDENTITY			PRIMARY KEY,
-	mealPlan_name	varchar(100)	NOT NULL
-);
-
 CREATE TABLE meal
 (
 	meal_id			int				IDENTITY			PRIMARY KEY,
 	meal_name		varchar(100)	NOT NULL
 );
+
+CREATE TABLE day
+(
+	day_id			int				IDENTITY			PRIMARY KEY,
+	breakfast		int				NOT NULL			FOREIGN KEY REFERENCES meal(meal_id),
+	lunch			int				NOT NULL			FOREIGN KEY REFERENCES meal(meal_id),
+	dinner			int				NOT NULL			FOREIGN KEY REFERENCES meal(meal_id)
+	
+);
+
+CREATE TABLE mealPlan
+(
+	mealPlan_id		int				IDENTITY			PRIMARY KEY,
+	mealPlan_name	varchar(100)	NOT NULL,
+	day1			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
+	day2			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
+	day3			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
+	day4			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
+	day5			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
+	day6			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
+	day7			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id)
+);
+
+
+
+
 
 CREATE TABLE users_mealPlan
 (
