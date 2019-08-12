@@ -35,7 +35,7 @@ namespace WebApplication.Web.DAL
                                                  FROM recipe r
                                                  JOIN meal_recipe mr
                                                  ON r.recipe_id = mr.recipe_id
-                                                 WHERE meal_id = 1";
+                                                 WHERE meal_id = @mealId";
 
         private string sqlGetMealPlanById = @"SELECT mealPlan_id, mealPlan_name
                                                     FROM mealPlan
