@@ -88,7 +88,11 @@ if (document.getElementById("nextRecipeButton") != null) {
 
 // Create MealPlan - Begin
 
+$(function () {
+    $(".meal-name-dropdown").chosen();
+})
 
+let mealDetailButton = document.getElementsByClassName("show-meal-details");
 
 // Create MealPlan - End
 
