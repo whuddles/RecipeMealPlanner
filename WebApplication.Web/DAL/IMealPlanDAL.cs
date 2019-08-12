@@ -14,7 +14,7 @@ namespace WebApplication.Web.DAL
         void AddMealsToMealPlan(MealPlan mealPlan);
         MealPlan GetMealPlanById(int mealPlanId);
         List<Meal> GetAllMeals();
-        List<Day> GetDaysInMealPlan(int mealPlanId);
+        Day GetDayInMealPlan(int dayId);
         Meal GetMealById(int mealId);
         List<Recipe> GetRecipesInMeal(int mealId);
     }
