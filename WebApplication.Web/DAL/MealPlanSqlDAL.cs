@@ -13,10 +13,10 @@ namespace WebApplication.Web.DAL
 
         private string sqlAddMealName =           @"INSERT INTO meal(meal_name) 
                                                     VALUES (@mealName);
-                                                    SELECT SCOPE_IDENTITY();";
+                                                    SELECT SCOPE_IDENTITY()";
         private string sqlAddMealPlanName =       @"INSERT INTO mealPlan(mealPlan_name) 
                                                     VALUES (@mealPlanName);
-                                                    SELECT SCOPE_IDENTITY();";
+                                                    SELECT SCOPE_IDENTITY()";
         private string sqlAddRecipeToMeal =       @"INSERT INTO meal_recipe (meal_id, recipe_id)
                                                     VALUES (@mealId, @recipeId)";
         private string sqlAddMealToMealPlan =     @"INSERT INTO mealPlan_meal (mealPlan_id, meal_id)
@@ -58,7 +58,7 @@ namespace WebApplication.Web.DAL
 
                 conn.Open();
 
-                mealPlan.MealPlanId = cmd.ExecuteNonQuery();
+                mealPlan.MealPlanId = Convert.ToInt32(cmd.ExecuteScalar());
             }
             
             try
@@ -77,15 +77,15 @@ namespace WebApplication.Web.DAL
         }
 
         public int CreateMeal(Meal meal)
-        {
+        {            
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand(sqlAddMealName, conn);
-                cmd.Parameters.AddWithValue("@name", meal.Name);
+                cmd.Parameters.AddWithValue("@mealName", meal.Name);
 
                 conn.Open();
 
-                meal.MealId = cmd.ExecuteNonQuery();
+                meal.MealId = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
             if(meal.Recipes.Count > 0)
@@ -236,7 +236,7 @@ namespace WebApplication.Web.DAL
                     while(reader.Read())
                     {
                         Recipe recipe = new Recipe();
-                        recipe.RecipeId = Convert.ToInt32(reader["r.recipe_id"]);
+                        recipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
                         recipe.Name = Convert.ToString(reader["name"]);
                         recipe.Description = Convert.ToString(reader["description"]);
 

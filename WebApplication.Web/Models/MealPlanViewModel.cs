@@ -8,6 +8,6 @@ namespace WebApplication.Web.Models
     public class MealPlanViewModel
     {
         public MealPlan ModelMealPlan { get; set; }
-        public List<int> ModelList { get; set; }
+        public List<string> ModelList { get; set; }
     }
 }

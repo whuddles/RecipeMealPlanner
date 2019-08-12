@@ -4,9 +4,11 @@
     ViewData["Title"] = "CreateMeal";
     int count = ViewBag.RecipeCount;
     int elementsPerMeal = 1;
+    int elementsPerRecipe = 1;
 }
 <hidden id="visibleRecipes" value="@(Model.ModelMeal.Recipes.Count)" />
 <hidden id="elementsPerMeal" value="@elementsPerMeal" />
+<hidden id="elementsPerRecipe" value="@elementsPerRecipe" />
 
 <h2>Create a New Meal</h2>
 
@@ -21,34 +23,35 @@
         </div>
     }
     <div class="form-group">
-        <label asp-for="ModelMeal.Name" class="control-label"></label>
-        <input name="ModelList[0]" class="form-control" value="@Model.ModelMeal.MealId" />
-        <span asp-validation-for="ModelMeal.Name" class="text-danger"></span>
+        <label class="control-label">Meal Name</label>
+        <input name="ModelList[0]" class="form-control" value="@Model.ModelMeal.Name" />        
     </div>
     <hr />
     <div id="recipe-container">
         <label>Recipes</label>
-        <div class="meal-components form-control">
+        <div class="meal-components form-inline">
             @for (int i = 0; i < count; i++)
             {
-                <label class="recipe-name-label">Recipe @(i)</label>
-                <select class="recipe-name-dropdown" name="ModelList[@(i + elementsPerMeal)]">
+                <select class="recipe-name-dropdown" name="ModelList[@((i * elementsPerRecipe) + elementsPerMeal)]">
                     @for (int j = 0; j < ViewBag.ExistingRecipes.Count; j++)
                     {
                         if (Model.ModelMeal.Recipes[i].Name == ViewBag.ExistingRecipes[j].Name)
                         {
-                            <option selected>@ViewBag.ExistingRecipes[j].Name</option>
+                            <option selected value="@ViewBag.ExistingRecipes[j].RecipeId.ToString()">@ViewBag.ExistingRecipes[j].Name</option>
                         }
                         else
                         {
-                            <option>@ViewBag.ExistingRecipes[j].Name</option>
+                            <option value="@ViewBag.ExistingRecipes[j].RecipeId.ToString()">@ViewBag.ExistingRecipes[j].Name</option>
                         }
                     }
                 </select>
                 <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.ModelMeal.Recipes[i].RecipeId" target="_blank">View Recipe Details</a>
+                <br />
+                <br />
             }
         </div>
     </div>
+    <br />
     <div>
         <label class="control-label">Add another recipe to the meal</label>
         <br />
@@ -61,17 +64,17 @@
         <a class="btn btn-success" id="creatNewRecipeButton" asp-controller="Recipe" asp-action="Create">Create new recipe</a>
     </div>
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-default" />
+        <input type="submit" class="btn btn-default" />
     </div>
 </form>
 
 <template id="addRecipeTemplate">
-    <div class="meal-components form-control">
+    <div class="meal-components form-inline">
         <label class="recipe-name-label"></label>
         <select class="recipe-name-dropdown">
             @for (int j = 0; j < ViewBag.ExistingRecipes.Count; j++)
             {
-                <option>@ViewBag.ExistingRecipes[j].Name</option>
+                <option value="@ViewBag.ExistingRecipes[j].RecipeId.ToString()">@ViewBag.ExistingRecipes[j].Name</option>
             }
         </select>
     </div>
