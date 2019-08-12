@@ -61,10 +61,10 @@ namespace WebApplication.Web.Controllers
             return RedirectToAction("CreatePlan", new { mealPlanId });
         }
 
-        public IActionResult MealPlanDetail(int mealPlanId = 0)
+        public IActionResult MealPlanDetail(int mealPlanId = 1)
         {
             MealPlan mealPlan = mealPlanDAL.GetMealPlanById(mealPlanId);
-            return View();
+            return View(mealPlan);
         }
 
         public IActionResult ModifyMealPlan()
