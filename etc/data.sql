@@ -100,13 +100,13 @@ CREATE TABLE mealPlan
 (
 	mealPlan_id		int				IDENTITY			PRIMARY KEY,
 	mealPlan_name	varchar(100)	NOT NULL,
-	day1			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
-	day2			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
-	day3			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
-	day4			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
-	day5			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
-	day6			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id),
-	day7			int				NOT NULL			FOREIGN KEY REFERENCES day(day_id)
+	day1			int				NULL				FOREIGN KEY REFERENCES day(day_id),
+	day2			int				NULL				FOREIGN KEY REFERENCES day(day_id),
+	day3			int				NULL				FOREIGN KEY REFERENCES day(day_id),
+	day4			int				NULL				FOREIGN KEY REFERENCES day(day_id),
+	day5			int				NULL				FOREIGN KEY REFERENCES day(day_id),
+	day6			int				NULL				FOREIGN KEY REFERENCES day(day_id),
+	day7			int				NULL				FOREIGN KEY REFERENCES day(day_id)
 );
 
 
