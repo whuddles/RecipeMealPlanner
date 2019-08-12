@@ -4,16 +4,129 @@
     ViewData["Title"] = "MealPlanDetail";
 }
 
-<h2>@Model.Name</h2>
+<h1>@Model.Name</h1>
 
 <div>
     <h4>Day 1</h4>
+    @for (int i = 0; i < 1; i++)
+    {
+        <h4>@Model.Meals[i].Name</h4>
 
-        <div>@Model.Meals[0].Name</div>
+        @foreach (Recipe recipe in Model.Meals[i].Recipes)
+        {
+            <div><a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.RecipeId">@recipe.Name </a></div>
+        }
+    }
+</div>
+
+<div>
+    <h4>Day 2</h4>
+</div>
+
+<div>
+    <h4>Day 3</h4>
+</div>
+
+<div>
+    <h4>Day 4</h4>
+</div>
+
+<div>
+    <h4>Day 5</h4>
+</div>
+
+<div>
+    <h4>Day 6</h4>
+</div>
+
+<div>
+    <h4>Day 7</h4>
+</div>
+
+<h1>OR</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Day 1
+            </th>
+            <th>
+                Day 2
+            </th>
+            <th>
+                Day 3
+            </th>
+            <th>
+                Day 4
+            </th>
+            <th>
+                Day 5
+            </th>
+            <th>
+                Day 6
+            </th>
+            <th>
+                Day 7
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    <td>
+        <h4>@Model.Meals[0].Name</h4>
 
         @foreach (Recipe recipe in Model.Meals[0].Recipes)
         {
             <div><a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.RecipeId">@recipe.Name </a></div>
         }
-</div>
+    </td>
+    <td>
+        <h4>@Model.Meals[0].Name</h4>
 
+        @foreach (Recipe recipe in Model.Meals[0].Recipes)
+        {
+            <div><a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.RecipeId">@recipe.Name </a></div>
+        }
+    </td>
+    <td>
+        <h4>@Model.Meals[0].Name</h4>
+
+        @foreach (Recipe recipe in Model.Meals[0].Recipes)
+        {
+            <div><a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.RecipeId">@recipe.Name </a></div>
+        }
+    </td>
+    <td>
+        <h4>@Model.Meals[0].Name</h4>
+
+        @foreach (Recipe recipe in Model.Meals[0].Recipes)
+        {
+            <div><a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.RecipeId">@recipe.Name </a></div>
+        }
+    </td>
+    <td>
+        <h4>@Model.Meals[0].Name</h4>
+
+        @foreach (Recipe recipe in Model.Meals[0].Recipes)
+        {
+            <div><a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.RecipeId">@recipe.Name </a></div>
+        }
+    </td>
+    <td>
+        <h4>@Model.Meals[0].Name</h4>
+
+        @foreach (Recipe recipe in Model.Meals[0].Recipes)
+        {
+            <div><a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.RecipeId">@recipe.Name </a></div>
+        }
+    </td>
+    <td>
+        <h4>@Model.Meals[0].Name</h4>
+
+        @foreach (Recipe recipe in Model.Meals[0].Recipes)
+        {
+            <div><a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.RecipeId">@recipe.Name </a></div>
+        }
+    </td>
+    </tbody>
+</table>
