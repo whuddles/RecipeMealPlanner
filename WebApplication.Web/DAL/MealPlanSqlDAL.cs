@@ -159,7 +159,6 @@ namespace WebApplication.Web.DAL
         public List<Meal> GetAllMeals()
         {
             List<Meal> meals = new List<Meal>();
-            Meal meal = new Meal();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -170,6 +169,7 @@ namespace WebApplication.Web.DAL
                 SqlDataReader reader = cmd.ExecuteReader();
                 while(reader.Read())
                 {
+                    Meal meal = new Meal();
                     meal.MealId = Convert.ToInt32(reader["meal_id"]);
                     meal.Name = Convert.ToString(reader["meal_name"]);
 
@@ -179,7 +179,7 @@ namespace WebApplication.Web.DAL
             
             if(meals.Count > 0)
             {
-                meals.Sort((x, y) => y.Name.CompareTo(x.Name));
+                meals.Sort((x, y) => x.Name.CompareTo(y.Name));
             }
 
             return meals;
