@@ -35,7 +35,7 @@ namespace WebApplication.Web.DAL
                                                     JOIN recipe r
                                                     ON r.recipe_id = u.recipe_id
                                                     WHERE meal_id = @mealId";
-        private string sqlGetMealPlan =           @"SELECT mealPlan_id, mealPlan_name, mealCount
+        private string sqlGetMealPlanById =       @"SELECT mealPlan_id, mealPlan_name, mealCount
                                                     FROM mealPlan
                                                     WHERE mealPlan_id = @mealPlanId";
         private string sqlGetMealsByMealPlanId =  @"SELECT meal_id, meal_name
@@ -127,13 +127,13 @@ namespace WebApplication.Web.DAL
             }
         }
 
-        public MealPlan GetMealPlan(int mealPlanId)
+        public MealPlan GetMealPlanById(int mealPlanId)
         {
             MealPlan mealPlan = new MealPlan();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sqlGetMealPlan, conn);
+                SqlCommand cmd = new SqlCommand(sqlGetMealPlanById, conn);
             }
 
             return mealPlan;

@@ -45,7 +45,8 @@ namespace WebApplication.Web.Controllers
         public IActionResult CreatePlan(int mealPlanId = 0)
         {
             MealPlanViewModel mealPlanViewModel = new MealPlanViewModel();
-            mealPlanViewModel.ModelMealPlan.MealPlanId = mealPlanId;
+            MealPlan mealPlan = mealPlanDAL.GetMealPlanById(mealPlanId);
+            mealPlanViewModel.ModelMealPlan = mealPlan;
 
             ViewBag.ExistingMeals = mealPlanDAL.GetAllMeals();
             ViewBag.ExistingRecipes = recipeDAL.GetAllRecipes();
@@ -62,7 +63,7 @@ namespace WebApplication.Web.Controllers
 
         public IActionResult MealPlanDetail(int mealPlanId = 0)
         {
-            MealPlan mealPlan = mealPlanDAL.GetMealPlan(mealPlanId);
+            MealPlan mealPlan = mealPlanDAL.GetMealPlanById(mealPlanId);
             return View();
         }
 

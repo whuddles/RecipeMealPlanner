@@ -12,7 +12,7 @@ namespace WebApplication.Web.DAL
         int CreateMeal(Meal meal);
         void AddRecipesToMeal(Meal meal);
         void AddMealsToMealPlan(MealPlan mealPlan);
-        MealPlan GetMealPlan(int mealPlanId);
+        MealPlan GetMealPlanById(int mealPlanId);
         List<Meal> GetAllMeals();
         List<Meal> GetMealsInMealPlan(int mealPlanId);
         List<Recipe> GetRecipesInMeal(int mealId);
