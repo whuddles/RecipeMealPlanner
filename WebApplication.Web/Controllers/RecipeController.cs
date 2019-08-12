@@ -34,6 +34,12 @@ namespace WebApplication.Web.Controllers
         [HttpGet]
         public IActionResult Create(int id = 0)
         {
+            if (authProvider.GetCurrentUser() == null)
+            {
+                TempData["ErrorMessage"] = "You must login to Create A Recipe!";
+                return RedirectToAction("Login", "Account");
+            }
+
             string recipeStatus = HttpContext.Session.GetString("NewRecipeStatus");
             ViewBag.RecipeStatus = recipeStatus;
 
@@ -137,6 +143,7 @@ namespace WebApplication.Web.Controllers
         {
             if (authProvider.GetCurrentUser() == null)
             {
+                TempData["ErrorMessage"] = "You must login to View All Recipes!";
                 return RedirectToAction("Login", "Account");
             }
 
@@ -161,6 +168,7 @@ namespace WebApplication.Web.Controllers
             User user = authProvider.GetCurrentUser();
             if (authProvider.GetCurrentUser() == null)
             {
+                TempData["ErrorMessage"] = "You must login to View Your Recipes, Dummy!";
                 return RedirectToAction("Login", "Account");
             }
             else if (authProvider.GetCurrentUser().Id != userId)
