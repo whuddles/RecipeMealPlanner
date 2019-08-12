@@ -290,6 +290,11 @@ namespace WebApplication.Web.DAL
                 throw;
             }
 
+            if(allRecipes.Count > 0)
+            {
+                allRecipes.Sort((x, y) => x.Name.CompareTo(y.Name));
+            }
+
             return allRecipes;
         }
 
