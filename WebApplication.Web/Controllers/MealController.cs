@@ -27,10 +27,12 @@ namespace WebApplication.Web.Controllers
         [HttpGet]
         public IActionResult CreateMeal(int mealId = 0)
         {
-            MealViewModel mealViewModel = new MealViewModel();
-            mealViewModel.ModelMeal.MealId = mealId;
-
             ViewBag.ExistingRecipes = recipeDAL.GetAllRecipes();
+
+            MealViewModel mealViewModel = new MealViewModel();
+            Meal meal = mealPlanDAL.GetMealById(mealId);
+            mealViewModel.ModelMeal = meal;
+            ViewBag.RecipeCount = meal.Recipes.Count;
 
             return View("CreateMeal", mealViewModel);
         }
@@ -61,10 +63,10 @@ namespace WebApplication.Web.Controllers
             return RedirectToAction("CreatePlan", new { mealPlanId });
         }
 
-        public IActionResult MealPlanDetail(int mealPlanId = 0)
+        public IActionResult MealPlanDetail(int mealPlanId = 1)
         {
             MealPlan mealPlan = mealPlanDAL.GetMealPlanById(mealPlanId);
-            return View();
+            return View(mealPlan);
         }
 
         public IActionResult ModifyMealPlan()

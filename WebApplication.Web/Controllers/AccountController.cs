@@ -28,7 +28,11 @@ namespace WebApplication.Web.Controllers
 
         [HttpGet]
         public IActionResult Login()
-        {            
+        {
+            if (authProvider.GetCurrentUser() != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             return View();
         }
 
@@ -36,6 +40,7 @@ namespace WebApplication.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel loginViewModel)
         {
+            
             // Ensure the fields were filled out
             if (ModelState.IsValid)
             {
@@ -66,6 +71,10 @@ namespace WebApplication.Web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            if (authProvider.GetCurrentUser() != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             return View();
         }
 
