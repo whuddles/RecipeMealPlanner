@@ -58,6 +58,8 @@ $(function () {
 
 let recipeCount = parseInt($("#visibleRecipes").attr("value"));
 let elementsPerMeal = parseInt($("#elementsPerMeal").attr("value"));
+let elementsPerMealRecipe = parseInt($("#elementsPerRecipe").attr("value"));
+let extraRecipeIndex = recipeCount * elementsPerMealRecipe + elementsPerMeal;
 
 function addNextRecipeField() {
     let recipeContainer = document.getElementById("recipe-container");
@@ -65,8 +67,8 @@ function addNextRecipeField() {
 
     recipeCount++;
 
-    recipe.querySelector(".recipe-name-dropdown").setAttribute('name', 'ModelList[' + recipeCount + elementsPerMeal + ']');
-    recipe.querySelector(".recipe-name-dropdown").setAttribute('id', 'ModelList[' + recipeCount + elementsPerMeal + ']');
+    recipe.querySelector(".recipe-name-dropdown").setAttribute('name', 'ModelList[' + parseInt(extraRecipeIndex) + ']');
+    recipe.querySelector(".recipe-name-dropdown").setAttribute('id', 'ModelList[' + parseInt(extraRecipeIndex) + ']');
 
     recipeContainer.appendChild(document.createElement("br"));
     recipeContainer.appendChild(recipe);

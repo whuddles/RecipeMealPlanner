@@ -13,10 +13,10 @@ namespace WebApplication.Web.DAL
 
         private string sqlAddMealName =           @"INSERT INTO meal(meal_name) 
                                                     VALUES (@mealName);
-                                                    SELECT SCOPE_IDENTITY();";
+                                                    SELECT SCOPE_IDENTITY()";
         private string sqlAddMealPlanName =       @"INSERT INTO mealPlan(mealPlan_name) 
                                                     VALUES (@mealPlanName);
-                                                    SELECT SCOPE_IDENTITY();";
+                                                    SELECT SCOPE_IDENTITY()";
         private string sqlAddRecipeToMeal =       @"INSERT INTO meal_recipe (meal_id, recipe_id)
                                                     VALUES (@mealId, @recipeId)";
         private string sqlAddMealToMealPlan =     @"INSERT INTO mealPlan_meal (mealPlan_id, meal_id)
@@ -27,6 +27,9 @@ namespace WebApplication.Web.DAL
                                                     VALUES (@userId, @mealPlanId)";
         private string sqlGetAllMeals =           @"SELECT * 
                                                     FROM meal";
+        private string sqlGetMealById =           @"SELECT meal_id, meal_name
+                                                    FROM meal
+                                                    WHERE meal_id = @mealId";
         private string sqlGetMealsInPlan = @"SELECT meal.meal_id, meal.meal_name
                                              FROM meal
                                              JOIN mealPlan_meal ON meal.meal_id = mealPlan_meal.meal_id
@@ -57,7 +60,7 @@ namespace WebApplication.Web.DAL
 
                 conn.Open();
 
-                mealPlan.MealPlanId = cmd.ExecuteNonQuery();
+                mealPlan.MealPlanId = Convert.ToInt32(cmd.ExecuteScalar());
             }
             
             try
@@ -76,15 +79,15 @@ namespace WebApplication.Web.DAL
         }
 
         public int CreateMeal(Meal meal)
-        {
+        {            
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand(sqlAddMealName, conn);
-                cmd.Parameters.AddWithValue("@name", meal.Name);
+                cmd.Parameters.AddWithValue("@mealName", meal.Name);
 
                 conn.Open();
 
-                meal.MealId = cmd.ExecuteNonQuery();
+                meal.MealId = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
             if(meal.Recipes.Count > 0)
@@ -206,6 +209,54 @@ namespace WebApplication.Web.DAL
             }
 
             return meals;
+        }
+
+        public Meal GetMealById(int mealId)
+        {
+            Meal meal = new Meal();
+            List<Recipe> recipes = new List<Recipe>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlGetMealById, conn);
+                    cmd.Parameters.AddWithValue("@mealId", mealId);
+
+                    SqlCommand cmd2 = new SqlCommand(sqlGetRecipesByMealId, conn);
+                    cmd2.Parameters.AddWithValue("@mealId", mealId);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        meal.MealId = Convert.ToInt32(reader["meal_id"]);
+                        meal.Name = Convert.ToString(reader["meal_name"]);
+                    }
+                    reader.Close();
+
+                    reader = cmd2.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Recipe recipe = new Recipe();
+                        recipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
+                        recipe.Name = Convert.ToString(reader["name"]);
+                        recipe.Description = Convert.ToString(reader["description"]);
+
+                        recipes.Add(recipe);
+                    }
+
+                    meal.Recipes = recipes;
+                }
+
+            }
+            catch
+            {
+                throw;
+            }
+
+            return meal;
         }
 
         public List<Recipe> GetRecipesInMeal(int mealId)
