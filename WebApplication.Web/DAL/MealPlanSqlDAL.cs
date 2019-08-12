@@ -30,12 +30,15 @@ namespace WebApplication.Web.DAL
         private string sqlGetMealsInPlan =        @"SELECT *
                                                     FROM meal
                                                     WHERE meal_id = @mealId";
-        private string sqlGetRecipesByMealId =    @"SELECT recipe_id, name, description
-                                                    FROM users_meal_recipe u
-                                                    JOIN recipe r
-                                                    ON r.recipe_id = u.recipe_id
+        private string sqlGetMealById =           @"SELECT meal_id, meal_name
+                                                    FROM meal
                                                     WHERE meal_id = @mealId";
-        private string sqlGetMealPlanById =       @"SELECT mealPlan_id, mealPlan_name, mealCount
+        private string sqlGetRecipesByMealId =    @"SELECT r.recipe_id, name, description
+                                                    FROM meal_recipe m
+                                                    JOIN recipe r
+                                                    ON r.recipe_id = m.recipe_id
+                                                    WHERE meal_id = @mealId";
+        private string sqlGetMealPlanById =       @"SELECT mealPlan_id, mealPlan_name
                                                     FROM mealPlan
                                                     WHERE mealPlan_id = @mealPlanId";
         private string sqlGetMealsByMealPlanId =  @"SELECT meal_id, meal_name
@@ -134,6 +137,16 @@ namespace WebApplication.Web.DAL
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand(sqlGetMealPlanById, conn);
+                cmd.Parameters.AddWithValue("@mealPlanId", mealPlanId);
+
+                conn.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while(reader.Read())
+                {
+                    mealPlan.MealPlanId = Convert.ToInt32(reader["mealPlan_id"]);
+                    mealPlan.Name = Convert.ToString(reader["mealPlan_name"]);
+                }
             }
 
             return mealPlan;
@@ -192,6 +205,54 @@ namespace WebApplication.Web.DAL
             }
 
             return meals;
+        }
+
+        public Meal GetMealById(int mealId)
+        {
+            Meal meal = new Meal();
+            List<Recipe> recipes = new List<Recipe>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlGetMealById, conn);
+                    cmd.Parameters.AddWithValue("@mealId", mealId);
+
+                    SqlCommand cmd2 = new SqlCommand(sqlGetRecipesByMealId, conn);
+                    cmd2.Parameters.AddWithValue("@mealId", mealId);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        meal.MealId = Convert.ToInt32(reader["meal_id"]);
+                        meal.Name = Convert.ToString(reader["meal_name"]);
+                    }
+                    reader.Close();
+
+                    reader = cmd2.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        Recipe recipe = new Recipe();
+                        recipe.RecipeId = Convert.ToInt32(reader["r.recipe_id"]);
+                        recipe.Name = Convert.ToString(reader["name"]);
+                        recipe.Description = Convert.ToString(reader["description"]);
+
+                        recipes.Add(recipe);
+                    }
+
+                    meal.Recipes = recipes;
+                }
+
+            }
+            catch
+            {
+                throw;
+            }
+
+            return meal;
         }
 
         public List<Recipe> GetRecipesInMeal(int mealId)

@@ -15,7 +15,7 @@ let elementsPerRecipe = parseInt($("#elementsPerRecipe").attr("value"));
 let extraIngredientIndex = ingredientCount * elementsPerIngredient + elementsPerRecipe;
 
 function addNextIngredientField() {
-    let container = document.getElementById("ingredient-container");
+    let ingredientContainer = document.getElementById("ingredient-container");
     let ingredient = document.importNode(document.querySelector("template").content, true);
 
     ingredientCount++;
@@ -32,19 +32,21 @@ function addNextIngredientField() {
 
     extraIngredientIndex += elementsPerIngredient;
 
-    container.appendChild(document.createElement("br"));
-    container.appendChild(ingredient);
+    ingredientContainer.appendChild(document.createElement("br"));
+    ingredientContainer.appendChild(ingredient);
     //$("#ingredient-container").append('<div class="ingredient-description form-inline"><select class="ingredient-number-dropdown col-sm-1" id="IngredientNumber' + ingredientCount + '" name="Model.Ingredients[' + ingredientCount + '].Number"><option selected disabled >...</option>@for (int j = 0; j < ViewBag.Numbers.Count; j++){<option>@ViewBag.Numbers[j]</option>}</select ><select class="ingredient-fraction-dropdown col-sm-1" id="IngredientFraction' + ingredientCount + '" name="Model.Ingredients[' + ingredientCount + '].Fraction"><option selected disabled>...</option>\n@for (int j = 0; j < ViewBag.Fractions.Count; j++)\n{<option>@ViewBag.Fractions[j]</option>}</select><select class="ingredient-unit-dropdown col-sm-1" id="IngredientUnit' + ingredientCount + '" name="Model.Ingredients[' + ingredientCount + '].Unit"><option selected disabled>...</option>\n@for (int j = 0; j < ViewBag.Units.Count; j++)\n{<option>@ViewBag.Units[j]</option>}</select><select class= "ingredient-name-dropdown col-sm-8" id="IngredientName' + ingredientCount + '" name="Model.Ingredients[' + ingredientCount + '].Name"><option selected disabled>Choose an ingredient...</option>\n@for (int j = 0; j < ViewBag.ExistingIngredients.Count; j++)\n{<option>@ViewBag.ExistingIngredients[j].Name</option>}</select><button class="btn btn-danger ingredient-delete-button col-sm-1">Delete Ingredient</button></ div>');
     $(".ingredient-name-dropdown").chosen();
 }
 
-let nextIngredientButton = document.getElementById("nextIngredientButton");
+if (document.getElementById("nextIngredientButton") != null) {
+    let nextIngredientButton = document.getElementById("nextIngredientButton");
 
-nextIngredientButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    addNextIngredientField();
-});
+    nextIngredientButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        addNextIngredientField();
+    });
+}
 
 // Create Recipe - End
 
@@ -58,25 +60,27 @@ let recipeCount = parseInt($("#visibleRecipes").attr("value"));
 let elementsPerMeal = parseInt($("#elementsPerMeal").attr("value"));
 
 function addNextRecipeField() {
-    let container = document.getElementById("recipe-container");
-    let recipe = document.importNode(document.querySelector);
+    let recipeContainer = document.getElementById("recipe-container");
+    let recipe = document.importNode(document.querySelector("#addRecipeTemplate").content, true);
 
     recipeCount++;
 
-    recipe.$(".recipe-name-dropdown").setAttribute('name', 'ModelList[' + recipeCount + elementsPerMeal + ']');
+    recipe.querySelector(".recipe-name-dropdown").setAttribute('name', 'ModelList[' + recipeCount + elementsPerMeal + ']');
+    recipe.querySelector(".recipe-name-dropdown").setAttribute('id', 'ModelList[' + recipeCount + elementsPerMeal + ']');
 
-    container.appendChild(document.createElement("br"));
-    container.appendChild(recipe);
+    recipeContainer.appendChild(document.createElement("br"));
+    recipeContainer.appendChild(recipe);
     $(".recipe-name-dropdown").chosen();
 }
+if (document.getElementById("nextRecipeButton") != null) {
+    let nextRecipeButton = document.getElementById("nextRecipeButton");
 
-let nextRecipeButton = document.getElementById("nextRecipeButton");
-
-nextRecipeButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    addNextRecipeField();
-});
+    nextRecipeButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        addNextRecipeField();
+    });
+}
 
 // Create Meal - End
 
