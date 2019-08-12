@@ -262,7 +262,7 @@ namespace WebApplication.Web.DAL
         public List<Recipe> GetRecipesInMeal(int mealId)
         {
             List<Recipe> recipes = new List<Recipe>();
-            Recipe recipe = new Recipe();
+            
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -274,6 +274,7 @@ namespace WebApplication.Web.DAL
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    Recipe recipe = new Recipe();
                     recipe.Name = Convert.ToString(reader["name"]);
                     recipe.RecipeId = Convert.ToInt32(reader["recipe_id"]);
                     recipe.Description = Convert.ToString(reader["description"]);
