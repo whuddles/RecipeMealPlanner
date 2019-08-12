@@ -43,6 +43,12 @@ namespace WebApplication.Web.DAL
             {
                 throw;
             }
+
+            if(ingredients.Count > 0)
+            {
+                ingredients.Sort((x, y) => x.Name.CompareTo(y.Name));
+            }
+
             return ingredients;
         }
 

@@ -75,10 +75,10 @@ namespace WebApplication.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreatePlan(int mealPlanId = 0)
+        public IActionResult CreatePlan(int id = 0)
         {
             MealPlanViewModel mealPlanViewModel = new MealPlanViewModel();
-            MealPlan mealPlan = mealPlanDAL.GetMealPlanById(mealPlanId);
+            MealPlan mealPlan = mealPlanDAL.GetMealPlanById(id);
             mealPlanViewModel.ModelMealPlan = mealPlan;
 
             ViewBag.ExistingMeals = mealPlanDAL.GetAllMeals();

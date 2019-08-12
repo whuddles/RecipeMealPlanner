@@ -10,6 +10,6 @@ namespace WebApplication.Web.Models
         public int UserId { get; set; }
         public int MealPlanId { get; set; }
         public string Name { get; set; }
-        public List<Meal> Meals { get; set; }
+        public List<Day> Days { get; set; }
     }
 }
