@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.Web.DAL;
 using WebApplication.Web.Models;
+using WebApplication.Web.Providers.Auth;
 
 namespace WebApplication.Web.Controllers
 {
@@ -13,11 +14,13 @@ namespace WebApplication.Web.Controllers
     {
         private IRecipeDAL recipeDAL;
         private IMealPlanDAL mealPlanDAL;
+        private IAuthProvider authProvider;
 
-        public MealController(IRecipeDAL recipeDAL, IMealPlanDAL mealPlanDAL)
+        public MealController(IRecipeDAL recipeDAL, IMealPlanDAL mealPlanDAL, IAuthProvider authProvider)
         {
             this.recipeDAL = recipeDAL;
             this.mealPlanDAL = mealPlanDAL;
+            this.authProvider = authProvider;
         }
 
         public IActionResult Index()
@@ -157,9 +160,46 @@ namespace WebApplication.Web.Controllers
             return RedirectToAction("CreatePlan", "Meal", new { id });
         }
 
-        public IActionResult ViewMyMealPlans()
+        [HttpGet]
+        public IActionResult AllMealPlans()
         {
-            return View();
+            if (authProvider.GetCurrentUser() == null)
+            {
+                TempData["ErrorMessage"] = "You must login to View All Meal Plans!";
+                return RedirectToAction("Login", "Account");
+            }
+
+            List<MealPlan> allMealPlans = mealPlanDAL.GetAllMealPlans();
+
+            return View(allMealPlans);
+
+        }
+
+        [HttpPost]
+        public IActionResult AddMealPlanToUser(int mealPlanId)
+        {
+            User user = authProvider.GetCurrentUser();
+            mealPlanDAL.AddMealPlanToUserAccount(user.Id, mealPlanId);
+
+            return RedirectToAction("MyMealPlans", "Meal", new { userId = user.Id });
+        }
+
+        [HttpGet]
+        public IActionResult MyMealPlans(int userId)
+        {
+            User user = authProvider.GetCurrentUser();
+            if (authProvider.GetCurrentUser() == null)
+            {
+                TempData["ErrorMessage"] = "You must login to View Your Meal Plans, Dummy!";
+                return RedirectToAction("Login", "Account");
+            }
+            else if (authProvider.GetCurrentUser().Id != userId)
+            {
+                return RedirectToAction("MyRecipes", "Recipe", new { userId = user.Id });
+            }
+
+            List<MealPlan> userMealPlans = mealPlanDAL.GetMealPlansByUserId(userId);
+            return View(userMealPlans);
         }
 
         public IActionResult GenerateGroceryList()

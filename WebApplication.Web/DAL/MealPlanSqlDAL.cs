@@ -129,8 +129,8 @@ namespace WebApplication.Web.DAL
                                                     VALUES (@mealPlan_id, @mealId)";
         private string sqlAddMealToUser = @"INSERT INTO users_meal (user_id, meal_id)
                                                     VALUES (@userId, @mealId)";
-        private string sqlAddMealPlanToUser = @"INSERT INTO users_mealPlan (user_id, mealPlan_id)
-                                                    VALUES (@userId, @mealPlanId)";
+        private string sqlAddMealPlanToUser = @"INSERT INTO users_mealPlan (users_id, mealPlan_id)
+                                                    VALUES ((SELECT id FROM users WHERE id = @userId), (SELECT mealPlan_id FROM mealPlan WHERE mealPlan_id = @mealPlanId))";
         private string sqlGetAllMeals = @"SELECT * 
                                                     FROM meal";
         private string sqlGetMealById = @"SELECT meal_id, meal_name
@@ -155,6 +155,13 @@ namespace WebApplication.Web.DAL
                                                     WHERE mealPlan_id = @mealPlanId";
         private string sqlGetMealsByMealPlanId = @"SELECT meal_id, meal_name
                                                     FROM mealPlan_meal";
+        private string sqlGetMealPlansByUserId = @"SELECT mealPlan.mealPlan_name, mealplan.mealPlan_id, mealPlan.day1, mealPlan.day2, mealPlan.day3, mealPlan.day4, mealPlan.day5, mealPlan.day6, mealPlan.day7 
+                                                   FROM mealPlan
+                                                   JOIN users_mealPlan ON mealPlan.mealPlan_id = users_mealPlan.mealPlan_id
+                                                   WHERE users_mealPlan.users_id = @userId";
+        private string sqlQueryGetAllMealPlans = @"SELECT * from mealPlan";
+
+
 
         public MealPlanSqlDAL(string connectionString)
         {
@@ -658,6 +665,100 @@ namespace WebApplication.Web.DAL
             }
 
             return recipes;
+        }
+
+        public List<MealPlan> GetAllMealPlans()
+        {
+            List<MealPlan> allMealPlans = new List<MealPlan>();
+            
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetAllMealPlans, conn);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        allMealPlans.Add(MapRowToMealPlan(reader));
+                    }
+
+                }                
+
+            }
+            catch
+            {
+                throw;
+            }
+
+            return allMealPlans;
+        }
+
+        public MealPlan MapRowToMealPlan(SqlDataReader reader)
+        {
+            MealPlan mealPlan = new MealPlan();
+            List<Day> days = new List<Day>();
+            List<int?> daysList = new List<int?>();
+
+            mealPlan.MealPlanId = Convert.ToInt32(reader["mealPlan_id"]);
+            mealPlan.Name = Convert.ToString(reader["mealPlan_name"]);
+
+            daysList.Add(reader["day1"] as int?);
+            daysList.Add(reader["day2"] as int?);
+            daysList.Add(reader["day3"] as int?);
+            daysList.Add(reader["day4"] as int?);
+            daysList.Add(reader["day5"] as int?);
+            daysList.Add(reader["day6"] as int?);
+            daysList.Add(reader["day7"] as int?);
+
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[0])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[1])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[2])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[3])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[4])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[5])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[6])));
+
+            mealPlan.Days = days;
+
+            return mealPlan;
+        }
+
+        public void AddMealPlanToUserAccount(int userId, int mealPlanId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlAddMealPlanToUser, conn);
+                cmd.Parameters.AddWithValue("@mealPlanId", mealPlanId);
+                cmd.Parameters.AddWithValue("@userId", userId);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public List<MealPlan> GetMealPlansByUserId(int userId)
+        {
+            List<MealPlan> userMealPlans = new List<MealPlan>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlGetMealPlansByUserId, conn);
+                cmd.Parameters.AddWithValue("@userId", userId);
+                conn.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    userMealPlans.Add(MapRowToMealPlan(reader));
+                }
+            }
+
+                return userMealPlans;
         }
 
         //public List<Meal> GetMealsInPlan(int mealPlanId)
