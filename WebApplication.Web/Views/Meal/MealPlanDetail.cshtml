@@ -66,12 +66,11 @@
 }
 
 <br />
-<div id="container"> 
+<div id="container">
     <br />
     <a id="modify" class="btn btn-info" asp-controller="Meal" asp-action="ModifyMealPlan" asp-route-id="@Model.MealPlanId">Modify This Meal Plan</a>
     <br />
     <a id="add" class="btn btn-success" asp-controller="Meal" asp-action="MyMealPlans" asp-route-id="@Model.MealPlanId">Add to My Meal Plans</a>
 </div>
-}
-
-    <a class="btn btn-primary" asp-controller="Meal" asp-action="GroceryList" asp-route-id="@Model.MealPlanId" target="_blank">Get Grocery List</a>
+<br /><br />
+<a class="btn btn-primary" asp-controller="Meal" asp-action="GroceryList" asp-route-id="@Model.MealPlanId" target="_blank">Get Grocery List</a>
