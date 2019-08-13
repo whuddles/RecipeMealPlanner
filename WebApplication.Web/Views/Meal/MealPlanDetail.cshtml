@@ -4,6 +4,27 @@
     ViewData["Title"] = "MealPlanDetail";
 }
 
+<style>
+
+
+    #modify {
+        width: auto;
+        height: auto;
+    }
+
+    #add {
+        margin-left: 15px;
+        width: auto;
+        height: auto;
+    }
+
+    #container {
+        display: inline-flex;
+        top: 50%;
+        left: 50%;
+    }
+</style>
+
 <h1>@Model.Name</h1>
 
 @for (int i = 0; i < 7; i++)
@@ -13,32 +34,44 @@
         <div class="breakfast-container">
             <p>Breakfast</p>
             @*<button id="ShowDay@(i + 1)BreakfastDetails">Show Breakfast Details</button>
-            <button hidden id="HideDay@(i + 1)BreakfastDetails">Hide Breakfast Details</button>*@
+                <button hidden id="HideDay@(i + 1)BreakfastDetails">Hide Breakfast Details</button>*@
             @for (int j = 0; j < Model.Days[i].Breakfast.Recipes.Count; j++)
             {
-            <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Breakfast.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Breakfast.Recipes[j].Name</a>
-            <br />
+                <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Breakfast.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Breakfast.Recipes[j].Name</a>
+                <br />
             }
         </div>
         <div class="lunch-container">
             <p>Lunch</p>
             @*<button id="ShowDay@(i + 1)LunchDetails">Show Lunch Details</button>
-            <button hidden id="HideDay@(i + 1)LunchDetails">Hide Lunch Details</button>*@
+                <button hidden id="HideDay@(i + 1)LunchDetails">Hide Lunch Details</button>*@
             @for (int j = 0; j < Model.Days[i].Lunch.Recipes.Count; j++)
             {
-            <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Lunch.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Lunch.Recipes[j].Name</a>
-            <br />
+                <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Lunch.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Lunch.Recipes[j].Name</a>
+                <br />
             }
         </div>
         <div class="dinner-container">
             <p>Dinner</p>
             @*<button id="ShowDay@(i + 1)DinnerDetails">Show Dinner Details</button>
-            <button hidden id="HideDay@(i + 1)DinnerDetails">Hide Dinner Details</button>*@
+                <button hidden id="HideDay@(i + 1)DinnerDetails">Hide Dinner Details</button>*@
             @for (int j = 0; j < Model.Days[i].Dinner.Recipes.Count; j++)
             {
-            <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Dinner.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Dinner.Recipes[j].Name</a>
-            <br />
+                <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Dinner.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Dinner.Recipes[j].Name</a>
+                <br />
             }
         </div>
     </div>
+
 }
+
+<br />
+<div id="container"> 
+    <br />
+    <a id="modify" class="btn btn-info" asp-controller="Meal" asp-action="ModifyMealPlan" asp-route-id="@Model.MealPlanId">Modify This Meal Plan</a>
+    <br />
+    <a id="add" class="btn btn-success" asp-controller="Meal" asp-action="MyMealPlans" asp-route-id="@Model.MealPlanId">Add to My Meal Plans</a>
+</div>
+}
+
+    <a class="btn btn-primary" asp-controller="Meal" asp-action="GroceryList" asp-route-id="@Model.MealPlanId" target="_blank">Get Grocery List</a>

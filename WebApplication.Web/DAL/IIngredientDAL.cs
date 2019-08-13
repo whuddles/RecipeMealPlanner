@@ -13,7 +13,7 @@ namespace WebApplication.Web.DAL
         List<string> GetUnits();
         List<string> GetFractions();
         List<string> GetNumbers();
-
         bool AddIngredient(string name);
+        List<Ingredient> GetIngredientsByMealPlan(MealPlan mealPlan);
     }
 }

@@ -15,11 +15,13 @@ namespace WebApplication.Web.Controllers
         private IRecipeDAL recipeDAL;
         private IMealPlanDAL mealPlanDAL;
         private IAuthProvider authProvider;
+        private IIngredientDAL ingredientDAL;
 
-        public MealController(IRecipeDAL recipeDAL, IMealPlanDAL mealPlanDAL, IAuthProvider authProvider)
+        public MealController(IRecipeDAL recipeDAL, IMealPlanDAL mealPlanDAL, IAuthProvider authProvider, IIngredientDAL ingredientDAL)
         {
             this.recipeDAL = recipeDAL;
             this.mealPlanDAL = mealPlanDAL;
+            this.ingredientDAL = ingredientDAL;
             this.authProvider = authProvider;
         }
 
@@ -27,7 +29,7 @@ namespace WebApplication.Web.Controllers
         {
             return View();
         }
-
+        
         [HttpGet]
         public IActionResult CreateMeal(int id = 0)
 
@@ -202,9 +204,12 @@ namespace WebApplication.Web.Controllers
             return View(userMealPlans);
         }
 
-        public IActionResult GenerateGroceryList()
+        public IActionResult GroceryList(int id = 0)
         {
-            return View();
+            MealPlan mealPlan = mealPlanDAL.GetMealPlanById(id);
+            List<Ingredient> groceryList = ingredientDAL.GetIngredientsByMealPlan(mealPlan);
+
+            return View(groceryList);
         }
     }
 }
