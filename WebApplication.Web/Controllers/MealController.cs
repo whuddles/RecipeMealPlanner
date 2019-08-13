@@ -111,19 +111,19 @@ namespace WebApplication.Web.Controllers
                 Meal meal3 = new Meal();
                 Day day = new Day
                 {
-                    Breakfast = meal1,
-                    Lunch = meal2,
-                    Dinner = meal3
+                    Breakfast = new Meal(),
+                    Lunch = new Meal(),
+                    Dinner = new Meal()
                 };
-                
-                meal1.MealId = Convert.ToInt32(mealPlanList[i]);
-                day.Breakfast.MealId = meal1.MealId;
 
-                meal2.MealId = Convert.ToInt32(mealPlanList[i + 1]);
-                day.Lunch.MealId = meal2.MealId;
+                //meal1.MealId = Convert.ToInt32(mealPlanList[i]);
+                day.Breakfast.MealId = Convert.ToInt32(mealPlanList[i]); //meal1.MealId;
 
-                meal3.MealId = Convert.ToInt32(mealPlanList[i + 2]);
-                day.Dinner.MealId = meal3.MealId;
+                //meal2.MealId = Convert.ToInt32(mealPlanList[i + 1]);
+                day.Lunch.MealId = Convert.ToInt32(mealPlanList[i + 1]);  //meal2.MealId;
+
+               //meal3.MealId = Convert.ToInt32(mealPlanList[i + 2]);
+                day.Dinner.MealId = Convert.ToInt32(mealPlanList[i + 2]);  //meal3.MealId;
 
                 days.Add(day);
             }
