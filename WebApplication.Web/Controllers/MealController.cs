@@ -141,9 +141,14 @@ namespace WebApplication.Web.Controllers
             return View(mealPlan);
         }
 
-        public IActionResult ModifyMealPlan()
+        public IActionResult ModifyMealPlan(int id = 0)
         {
-            return View();
+            //MealPlanViewModel mealPlanViewModel = new MealPlanViewModel
+            //{
+            //    ModelMealPlan = mealPlanDAL.GetMealPlanById(mealPlanId)
+            //};
+
+            return RedirectToAction("CreatePlan", "Meal", new { id });
         }
 
         public IActionResult ViewMyMealPlans()
