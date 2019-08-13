@@ -3,8 +3,12 @@
 @{
     ViewData["Title"] = "CreatePlan";
     int planDays = Model.ModelMealPlan.Days.Count;
+    int elementsPerPlan = 1;
+    int elementsPerDay = 1;
 }
-<hidden id="visibleDays"></hidden>
+<hidden id="visibleDays" value="@planDays"></hidden>
+<hidden id="elementsPerPlan" value="@elementsPerPlan"></hidden>
+<hidden id="elementsPerDay" value="@elementsPerDay"></hidden>
 
 @if (Model.ModelMealPlan.MealPlanId == 0)
 {
@@ -17,93 +21,130 @@ else
 
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreatePlan">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @if (Model.ModelMealPlan.MealPlanId != 0)
-            {
-                <div hidden>
-                    <input hidden asp-for="ModelMealPlan.MealPlanId" value="@Model.ModelMealPlan.MealPlanId" />
-                </div>
-            }
-            <div class="form-group">
-                <label asp-for="ModelMealPlan.Name" class="control-label"></label>
-                <input asp-for="ModelMealPlan.Name" class="form-control mealPlan-name" value="@Model.ModelMealPlan.Name" />
-                <span asp-validation-for="ModelMealPlan.Name" class="text-danger"></span>
-            </div>
 
-            @*Add existing meal field*@
-            <div class="mealPlan-container">
-                <div class="day-container"></div>
-                @for (int i = 0; i < planDays; i++)
-                {
-                    <h4>Day @(i)</h4>
-                    <div class="meal-container breakfast">
-                        <label>Breakfast</label>
-                        <select class="meal-name-dropdown">
-                            @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
-                            {
-                                if (Model.ModelMealPlan.Days[i].Breakfast.MealId == @ViewBag.ExistingMeals[j].MealId)
-                                {
-                                    <option selected value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
-                                }
-                            }
-                        </select>
-                        <button class="btn btn-primary show-meal-details">Show Meal Details</button>
-                    </div>
-                    <div class="meal-container lunch">
-                        <label>Lunch</label>
-                        <select class="meal-name-dropdown">
-                            @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
-                            {
-                                if (Model.ModelMealPlan.Days[i].Lunch.MealId == @ViewBag.ExistingMeals[j].MealId)
-                                {
-                                    <option selected value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
-                                }
-                            }
-                        </select>
-                        <button class="btn btn-primary show-meal-details">Show Meal Details</button>
-                    </div>
-                    <div class="meal-container dinner">
-                        <label>Dinner</label>
-                        <select class="meal-name-dropdown">
-                            @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
-                            {
-                                if (Model.ModelMealPlan.Days[i].Dinner.MealId == @ViewBag.ExistingMeals[j].MealId)
-                                {
-                                    <option selected value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
-                                }
-                            }
-                        </select>
-                        <button class="btn btn-primary show-meal-details">Show Meal Details</button>
-                    </div>
-                }
-                <div>
-                    <label>Can't find the meal you want? Create it here!</label>
-                    <button class="btn btn-warning" id="nextNewMealButton">Create New Meal</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-default" />
-            </div>
-        </form>
+<form asp-action="CreatePlan">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @if (Model.ModelMealPlan.MealPlanId != 0)
+    {
+        <div hidden>
+            <input hidden asp-for="ModelMealPlan.MealPlanId" value="@Model.ModelMealPlan.MealPlanId" />
+        </div>
+    }
+    <div class="form-group">
+        <label class="control-label"></label>
+        <input class="form-control mealPlan-name" value="@Model.ModelMealPlan.Name" name="ModelList[0]" />
+        <span asp-validation-for="ModelMealPlan.Name" class="text-danger"></span>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    @*Add existing meal field*@
+    <div id="mealPlan-container">
+        <div class="day-container"></div>
+        @for (int i = 0; i < planDays; i++)
+        {
+            <h4>Day @(i)</h4>
+            <div class="meal-container breakfast">
+                <label>Breakfast</label>
+                <select class="meal-name-dropdown" name="ModelList[@((i * elementsPerDay) + elementsPerPlan)]">
+                    @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
+                    {
+                        if (Model.ModelMealPlan.Days[i].Breakfast.MealId == @ViewBag.ExistingMeals[j].MealId)
+                        {
+                            <option selected value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+                        }
+                        else
+                        {
+                            <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+                        }
+                    }
+                </select>
+                <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+            </div>
+            <div class="meal-container lunch">
+                <label>Lunch</label>
+                <select class="meal-name-dropdown" name="ModelList[@((i * elementsPerDay) + elementsPerPlan + 1)]">
+                    @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
+                    {
+                        if (Model.ModelMealPlan.Days[i].Lunch.MealId == @ViewBag.ExistingMeals[j].MealId)
+                        {
+                            <option selected value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+                        }
+                        else
+                        {
+                            <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+                        }
+                    }
+                </select>
+                <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+            </div>
+            <div class="meal-container dinner">
+                <label>Dinner</label>
+                <select class="meal-name-dropdown" name="ModelList[@((i * elementsPerDay) + elementsPerPlan + 2)]">
+                    @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
+                    {
+                        if (Model.ModelMealPlan.Days[i].Dinner.MealId == @ViewBag.ExistingMeals[j].MealId)
+                        {
+                            <option selected value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+                        }
+                        else
+                        {
+                            <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+                        }
+                    }
+                </select>
+                <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+            </div>
+        }
+        <div>
+            <label>Add a day</label>
+            <button class="btn btn-danger" id="nextDayButton">Add a day</button>
+            <label>Can't find the meal you want? Create it here!</label>
+            <button class="btn btn-warning" id="newMealButton" asp-controller="Meal" asp-action="CreateMeal">Create New Meal</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-default" />
+    </div>
+</form>
+
+<template id="dayTemplate">
+    <div class="day-container">
+        <h4 class="day-number"></h4>
+        <div class="meal-container breakfast">
+            <label>Breakfast</label>
+            <select class="meal-name-dropdown breakfast-select">
+                @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
+                {
+
+                    <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+
+                }
+            </select>
+            <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+        </div>
+        <div class="meal-container lunch">
+            <label>Lunch</label>
+            <select class="meal-name-dropdown lunch-select">
+                @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
+                {
+
+                    <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+
+                }
+            </select>
+            <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+        </div>
+        <div class="meal-container dinner">
+            <label>Dinner</label>
+            <select class="meal-name-dropdown dinner-select">
+                @for (int j = 0; j < ViewBag.ExistingMeals.Count; j++)
+                {
+
+                    <option value="@ViewBag.ExistingMeals[j].MealId">@ViewBag.ExistingMeals[j].Name</option>
+
+                }
+            </select>
+            <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+        </div>
+    </div>
+</template>
 

@@ -94,6 +94,45 @@ $(function () {
 
 let mealDetailButton = document.getElementsByClassName("show-meal-details");
 
+let dayCount = parseInt($("#visibleDays").attr("value"));
+let elementsPerPlan = parseInt($("#elementsPerPlan").attr("value"));
+let elementsPerDay = parseInt($("#elementsPerDay").attr("value"));
+let extraDayIndex = dayCount * elementsPerDay + elementsPerPlan;
+
+function addNextDay() {
+    let mealPlanContainer = document.getElementById("mealPlan-container");
+    let day = document.importNode(document.querySelector("#dayTemplate").content, true);
+
+    dayCount++;
+
+    day.querySelector(".breakfast-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex) + ']');
+    day.querySelector(".lunch-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex + 1) + ']');
+    day.querySelector(".dinner-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex + 2) + ']');
+
+    day.querySelector(".breakfast-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex) + ']');
+    day.querySelector(".lunch-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex + 1) + ']');
+    day.querySelector(".dinner-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex + 2) + ']');
+
+    day.querySelector(".day-number").innerHTML = "Day " + dayCount;
+
+    mealPlanContainer.appendChild(document.createElement("br"));
+    mealPlanContainer.appendChild(day);
+
+    $(".breakfast-select").chosen();
+    $(".lunch-select").chosen();
+    $(".dinner-select").chosen();
+}
+
+if (document.getElementById("nextDayButton") != null) {
+    let nextDayButton = document.getElementById("nextDayButton");
+
+    nextDayButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        addNextDay();
+    })
+}
+
 // Create MealPlan - End
 
 

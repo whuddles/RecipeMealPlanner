@@ -96,8 +96,41 @@ namespace WebApplication.Web.Controllers
         [HttpPost]
         public IActionResult CreatePlan(MealPlanViewModel mealPlanViewModel)
         {
-            int mealPlanId = mealPlanDAL.CreateMealPlan(mealPlanViewModel.ModelMealPlan);
-            return RedirectToAction("CreatePlan", new { mealPlanId });
+            List<Day> days = new List<Day>();
+            List<string> mealPlanList = mealPlanViewModel.ModelList;
+
+            MealPlan mealPlan = new MealPlan
+            {
+                Name = mealPlanList[0]
+            };
+
+            for(int i = 1; i < mealPlanList.Count; i += 3)
+            {
+                Meal meal = new Meal();
+                Day day = new Day
+                {
+                    Breakfast = meal,
+                    Lunch = meal,
+                    Dinner = meal
+                };
+                
+                meal.MealId = Convert.ToInt32(mealPlanList[i]);
+                day.Breakfast.MealId = meal.MealId;
+
+                meal.MealId = Convert.ToInt32(mealPlanList[i + 1]);
+                day.Lunch.MealId = meal.MealId;
+
+                meal.MealId = Convert.ToInt32(mealPlanList[i + 2]);
+                day.Dinner.MealId = meal.MealId;
+
+                days.Add(day);
+            }
+
+            mealPlan.Days = days;
+
+            mealPlan.MealPlanId = mealPlanDAL.CreateMealPlan(mealPlan);
+            //int mealPlanId = mealPlanDAL.CreateMealPlan(mealPlanViewModel.ModelMealPlan);
+            return RedirectToAction("CreatePlan"/*, new { mealPlanId }*/);
         }
 
         public IActionResult MealPlanDetail(int mealPlanId = 1)

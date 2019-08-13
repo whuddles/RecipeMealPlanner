@@ -11,43 +11,74 @@ namespace WebApplication.Web.DAL
     {
         private string connectionString;
 
-        private string sqlAddMealName = @"INSERT INTO meal(meal_name) 
+        private string sqlAddMealName =           @"INSERT INTO meal(meal_name) 
                                                     VALUES (@mealName);
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAddMealPlanName = @"INSERT INTO mealPlan(mealPlan_name) 
-                                                    VALUES (@mealPlanName);
+        private string sqlAdd7DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6, day7) 
+                                                    VALUES (@mealPlanName, @day1, @day2, @day3, @day4, @day5, @day6, @day7);
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAddRecipeToMeal = @"INSERT INTO meal_recipe (meal_id, recipe_id)
+        private string sqlAdd6DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6) 
+                                                    VALUES (@mealPlanName, @day1, @day2, @day3, @day4, @day5, @day6);
+                                                    SELECT SCOPE_IDENTITY()";
+        private string sqlAdd5DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5) 
+                                                    VALUES (@mealPlanName, @day1, @day2, @day3, @day4, @day5);
+                                                    SELECT SCOPE_IDENTITY()";
+        private string sqlAdd4DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4) 
+                                                    VALUES (@mealPlanName, @day1, @day2, @day3, @day4);
+                                                    SELECT SCOPE_IDENTITY()";
+        private string sqlAdd3DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day36) 
+                                                    VALUES (@mealPlanName, @day1, @day2, @day3);
+                                                    SELECT SCOPE_IDENTITY()";
+        private string sqlAdd2DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2) 
+                                                    VALUES (@mealPlanName, @day1, @day2);
+                                                    SELECT SCOPE_IDENTITY()";
+        private string sqlAdd1DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1) 
+                                                    VALUES (@mealPlanName, (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day1));
+                                                    SELECT SCOPE_IDENTITY()";
+        private string sqlAddDay =                @"INSERT INTO day(breakfast, lunch, dinner)
+                                                    VALUES ((SELECT meal_id
+                                                             FROM meal
+                                                             WHERE meal_id = @breakfast),
+                                                            (SELECT meal_id
+                                                             FROM meal
+                                                             WHERE meal_id = @lunch), 
+                                                            (SELECT meal_id
+                                                             FROM meal
+                                                             WHERE meal_id = @dinner));
+                                                    SELECT SCOPE_IDENTITY();";
+        private string sqlAddRecipeToMeal =       @"INSERT INTO meal_recipe (meal_id, recipe_id)
                                                     VALUES (@mealId, @recipeId)";
-        private string sqlAddMealToMealPlan = @"INSERT INTO mealPlan_meal (mealPlan_id, meal_id)
+        private string sqlAddMealToMealPlan =     @"INSERT INTO mealPlan_meal (mealPlan_id, meal_id)
                                                     VALUES (@mealPlan_id, @mealId)";
-        private string sqlAddMealToUser = @"INSERT INTO users_meal (user_id, meal_id)
+        private string sqlAddMealToUser =         @"INSERT INTO users_meal (user_id, meal_id)
                                                     VALUES (@userId, @mealId)";
-        private string sqlAddMealPlanToUser = @"INSERT INTO users_mealPlan (user_id, mealPlan_id)
+        private string sqlAddMealPlanToUser =     @"INSERT INTO users_mealPlan (user_id, mealPlan_id)
                                                     VALUES (@userId, @mealPlanId)";
-        private string sqlGetAllMeals = @"SELECT * 
+        private string sqlGetAllMeals =           @"SELECT * 
                                                     FROM meal";
-        private string sqlGetMealById = @"SELECT meal_id, meal_name
+        private string sqlGetMealById =           @"SELECT meal_id, meal_name
                                                     FROM meal
                                                     WHERE meal_id = @mealId";
         //private string sqlGetMealsInPlan = @"SELECT meal.meal_id, meal.meal_name
         //                                     FROM meal
         //                                     JOIN mealPlan_meal ON meal.meal_id = mealPlan_meal.meal_id
         //                                     WHERE mealPlan_id = @mealPlanId";
-        private string sqlGetMealsInDay = @"SELECT breakfast, lunch, dinner
-                                            FROM day
-                                            WHERE day_id = @dayId";
+        private string sqlGetMealsInDay =         @"SELECT breakfast, lunch, dinner
+                                                    FROM day
+                                                    WHERE day_id = @dayId";
                                              
-        private string sqlGetRecipesByMealId = @"SELECT r.recipe_id, r.name, r.description
-                                                 FROM recipe r
-                                                 JOIN meal_recipe mr
-                                                 ON r.recipe_id = mr.recipe_id
-                                                 WHERE meal_id = @mealId";
+        private string sqlGetRecipesByMealId =    @"SELECT r.recipe_id, r.name, r.description
+                                                    FROM recipe r
+                                                    JOIN meal_recipe mr
+                                                    ON r.recipe_id = mr.recipe_id
+                                                    WHERE meal_id = @mealId";
 
-        private string sqlGetMealPlanById = @"SELECT mealPlan_id, mealPlan_name
+        private string sqlGetMealPlanById =       @"SELECT mealPlan_id, mealPlan_name
                                                     FROM mealPlan
                                                     WHERE mealPlan_id = @mealPlanId";
-        private string sqlGetMealsByMealPlanId = @"SELECT meal_id, meal_name
+        private string sqlGetMealsByMealPlanId =  @"SELECT meal_id, meal_name
                                                     FROM mealPlan_meal";
 
         public MealPlanSqlDAL(string connectionString)
@@ -59,10 +90,86 @@ namespace WebApplication.Web.DAL
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sqlAddMealPlanName, conn);
-                cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                SqlCommand cmd = new SqlCommand(sqlAdd7DayMealPlan, conn);
+                SqlCommand cmd2 = new SqlCommand(sqlAddDay, conn);
 
                 conn.Open();
+
+                if (mealPlan.Days.Count == 7)
+                {
+                    cmd = new SqlCommand(sqlAdd7DayMealPlan, conn);
+                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
+                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
+                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
+                    cmd.Parameters.AddWithValue($"@day4", mealPlan.Days[3].DayId);
+                    cmd.Parameters.AddWithValue($"@day5", mealPlan.Days[4].DayId);
+                    cmd.Parameters.AddWithValue($"@day6", mealPlan.Days[5].DayId);
+                    cmd.Parameters.AddWithValue($"@day7", mealPlan.Days[6].DayId);
+                }
+                else if (mealPlan.Days.Count == 6)
+                {
+                    cmd = new SqlCommand(sqlAdd6DayMealPlan, conn);
+                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
+                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
+                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
+                    cmd.Parameters.AddWithValue($"@day4", mealPlan.Days[3].DayId);
+                    cmd.Parameters.AddWithValue($"@day5", mealPlan.Days[4].DayId);
+                    cmd.Parameters.AddWithValue($"@day6", mealPlan.Days[5].DayId);
+                }
+                else if (mealPlan.Days.Count == 5)
+                {
+                    cmd = new SqlCommand(sqlAdd5DayMealPlan, conn);
+                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
+                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
+                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
+                    cmd.Parameters.AddWithValue($"@day4", mealPlan.Days[3].DayId);
+                    cmd.Parameters.AddWithValue($"@day5", mealPlan.Days[4].DayId);
+                }
+                else if (mealPlan.Days.Count == 4)
+                {
+                    cmd = new SqlCommand(sqlAdd4DayMealPlan, conn);
+                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
+                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
+                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
+                    cmd.Parameters.AddWithValue($"@day4", mealPlan.Days[3].DayId);
+                }
+                else if (mealPlan.Days.Count == 3)
+                {
+                    cmd = new SqlCommand(sqlAdd3DayMealPlan, conn);
+                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
+                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
+                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
+                }
+                else if (mealPlan.Days.Count == 2)
+                {
+                    //cmd2 = new SqlCommand(sqlAddDay, conn);
+                    //cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    //mealPlan.Days[0].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    cmd = new SqlCommand(sqlAdd2DayMealPlan, conn);
+                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
+                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
+                }
+                else if (mealPlan.Days.Count == 1)
+                {
+                    cmd2 = new SqlCommand(sqlAddDay, conn);
+                    cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    cmd2.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
+                    cmd2.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
+                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    cmd = new SqlCommand(sqlAdd1DayMealPlan, conn);
+                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
+                }
+
+                
 
                 mealPlan.MealPlanId = Convert.ToInt32(cmd.ExecuteScalar());
             }
