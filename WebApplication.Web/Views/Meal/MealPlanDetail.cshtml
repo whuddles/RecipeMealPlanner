@@ -11,7 +11,7 @@
     <div>
         <h4>Day @(i + 1)</h4>
         <div class="breakfast-container">
-            <p>@Model.Days[i].Breakfast.Name</p>
+            <p>Breakfast</p>
             @*<button id="ShowDay@(i + 1)BreakfastDetails">Show Breakfast Details</button>
             <button hidden id="HideDay@(i + 1)BreakfastDetails">Hide Breakfast Details</button>*@
             @for (int j = 0; j < Model.Days[i].Breakfast.Recipes.Count; j++)
@@ -20,7 +20,7 @@
             }
         </div>
         <div class="lunch-container">
-            <p>@Model.Days[i].Lunch.Name</p>
+            <p>Lunch</p>
             @*<button id="ShowDay@(i + 1)LunchDetails">Show Lunch Details</button>
             <button hidden id="HideDay@(i + 1)LunchDetails">Hide Lunch Details</button>*@
             @for (int j = 0; j < Model.Days[i].Lunch.Recipes.Count; j++)
@@ -29,7 +29,7 @@
             }
         </div>
         <div class="dinner-container">
-            <p>@Model.Days[i].Dinner.Name</p>
+            <p>Dinner</p>
             @*<button id="ShowDay@(i + 1)DinnerDetails">Show Dinner Details</button>
             <button hidden id="HideDay@(i + 1)DinnerDetails">Hide Dinner Details</button>*@
             @for (int j = 0; j < Model.Days[i].Dinner.Recipes.Count; j++)
