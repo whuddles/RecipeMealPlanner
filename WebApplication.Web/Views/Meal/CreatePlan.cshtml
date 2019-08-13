@@ -41,7 +41,7 @@ else
         <div class="day-container"></div>
         @for (int i = 0; i < planDays; i++)
         {
-            <h4>Day @(i)</h4>
+            <h4>Day @(i + 1)</h4>
             <div class="meal-container breakfast">
                 <label>Breakfast</label>
                 <select class="meal-name-dropdown" name="ModelList[@((i * elementsPerDay) + elementsPerPlan)]">
