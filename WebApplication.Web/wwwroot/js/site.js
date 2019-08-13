@@ -99,28 +99,30 @@ let elementsPerPlan = parseInt($("#elementsPerPlan").attr("value"));
 let elementsPerDay = parseInt($("#elementsPerDay").attr("value"));
 
 function addNextDay() {
-    let mealPlanContainer = document.getElementById("mealPlan-container");
-    let day = document.importNode(document.querySelector("#dayTemplate").content, true);
+    if (dayCount < 7) {
+        let mealPlanContainer = document.getElementById("mealPlan-container");
+        let day = document.importNode(document.querySelector("#dayTemplate").content, true);
 
-    dayCount++;
-    let extraDayIndex = (dayCount - 1) * elementsPerDay + elementsPerPlan;
+        dayCount++;
+        let extraDayIndex = (dayCount - 1) * elementsPerDay + elementsPerPlan;
 
-    day.querySelector(".breakfast-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex) + ']');
-    day.querySelector(".lunch-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex + 1) + ']');
-    day.querySelector(".dinner-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex + 2) + ']');
+        day.querySelector(".breakfast-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex) + ']');
+        day.querySelector(".lunch-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex + 1) + ']');
+        day.querySelector(".dinner-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex + 2) + ']');
 
-    day.querySelector(".breakfast-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex) + ']');
-    day.querySelector(".lunch-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex + 1) + ']');
-    day.querySelector(".dinner-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex + 2) + ']');
+        day.querySelector(".breakfast-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex) + ']');
+        day.querySelector(".lunch-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex + 1) + ']');
+        day.querySelector(".dinner-select").setAttribute('id', 'ModelList[' + parseInt(extraDayIndex + 2) + ']');
 
-    day.querySelector(".day-number").innerHTML = "Day " + dayCount;
+        day.querySelector(".day-number").innerHTML = "Day " + dayCount;
 
-    mealPlanContainer.appendChild(document.createElement("br"));
-    mealPlanContainer.appendChild(day);
+        mealPlanContainer.appendChild(document.createElement("br"));
+        mealPlanContainer.appendChild(day);
 
-    $(".breakfast-select").chosen();
-    $(".lunch-select").chosen();
-    $(".dinner-select").chosen();
+        $(".breakfast-select").chosen();
+        $(".lunch-select").chosen();
+        $(".dinner-select").chosen();
+    }
 }
 
 if (document.getElementById("nextDayButton") != null) {
