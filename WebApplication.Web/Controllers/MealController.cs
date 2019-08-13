@@ -135,9 +135,9 @@ namespace WebApplication.Web.Controllers
             return RedirectToAction("CreatePlan"/*, new { mealPlanId }*/);
         }
 
-        public IActionResult MealPlanDetail(int mealPlanId = 2)
+        public IActionResult MealPlanDetail(int id = 2)
         {
-            MealPlan mealPlan = mealPlanDAL.GetMealPlanById(mealPlanId);
+            MealPlan mealPlan = mealPlanDAL.GetMealPlanById(id);
             return View(mealPlan);
         }
 
