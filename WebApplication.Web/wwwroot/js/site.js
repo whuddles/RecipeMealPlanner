@@ -97,13 +97,13 @@ let mealDetailButton = document.getElementsByClassName("show-meal-details");
 let dayCount = parseInt($("#visibleDays").attr("value"));
 let elementsPerPlan = parseInt($("#elementsPerPlan").attr("value"));
 let elementsPerDay = parseInt($("#elementsPerDay").attr("value"));
-let extraDayIndex = dayCount * elementsPerDay + elementsPerPlan;
 
 function addNextDay() {
     let mealPlanContainer = document.getElementById("mealPlan-container");
     let day = document.importNode(document.querySelector("#dayTemplate").content, true);
 
     dayCount++;
+    let extraDayIndex = (dayCount - 1) * elementsPerDay + elementsPerPlan;
 
     day.querySelector(".breakfast-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex) + ']');
     day.querySelector(".lunch-select").setAttribute('name', 'ModelList[' + parseInt(extraDayIndex + 1) + ']');

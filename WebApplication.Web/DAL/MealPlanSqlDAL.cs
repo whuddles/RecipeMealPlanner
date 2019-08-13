@@ -14,23 +14,98 @@ namespace WebApplication.Web.DAL
         private string sqlAddMealName = @"INSERT INTO meal(meal_name) 
                                                     VALUES (@mealName);
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd7DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6, day7) 
-                                                    VALUES (@mealPlanName, @day1, @day2, @day3, @day4, @day5, @day6, @day7);
+        private string sqlAdd7DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6, day7) 
+                                                    VALUES (@mealPlanName, (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day1), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day2), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day3), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day4), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day5), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day6), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day7));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd6DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6) 
-                                                    VALUES (@mealPlanName, @day1, @day2, @day3, @day4, @day5, @day6);
+        private string sqlAdd6DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6) 
+                                                    VALUES (@mealPlanName, (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day1), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day2), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day3), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day4), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day5), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day6));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd5DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5) 
-                                                    VALUES (@mealPlanName, @day1, @day2, @day3, @day4, @day5);
+        private string sqlAdd5DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5) 
+                                                    VALUES (@mealPlanName, (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day1), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day2), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day3), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day4), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day5));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd4DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4) 
-                                                    VALUES (@mealPlanName, @day1, @day2, @day3, @day4);
+        private string sqlAdd4DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4) 
+                                                    VALUES (@mealPlanName, (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day1), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day2), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day3), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day4));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd3DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day36) 
-                                                    VALUES (@mealPlanName, @day1, @day2, @day3);
+        private string sqlAdd3DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day36) 
+                                                    VALUES (@mealPlanName, (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day1), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day2), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day3));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd2DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2) 
-                                                    VALUES (@mealPlanName, @day1, @day2);
+        private string sqlAdd2DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2) 
+                                                    VALUES (@mealPlanName, (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day1), 
+                                                                           (SELECT day_id
+                                                                            FROM day
+                                                                            WHERE day_id = @day2));
                                                     SELECT SCOPE_IDENTITY()";
         private string sqlAdd1DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1) 
                                                     VALUES (@mealPlanName, (SELECT day_id
@@ -90,88 +165,250 @@ namespace WebApplication.Web.DAL
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sqlAdd7DayMealPlan, conn);
+                SqlCommand cmd0 = new SqlCommand(sqlAdd7DayMealPlan, conn);
+                SqlCommand cmd1 = new SqlCommand(sqlAddDay, conn);
                 SqlCommand cmd2 = new SqlCommand(sqlAddDay, conn);
+                SqlCommand cmd3 = new SqlCommand(sqlAddDay, conn);
+                SqlCommand cmd4 = new SqlCommand(sqlAddDay, conn);
+                SqlCommand cmd5 = new SqlCommand(sqlAddDay, conn);
+                SqlCommand cmd6 = new SqlCommand(sqlAddDay, conn);
+                SqlCommand cmd7 = new SqlCommand(sqlAddDay, conn);
 
                 conn.Open();
 
                 if (mealPlan.Days.Count == 7)
                 {
-                    cmd = new SqlCommand(sqlAdd7DayMealPlan, conn);
-                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
-                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
-                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
-                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
-                    cmd.Parameters.AddWithValue($"@day4", mealPlan.Days[3].DayId);
-                    cmd.Parameters.AddWithValue($"@day5", mealPlan.Days[4].DayId);
-                    cmd.Parameters.AddWithValue($"@day6", mealPlan.Days[5].DayId);
-                    cmd.Parameters.AddWithValue($"@day7", mealPlan.Days[6].DayId);
+                    cmd1 = new SqlCommand(sqlAddDay, conn);
+                    cmd1.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    cmd1.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
+                    cmd1.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
+                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd1.ExecuteScalar());
+
+                    cmd2 = new SqlCommand(sqlAddDay, conn);
+                    cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[1].Breakfast.MealId);
+                    cmd2.Parameters.AddWithValue("@lunch", mealPlan.Days[1].Lunch.MealId);
+                    cmd2.Parameters.AddWithValue("@dinner", mealPlan.Days[1].Dinner.MealId);
+                    mealPlan.Days[1].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    cmd3 = new SqlCommand(sqlAddDay, conn);
+                    cmd3.Parameters.AddWithValue("@breakfast", mealPlan.Days[2].Breakfast.MealId);
+                    cmd3.Parameters.AddWithValue("@lunch", mealPlan.Days[2].Lunch.MealId);
+                    cmd3.Parameters.AddWithValue("@dinner", mealPlan.Days[2].Dinner.MealId);
+                    mealPlan.Days[2].DayId = Convert.ToInt32(cmd3.ExecuteScalar());
+
+                    cmd4 = new SqlCommand(sqlAddDay, conn);
+                    cmd4.Parameters.AddWithValue("@breakfast", mealPlan.Days[3].Breakfast.MealId);
+                    cmd4.Parameters.AddWithValue("@lunch", mealPlan.Days[3].Lunch.MealId);
+                    cmd4.Parameters.AddWithValue("@dinner", mealPlan.Days[3].Dinner.MealId);
+                    mealPlan.Days[3].DayId = Convert.ToInt32(cmd4.ExecuteScalar());
+
+                    cmd5 = new SqlCommand(sqlAddDay, conn);
+                    cmd5.Parameters.AddWithValue("@breakfast", mealPlan.Days[4].Breakfast.MealId);
+                    cmd5.Parameters.AddWithValue("@lunch", mealPlan.Days[4].Lunch.MealId);
+                    cmd5.Parameters.AddWithValue("@dinner", mealPlan.Days[4].Dinner.MealId);
+                    mealPlan.Days[4].DayId = Convert.ToInt32(cmd5.ExecuteScalar());
+
+                    cmd6 = new SqlCommand(sqlAddDay, conn);
+                    cmd6.Parameters.AddWithValue("@breakfast", mealPlan.Days[5].Breakfast.MealId);
+                    cmd6.Parameters.AddWithValue("@lunch", mealPlan.Days[5].Lunch.MealId);
+                    cmd6.Parameters.AddWithValue("@dinner", mealPlan.Days[5].Dinner.MealId);
+                    mealPlan.Days[5].DayId = Convert.ToInt32(cmd6.ExecuteScalar());
+
+                    cmd7 = new SqlCommand(sqlAddDay, conn);
+                    cmd7.Parameters.AddWithValue("@breakfast", mealPlan.Days[6].Breakfast.MealId);
+                    cmd7.Parameters.AddWithValue("@lunch", mealPlan.Days[6].Lunch.MealId);
+                    cmd7.Parameters.AddWithValue("@dinner", mealPlan.Days[6].Dinner.MealId);
+                    mealPlan.Days[6].DayId = Convert.ToInt32(cmd7.ExecuteScalar());
+
+                    cmd0 = new SqlCommand(sqlAdd7DayMealPlan, conn);
+                    cmd0.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd0.Parameters.AddWithValue("@day1", mealPlan.Days[0].DayId);
+                    cmd0.Parameters.AddWithValue("@day2", mealPlan.Days[1].DayId);
+                    cmd0.Parameters.AddWithValue("@day3", mealPlan.Days[2].DayId);
+                    cmd0.Parameters.AddWithValue("@day4", mealPlan.Days[3].DayId);
+                    cmd0.Parameters.AddWithValue("@day5", mealPlan.Days[4].DayId);
+                    cmd0.Parameters.AddWithValue("@day6", mealPlan.Days[5].DayId);
+                    cmd0.Parameters.AddWithValue("@day7", mealPlan.Days[6].DayId);
                 }
                 else if (mealPlan.Days.Count == 6)
                 {
-                    cmd = new SqlCommand(sqlAdd6DayMealPlan, conn);
-                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
-                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
-                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
-                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
-                    cmd.Parameters.AddWithValue($"@day4", mealPlan.Days[3].DayId);
-                    cmd.Parameters.AddWithValue($"@day5", mealPlan.Days[4].DayId);
-                    cmd.Parameters.AddWithValue($"@day6", mealPlan.Days[5].DayId);
+                    cmd1 = new SqlCommand(sqlAddDay, conn);
+                    cmd1.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    cmd1.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
+                    cmd1.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
+                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd1.ExecuteScalar());
+
+                    cmd2 = new SqlCommand(sqlAddDay, conn);
+                    cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[1].Breakfast.MealId);
+                    cmd2.Parameters.AddWithValue("@lunch", mealPlan.Days[1].Lunch.MealId);
+                    cmd2.Parameters.AddWithValue("@dinner", mealPlan.Days[1].Dinner.MealId);
+                    mealPlan.Days[1].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    cmd3 = new SqlCommand(sqlAddDay, conn);
+                    cmd3.Parameters.AddWithValue("@breakfast", mealPlan.Days[2].Breakfast.MealId);
+                    cmd3.Parameters.AddWithValue("@lunch", mealPlan.Days[2].Lunch.MealId);
+                    cmd3.Parameters.AddWithValue("@dinner", mealPlan.Days[2].Dinner.MealId);
+                    mealPlan.Days[2].DayId = Convert.ToInt32(cmd3.ExecuteScalar());
+
+                    cmd4 = new SqlCommand(sqlAddDay, conn);
+                    cmd4.Parameters.AddWithValue("@breakfast", mealPlan.Days[3].Breakfast.MealId);
+                    cmd4.Parameters.AddWithValue("@lunch", mealPlan.Days[3].Lunch.MealId);
+                    cmd4.Parameters.AddWithValue("@dinner", mealPlan.Days[3].Dinner.MealId);
+                    mealPlan.Days[3].DayId = Convert.ToInt32(cmd4.ExecuteScalar());
+
+                    cmd5 = new SqlCommand(sqlAddDay, conn);
+                    cmd5.Parameters.AddWithValue("@breakfast", mealPlan.Days[4].Breakfast.MealId);
+                    cmd5.Parameters.AddWithValue("@lunch", mealPlan.Days[4].Lunch.MealId);
+                    cmd5.Parameters.AddWithValue("@dinner", mealPlan.Days[4].Dinner.MealId);
+                    mealPlan.Days[4].DayId = Convert.ToInt32(cmd5.ExecuteScalar());
+
+                    cmd6 = new SqlCommand(sqlAddDay, conn);
+                    cmd6.Parameters.AddWithValue("@breakfast", mealPlan.Days[5].Breakfast.MealId);
+                    cmd6.Parameters.AddWithValue("@lunch", mealPlan.Days[5].Lunch.MealId);
+                    cmd6.Parameters.AddWithValue("@dinner", mealPlan.Days[5].Dinner.MealId);
+                    mealPlan.Days[5].DayId = Convert.ToInt32(cmd6.ExecuteScalar());
+
+                    cmd0 = new SqlCommand(sqlAdd6DayMealPlan, conn);
+                    cmd0.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd0.Parameters.AddWithValue("@day1", mealPlan.Days[0].DayId);
+                    cmd0.Parameters.AddWithValue("@day2", mealPlan.Days[1].DayId);
+                    cmd0.Parameters.AddWithValue("@day3", mealPlan.Days[2].DayId);
+                    cmd0.Parameters.AddWithValue("@day4", mealPlan.Days[3].DayId);
+                    cmd0.Parameters.AddWithValue("@day5", mealPlan.Days[4].DayId);
+                    cmd0.Parameters.AddWithValue("@day6", mealPlan.Days[5].DayId);
                 }
                 else if (mealPlan.Days.Count == 5)
                 {
-                    cmd = new SqlCommand(sqlAdd5DayMealPlan, conn);
-                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
-                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
-                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
-                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
-                    cmd.Parameters.AddWithValue($"@day4", mealPlan.Days[3].DayId);
-                    cmd.Parameters.AddWithValue($"@day5", mealPlan.Days[4].DayId);
+                    cmd1 = new SqlCommand(sqlAddDay, conn);
+                    cmd1.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    cmd1.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
+                    cmd1.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
+                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd1.ExecuteScalar());
+
+                    cmd2 = new SqlCommand(sqlAddDay, conn);
+                    cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[1].Breakfast.MealId);
+                    cmd2.Parameters.AddWithValue("@lunch", mealPlan.Days[1].Lunch.MealId);
+                    cmd2.Parameters.AddWithValue("@dinner", mealPlan.Days[1].Dinner.MealId);
+                    mealPlan.Days[1].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    cmd3 = new SqlCommand(sqlAddDay, conn);
+                    cmd3.Parameters.AddWithValue("@breakfast", mealPlan.Days[2].Breakfast.MealId);
+                    cmd3.Parameters.AddWithValue("@lunch", mealPlan.Days[2].Lunch.MealId);
+                    cmd3.Parameters.AddWithValue("@dinner", mealPlan.Days[2].Dinner.MealId);
+                    mealPlan.Days[2].DayId = Convert.ToInt32(cmd3.ExecuteScalar());
+
+                    cmd4 = new SqlCommand(sqlAddDay, conn);
+                    cmd4.Parameters.AddWithValue("@breakfast", mealPlan.Days[3].Breakfast.MealId);
+                    cmd4.Parameters.AddWithValue("@lunch", mealPlan.Days[3].Lunch.MealId);
+                    cmd4.Parameters.AddWithValue("@dinner", mealPlan.Days[3].Dinner.MealId);
+                    mealPlan.Days[3].DayId = Convert.ToInt32(cmd4.ExecuteScalar());
+
+                    cmd5 = new SqlCommand(sqlAddDay, conn);
+                    cmd5.Parameters.AddWithValue("@breakfast", mealPlan.Days[4].Breakfast.MealId);
+                    cmd5.Parameters.AddWithValue("@lunch", mealPlan.Days[4].Lunch.MealId);
+                    cmd5.Parameters.AddWithValue("@dinner", mealPlan.Days[4].Dinner.MealId);
+                    mealPlan.Days[4].DayId = Convert.ToInt32(cmd5.ExecuteScalar());
+
+                    cmd0 = new SqlCommand(sqlAdd5DayMealPlan, conn);
+                    cmd0.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd0.Parameters.AddWithValue("@day1", mealPlan.Days[0].DayId);
+                    cmd0.Parameters.AddWithValue("@day2", mealPlan.Days[1].DayId);
+                    cmd0.Parameters.AddWithValue("@day3", mealPlan.Days[2].DayId);
+                    cmd0.Parameters.AddWithValue("@day4", mealPlan.Days[3].DayId);
+                    cmd0.Parameters.AddWithValue("@day5", mealPlan.Days[4].DayId);
                 }
                 else if (mealPlan.Days.Count == 4)
                 {
-                    cmd = new SqlCommand(sqlAdd4DayMealPlan, conn);
-                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
-                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
-                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
-                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
-                    cmd.Parameters.AddWithValue($"@day4", mealPlan.Days[3].DayId);
+                    cmd1 = new SqlCommand(sqlAddDay, conn);
+                    cmd1.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    cmd1.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
+                    cmd1.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
+                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd1.ExecuteScalar());
+
+                    cmd2 = new SqlCommand(sqlAddDay, conn);
+                    cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[1].Breakfast.MealId);
+                    cmd2.Parameters.AddWithValue("@lunch", mealPlan.Days[1].Lunch.MealId);
+                    cmd2.Parameters.AddWithValue("@dinner", mealPlan.Days[1].Dinner.MealId);
+                    mealPlan.Days[1].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    cmd3 = new SqlCommand(sqlAddDay, conn);
+                    cmd3.Parameters.AddWithValue("@breakfast", mealPlan.Days[2].Breakfast.MealId);
+                    cmd3.Parameters.AddWithValue("@lunch", mealPlan.Days[2].Lunch.MealId);
+                    cmd3.Parameters.AddWithValue("@dinner", mealPlan.Days[21].Dinner.MealId);
+                    mealPlan.Days[2].DayId = Convert.ToInt32(cmd3.ExecuteScalar());
+
+                    cmd4 = new SqlCommand(sqlAddDay, conn);
+                    cmd4.Parameters.AddWithValue("@breakfast", mealPlan.Days[3].Breakfast.MealId);
+                    cmd4.Parameters.AddWithValue("@lunch", mealPlan.Days[3].Lunch.MealId);
+                    cmd4.Parameters.AddWithValue("@dinner", mealPlan.Days[3].Dinner.MealId);
+                    mealPlan.Days[3].DayId = Convert.ToInt32(cmd4.ExecuteScalar());
+
+                    cmd0 = new SqlCommand(sqlAdd4DayMealPlan, conn);
+                    cmd0.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd0.Parameters.AddWithValue("@day1", mealPlan.Days[0].DayId);
+                    cmd0.Parameters.AddWithValue("@day2", mealPlan.Days[1].DayId);
+                    cmd0.Parameters.AddWithValue("@day3", mealPlan.Days[2].DayId);
+                    cmd0.Parameters.AddWithValue("@day4", mealPlan.Days[3].DayId);
                 }
                 else if (mealPlan.Days.Count == 3)
                 {
-                    cmd = new SqlCommand(sqlAdd3DayMealPlan, conn);
-                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
-                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
-                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
-                    cmd.Parameters.AddWithValue($"@day3", mealPlan.Days[2].DayId);
+                    cmd1 = new SqlCommand(sqlAddDay, conn);
+                    cmd1.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    cmd1.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
+                    cmd1.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
+                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd1.ExecuteScalar());
+
+                    cmd2 = new SqlCommand(sqlAddDay, conn);
+                    cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[1].Breakfast.MealId);
+                    cmd2.Parameters.AddWithValue("@lunch", mealPlan.Days[1].Lunch.MealId);
+                    cmd2.Parameters.AddWithValue("@dinner", mealPlan.Days[1].Dinner.MealId);
+                    mealPlan.Days[1].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    cmd3 = new SqlCommand(sqlAddDay, conn);
+                    cmd3.Parameters.AddWithValue("@breakfast", mealPlan.Days[2].Breakfast.MealId);
+                    cmd3.Parameters.AddWithValue("@lunch", mealPlan.Days[2].Lunch.MealId);
+                    cmd3.Parameters.AddWithValue("@dinner", mealPlan.Days[2].Dinner.MealId);
+                    mealPlan.Days[2].DayId = Convert.ToInt32(cmd3.ExecuteScalar());
+
+                    cmd0 = new SqlCommand(sqlAdd3DayMealPlan, conn);
+                    cmd0.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd0.Parameters.AddWithValue("@day1", mealPlan.Days[0].DayId);
+                    cmd0.Parameters.AddWithValue("@day2", mealPlan.Days[1].DayId);
+                    cmd0.Parameters.AddWithValue("@day3", mealPlan.Days[2].DayId);
                 }
                 else if (mealPlan.Days.Count == 2)
                 {
-                    //cmd2 = new SqlCommand(sqlAddDay, conn);
-                    //cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
-                    //mealPlan.Days[0].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+                    cmd1 = new SqlCommand(sqlAddDay, conn);
+                    cmd1.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    cmd1.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
+                    cmd1.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
+                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd1.ExecuteScalar());
 
-                    cmd = new SqlCommand(sqlAdd2DayMealPlan, conn);
-                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
-                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
-                    cmd.Parameters.AddWithValue($"@day2", mealPlan.Days[1].DayId);
+                    cmd2 = new SqlCommand(sqlAddDay, conn);
+                    cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[1].Breakfast.MealId);
+                    cmd2.Parameters.AddWithValue("@lunch", mealPlan.Days[1].Lunch.MealId);
+                    cmd2.Parameters.AddWithValue("@dinner", mealPlan.Days[1].Dinner.MealId);
+                    mealPlan.Days[1].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+
+                    cmd0 = new SqlCommand(sqlAdd2DayMealPlan, conn);
+                    cmd0.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd0.Parameters.AddWithValue("@day1", mealPlan.Days[0].DayId);
+                    cmd0.Parameters.AddWithValue("@day2", mealPlan.Days[1].DayId);
                 }
                 else if (mealPlan.Days.Count == 1)
                 {
-                    cmd2 = new SqlCommand(sqlAddDay, conn);
-                    cmd2.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
-                    cmd2.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
-                    cmd2.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
-                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd2.ExecuteScalar());
+                    cmd1 = new SqlCommand(sqlAddDay, conn);
+                    cmd1.Parameters.AddWithValue("@breakfast", mealPlan.Days[0].Breakfast.MealId);
+                    cmd1.Parameters.AddWithValue("@lunch", mealPlan.Days[0].Lunch.MealId);
+                    cmd1.Parameters.AddWithValue("@dinner", mealPlan.Days[0].Dinner.MealId);
+                    mealPlan.Days[0].DayId = Convert.ToInt32(cmd1.ExecuteScalar());
 
-                    cmd = new SqlCommand(sqlAdd1DayMealPlan, conn);
-                    cmd.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
-                    cmd.Parameters.AddWithValue($"@day1", mealPlan.Days[0].DayId);
+                    cmd0 = new SqlCommand(sqlAdd1DayMealPlan, conn);
+                    cmd0.Parameters.AddWithValue("@mealPlanName", mealPlan.Name);
+                    cmd0.Parameters.AddWithValue("@day1", mealPlan.Days[0].DayId);
                 }
 
-
-
-                mealPlan.MealPlanId = Convert.ToInt32(cmd.ExecuteScalar());
+                mealPlan.MealPlanId = Convert.ToInt32(cmd0.ExecuteScalar());
             }
 
             try
