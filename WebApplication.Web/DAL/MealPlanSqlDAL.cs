@@ -264,18 +264,18 @@ namespace WebApplication.Web.DAL
 
                     Day day1 = GetDayInMealPlan(Convert.ToInt32(reader["day1"]));
                     mealPlan.Days.Add(day1);
-                    //Day day2 = GetDayInMealPlan(Convert.ToInt32(reader["day2"]));
-                    //mealPlan.Days.Add(day2);
-                    //Day day3 = GetDayInMealPlan(Convert.ToInt32(reader["day3"]));
-                    //mealPlan.Days.Add(day3);
-                    //Day day4 = GetDayInMealPlan(Convert.ToInt32(reader["day4"]));
-                    //mealPlan.Days.Add(day4);
-                    //Day day5 = GetDayInMealPlan(Convert.ToInt32(reader["day5"]));
-                    //mealPlan.Days.Add(day5);
-                    //Day day6 = GetDayInMealPlan(Convert.ToInt32(reader["day6"]));
-                    //mealPlan.Days.Add(day6);
-                    //Day day7 = GetDayInMealPlan(Convert.ToInt32(reader["day7"]));
-                    //mealPlan.Days.Add(day7);
+                    Day day2 = GetDayInMealPlan(Convert.ToInt32(reader["day2"]));
+                    mealPlan.Days.Add(day2);
+                    Day day3 = GetDayInMealPlan(Convert.ToInt32(reader["day3"]));
+                    mealPlan.Days.Add(day3);
+                    Day day4 = GetDayInMealPlan(Convert.ToInt32(reader["day4"]));
+                    mealPlan.Days.Add(day4);
+                    Day day5 = GetDayInMealPlan(Convert.ToInt32(reader["day5"]));
+                    mealPlan.Days.Add(day5);
+                    Day day6 = GetDayInMealPlan(Convert.ToInt32(reader["day6"]));
+                    mealPlan.Days.Add(day6);
+                    Day day7 = GetDayInMealPlan(Convert.ToInt32(reader["day7"]));
+                    mealPlan.Days.Add(day7);
 
                 }
             }
