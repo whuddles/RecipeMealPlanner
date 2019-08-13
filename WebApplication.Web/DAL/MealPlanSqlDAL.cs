@@ -14,7 +14,7 @@ namespace WebApplication.Web.DAL
         private string sqlAddMealName = @"INSERT INTO meal(meal_name) 
                                                     VALUES (@mealName);
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd7DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6, day7) 
+        private string sqlAdd7DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6, day7) 
                                                     VALUES (@mealPlanName, (SELECT day_id
                                                                             FROM day
                                                                             WHERE day_id = @day1), 
@@ -37,7 +37,7 @@ namespace WebApplication.Web.DAL
                                                                             FROM day
                                                                             WHERE day_id = @day7));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd6DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6) 
+        private string sqlAdd6DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5, day6) 
                                                     VALUES (@mealPlanName, (SELECT day_id
                                                                             FROM day
                                                                             WHERE day_id = @day1), 
@@ -57,7 +57,7 @@ namespace WebApplication.Web.DAL
                                                                             FROM day
                                                                             WHERE day_id = @day6));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd5DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5) 
+        private string sqlAdd5DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4, day5) 
                                                     VALUES (@mealPlanName, (SELECT day_id
                                                                             FROM day
                                                                             WHERE day_id = @day1), 
@@ -74,7 +74,7 @@ namespace WebApplication.Web.DAL
                                                                             FROM day
                                                                             WHERE day_id = @day5));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd4DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4) 
+        private string sqlAdd4DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3, day4) 
                                                     VALUES (@mealPlanName, (SELECT day_id
                                                                             FROM day
                                                                             WHERE day_id = @day1), 
@@ -88,7 +88,7 @@ namespace WebApplication.Web.DAL
                                                                             FROM day
                                                                             WHERE day_id = @day4));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd3DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day36) 
+        private string sqlAdd3DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day36) 
                                                     VALUES (@mealPlanName, (SELECT day_id
                                                                             FROM day
                                                                             WHERE day_id = @day1), 
@@ -99,7 +99,7 @@ namespace WebApplication.Web.DAL
                                                                             FROM day
                                                                             WHERE day_id = @day3));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd2DayMealPlan =       @"INSERT INTO mealPlan(mealPlan_name, day1, day2) 
+        private string sqlAdd2DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2) 
                                                     VALUES (@mealPlanName, (SELECT day_id
                                                                             FROM day
                                                                             WHERE day_id = @day1), 
@@ -150,7 +150,7 @@ namespace WebApplication.Web.DAL
                                                     ON r.recipe_id = mr.recipe_id
                                                     WHERE meal_id = @mealId";
 
-        private string sqlGetMealPlanById = @"SELECT mealPlan_id, mealPlan_name, day1 /*, day2, day3, day4, day5, day6, day7 */
+        private string sqlGetMealPlanById = @"SELECT mealPlan_id, mealPlan_name, day1, day2, day3, day4, day5, day6, day7
                                                     FROM mealPlan
                                                     WHERE mealPlan_id = @mealPlanId";
         private string sqlGetMealsByMealPlanId = @"SELECT meal_id, meal_name
@@ -484,7 +484,7 @@ namespace WebApplication.Web.DAL
         {
             MealPlan mealPlan = new MealPlan();
             List<Day> days = new List<Day>();
-            mealPlan.Days = days;
+            List<int?> daysList = new List<int?>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -499,24 +499,24 @@ namespace WebApplication.Web.DAL
                     mealPlan.MealPlanId = Convert.ToInt32(reader["mealPlan_id"]);
                     mealPlan.Name = Convert.ToString(reader["mealPlan_name"]);
 
-                    Day day1 = GetDayInMealPlan(Convert.ToInt32(reader["day1"]));
-                    mealPlan.Days.Add(day1);
-                    //Day day2 = GetDayInMealPlan(Convert.ToInt32(reader["day2"]));
-                    //mealPlan.Days.Add(day2);
-                    //Day day3 = GetDayInMealPlan(Convert.ToInt32(reader["day3"]));
-                    //mealPlan.Days.Add(day3);
-                    //Day day4 = GetDayInMealPlan(Convert.ToInt32(reader["day4"]));
-                    //mealPlan.Days.Add(day4);
-                    //Day day5 = GetDayInMealPlan(Convert.ToInt32(reader["day5"]));
-                    //mealPlan.Days.Add(day5);
-                    //Day day6 = GetDayInMealPlan(Convert.ToInt32(reader["day6"]));
-                    //mealPlan.Days.Add(day6);
-                    //Day day7 = GetDayInMealPlan(Convert.ToInt32(reader["day7"]));
-                    //mealPlan.Days.Add(day7);
-
+                    daysList.Add(reader["day1"] as int?);
+                    daysList.Add(reader["day2"] as int?);
+                    daysList.Add(reader["day3"] as int?);
+                    daysList.Add(reader["day4"] as int?);
+                    daysList.Add(reader["day5"] as int?);
+                    daysList.Add(reader["day6"] as int?);
+                    daysList.Add(reader["day7"] as int?);
                 }
             }
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[0])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[1])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[2])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[3])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[4])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[5])));
+            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[6])));
 
+            mealPlan.Days = days;
             return mealPlan;
         }
 
