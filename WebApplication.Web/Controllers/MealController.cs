@@ -78,12 +78,17 @@ namespace WebApplication.Web.Controllers
         public IActionResult CreatePlan(int id = 0)
         {
             MealPlanViewModel mealPlanViewModel = new MealPlanViewModel();
-            MealPlan mealPlan = mealPlanDAL.GetMealPlanById(id);
+            MealPlan mealPlan = new MealPlan();
             List<Day> days = new List<Day>();
             if(id == 0)
             {
                 mealPlan.Days = days;
             }
+            else
+            {
+                mealPlan = mealPlanDAL.GetMealPlanById(id);
+            }
+
 
             mealPlanViewModel.ModelMealPlan = mealPlan;
 
@@ -131,8 +136,9 @@ namespace WebApplication.Web.Controllers
             mealPlan.Days = days;
 
             mealPlan.MealPlanId = mealPlanDAL.CreateMealPlan(mealPlan);
+            int id = mealPlan.MealPlanId;
             //int mealPlanId = mealPlanDAL.CreateMealPlan(mealPlanViewModel.ModelMealPlan);
-            return RedirectToAction("CreatePlan"/*, new { mealPlanId }*/);
+            return RedirectToAction("MealPlanDetail", "Meal", new { id });
         }
 
         public IActionResult MealPlanDetail(int id = 2)

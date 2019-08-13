@@ -492,8 +492,8 @@ namespace WebApplication.Web.DAL
                 cmd.Parameters.AddWithValue("@mealPlanId", mealPlanId);
 
                 conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
 
+                SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     mealPlan.MealPlanId = Convert.ToInt32(reader["mealPlan_id"]);
@@ -508,6 +508,7 @@ namespace WebApplication.Web.DAL
                     daysList.Add(reader["day7"] as int?);
                 }
             }
+
             days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[0])));
             days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[1])));
             days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[2])));
@@ -575,6 +576,11 @@ namespace WebApplication.Web.DAL
                     day.Dinner.MealId = Convert.ToInt32(reader["dinner"]);
                 }
             }
+
+            day.Breakfast.Recipes = GetRecipesInMeal(day.Breakfast.MealId);
+            day.Lunch.Recipes = GetRecipesInMeal(day.Lunch.MealId);
+            day.Dinner.Recipes = GetRecipesInMeal(day.Dinner.MealId);
+
 
             return day;
         }

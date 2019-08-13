@@ -27,11 +27,11 @@ namespace WebApplication.Web.DAL
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(sqlQueryGetIngredients, connection);
-                    SqlDataReader reader = command.ExecuteReader();
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sqlQueryGetIngredients, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
