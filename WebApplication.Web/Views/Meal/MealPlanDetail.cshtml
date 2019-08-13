@@ -17,6 +17,7 @@
             @for (int j = 0; j < Model.Days[i].Breakfast.Recipes.Count; j++)
             {
             <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Breakfast.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Breakfast.Recipes[j].Name</a>
+            <br />
             }
         </div>
         <div class="lunch-container">
@@ -26,6 +27,7 @@
             @for (int j = 0; j < Model.Days[i].Lunch.Recipes.Count; j++)
             {
             <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Lunch.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Lunch.Recipes[j].Name</a>
+            <br />
             }
         </div>
         <div class="dinner-container">
@@ -35,6 +37,7 @@
             @for (int j = 0; j < Model.Days[i].Dinner.Recipes.Count; j++)
             {
             <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@Model.Days[i].Dinner.Recipes[j].RecipeId" target="_blank">@Model.Days[i].Dinner.Recipes[j].Name</a>
+            <br />
             }
         </div>       
     </div>
