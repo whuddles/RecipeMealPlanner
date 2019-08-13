@@ -197,7 +197,7 @@ namespace WebApplication.Web.Controllers
             }
             else if (authProvider.GetCurrentUser().Id != userId)
             {
-                return RedirectToAction("MyRecipes", "Recipe", new { userId = user.Id });
+                return RedirectToAction("MyMealPlans", "Meal", new { userId = user.Id });
             }
 
             List<MealPlan> userMealPlans = mealPlanDAL.GetMealPlansByUserId(userId);
