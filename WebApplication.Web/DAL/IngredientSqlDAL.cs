@@ -15,6 +15,11 @@ namespace WebApplication.Web.DAL
         private string sqlQueryGetUnits = "SELECT unit FROM unit";
         private string sqlQueryGetFractions = "SELECT fraction FROM fraction";
         private string sqlQueryGetNumbers = "SELECT number FROM number";
+        private string sqlGetIngredientsByRecipeId =  @"SELECT i.ingredient_id, i.name
+                                                        FROM ingredient i
+                                                        JOIN recipe_ingredient_unit_number_fraction r
+                                                        ON r.ingredient_id = i.ingredient_id
+                                                        WHERE r.recipe_id = @recipeId";
 
         public IngredientSqlDAL(string connectionString)
         {
@@ -202,6 +207,75 @@ namespace WebApplication.Web.DAL
                 throw;
             }
             return numbers;
+        }
+
+        public List<Ingredient> GetIngredientsByMealPlan(MealPlan mealPlan)
+        {
+            HashSet<string> ingredients = new HashSet<string>();
+            List<Ingredient> ingredientList = new List<Ingredient>();
+
+            foreach(Day day in mealPlan.Days)
+            {                
+                foreach(Recipe recipe in day.Breakfast.Recipes)
+                {
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        SqlCommand cmd = new SqlCommand(sqlGetIngredientsByRecipeId, conn);
+                        cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
+
+                        conn.Open();
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while(reader.Read())
+                        {                            
+                            ingredients.Add(Convert.ToString(reader["name"]));
+                        }                        
+                    }
+                }
+                foreach (Recipe recipe in day.Lunch.Recipes)
+                {
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        SqlCommand cmd = new SqlCommand(sqlGetIngredientsByRecipeId, conn);
+                        cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
+
+                        conn.Open();
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            ingredients.Add(Convert.ToString(reader["name"]));
+                        }
+                    }
+                }
+                foreach (Recipe recipe in day.Dinner.Recipes)
+                {
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        SqlCommand cmd = new SqlCommand(sqlGetIngredientsByRecipeId, conn);
+                        cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
+
+                        conn.Open();
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            ingredients.Add(Convert.ToString(reader["name"]));
+                        }
+                    }
+                }
+            }
+
+            foreach(String str in ingredients)
+            {
+                Ingredient ingredient = new Ingredient
+                {
+                    Name = str
+                };
+                ingredientList.Add(ingredient);
+            }
+
+            return ingredientList;
         }
     }
 }
