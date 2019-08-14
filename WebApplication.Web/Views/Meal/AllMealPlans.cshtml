@@ -22,8 +22,8 @@
         <tr>
    
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
+                <a asp-controller="Meal" asp-action="MealPlanDetail" asp-route-id="@item.MealPlanId">@Html.DisplayFor(modelItem => item.Name)</a>
+</td>
             <td>
                 <form asp-controller="Meal" asp-action="AddMealPlanToUser" asp-route-mealPlanId="@item.MealPlanId">
                     <input type="submit" value="Add To My Meal Plans" class="btn btn-success" />

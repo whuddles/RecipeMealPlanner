@@ -18,16 +18,15 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-
-            </td>
-        </tr>
-}
+                <td>
+                    <a asp-controller="Meal" asp-action="MealPlanDetail" asp-route-id="@item.MealPlanId">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                
+            </tr>
+        }
     </tbody>
 </table>

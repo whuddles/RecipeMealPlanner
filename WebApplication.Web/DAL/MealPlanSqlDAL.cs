@@ -160,6 +160,10 @@ namespace WebApplication.Web.DAL
                                                    JOIN users_mealPlan ON mealPlan.mealPlan_id = users_mealPlan.mealPlan_id
                                                    WHERE users_mealPlan.users_id = @userId";
         private string sqlQueryGetAllMealPlans = @"SELECT * from mealPlan";
+        private string sqlCheckUserAccountForMealPlan = @"SELECT COUNT(mealPlan_id) as mealPlanCount 
+                                                          FROM users_mealPlan
+                                                          WHERE users_id = @userId
+                                                          AND mealPlan_id = @mealPlanId";
 
 
 
@@ -670,7 +674,7 @@ namespace WebApplication.Web.DAL
         public List<MealPlan> GetAllMealPlans()
         {
             List<MealPlan> allMealPlans = new List<MealPlan>();
-            
+
 
             try
             {
@@ -686,7 +690,7 @@ namespace WebApplication.Web.DAL
                         allMealPlans.Add(MapRowToMealPlan(reader));
                     }
 
-                }                
+                }
 
             }
             catch
@@ -729,15 +733,36 @@ namespace WebApplication.Web.DAL
 
         public void AddMealPlanToUserAccount(int userId, int mealPlanId)
         {
+            if (!CheckUserAccountForMealPlan(mealPlanId, userId))
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand(sqlAddMealPlanToUser, conn);
+                    cmd.Parameters.AddWithValue("@mealPlanId", mealPlanId);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public bool CheckUserAccountForMealPlan(int mealPlanId, int userId)
+        {
+            bool result = false;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sqlAddMealPlanToUser, conn);
+                SqlCommand cmd = new SqlCommand(sqlCheckUserAccountForMealPlan, conn);
                 cmd.Parameters.AddWithValue("@mealPlanId", mealPlanId);
                 cmd.Parameters.AddWithValue("@userId", userId);
-
                 conn.Open();
-                cmd.ExecuteNonQuery();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = Convert.ToBoolean(reader["mealPlanCount"]);
+                }
             }
+            return result;
         }
 
         public List<MealPlan> GetMealPlansByUserId(int userId)
@@ -758,7 +783,7 @@ namespace WebApplication.Web.DAL
                 }
             }
 
-                return userMealPlans;
+            return userMealPlans;
         }
 
         //public List<Meal> GetMealsInPlan(int mealPlanId)
