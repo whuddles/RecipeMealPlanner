@@ -18,6 +18,7 @@ namespace WebApplication.Web.DAL
         List<Recipe> GetRecipesByUserId(int userId);
         void AddRecipeToUserAccount(int recipeId, int userId);
         List<Recipe> GetRecipesByIngredient(string searchString);
+        List<Recipe> GetRecipesByIngredientAndUserId(string searchString, int userId);
 
     }
 }

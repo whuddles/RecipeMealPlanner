@@ -68,6 +68,16 @@ namespace WebApplication.Web.DAL
                                                      JOIN ingredient i
                                                      ON riunf.ingredient_id = i.ingredient_id
                                                      WHERE i.name LIKE @searchString";
+        private string sqlGetRecipesByIngredientAndUserId = @"SELECT *
+                                                              FROM recipe r
+                                                              JOIN recipe_ingredient_unit_number_fraction riunf
+                                                              ON r.recipe_id = riunf.recipe_id
+                                                              JOIN ingredient i
+                                                              ON riunf.ingredient_id = i.ingredient_id
+                                                              JOIN users_recipe 
+                                                              ON r.recipe_id = users_recipe.recipe_id
+                                                              WHERE users_recipe.id = @userId
+                                                              AND i.name LIKE @searchString";
 
         public RecipeSqlDAL(string connectionString)
         {
@@ -425,9 +435,27 @@ namespace WebApplication.Web.DAL
                 {
                     recipes.Add(MapRowToRecipe(reader));
                 }
-
             }
                     return recipes;
+        }
+
+        public List<Recipe> GetRecipesByIngredientAndUserId(string searchString, int userId)
+        {
+            List<Recipe> recipes = new List<Recipe>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlGetRecipesByIngredientAndUserId, conn);
+                cmd.Parameters.AddWithValue("@searchString", "%" + searchString + "%");
+                cmd.Parameters.AddWithValue("@userId", userId);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    recipes.Add(MapRowToRecipe(reader));
+                }
+            }
+            return recipes;
         }
     }
 }
