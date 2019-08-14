@@ -61,7 +61,14 @@ namespace WebApplication.Web.DAL
                                                                     FROM users_recipe
                                                                     WHERE id = @userId
                                                                     AND recipe_id = @recipeId";
-                
+        private string sqlGetRecipesByIngredient = @"SELECT *
+                                                     FROM recipe r
+                                                     JOIN recipe_ingredient_unit_number_fraction riunf
+                                                     ON r.recipe_id = riunf.recipe_id
+                                                     JOIN ingredient i
+                                                     ON riunf.ingredient_id = i.ingredient_id
+                                                     WHERE i.name LIKE @searchString";
+
         public RecipeSqlDAL(string connectionString)
         {
             this.connectionString = connectionString;
@@ -401,6 +408,26 @@ namespace WebApplication.Web.DAL
             }
 
             return userRecipes;
+        }
+
+        public List<Recipe> GetRecipesByIngredient(string searchString)
+        {
+            List<Recipe> recipes = new List<Recipe>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlGetRecipesByIngredient, conn);
+                cmd.Parameters.AddWithValue("@searchString", "%" + searchString + "%");
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                
+                while (reader.Read())
+                {
+                    recipes.Add(MapRowToRecipe(reader));
+                }
+
+            }
+                    return recipes;
         }
     }
 }

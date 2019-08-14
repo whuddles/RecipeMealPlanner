@@ -2,13 +2,19 @@
 
 @{
     ViewData["Title"] = "AllRecipes";
+    
 }
 
 
 <h2>Recipes</h2>
 
+<form method="post" asp-controller="Recipe" asp-action="AllRecipes" >
+    <p>
+        Search for recipe by ingredient: <input type="text" name="searchString">
+        <input type="submit" value="Search" />
+    </p>
 
-<table class="table">
+</form><table class="table">
     <thead>
         <tr>
             <th>
@@ -17,8 +23,6 @@
             <th>
                 Recipe @Html.DisplayNameFor(model => model.Description)
             </th>
-
-            <th></th>
         </tr>
     </thead>
     <tbody>

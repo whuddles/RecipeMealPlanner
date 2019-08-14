@@ -152,8 +152,15 @@ namespace WebApplication.Web.Controllers
 
             List<Recipe> allRecipes = recipeDAL.GetAllRecipes();
 
-                return View(allRecipes);
-            
+                return View(allRecipes);            
+        }
+
+        [HttpPost]
+        public IActionResult AllRecipes(string searchString)
+        {           
+            List<Recipe> foundRecipes = recipeDAL.GetRecipesByIngredient(searchString);
+
+            return View(foundRecipes);
         }
 
         [HttpPost]

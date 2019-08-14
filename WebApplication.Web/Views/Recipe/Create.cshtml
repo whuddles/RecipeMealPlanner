@@ -6,6 +6,31 @@
     int elementsPerIngredient = 4;
     int elementsPerRecipe = 5;
 }
+
+<style>
+
+    #title {
+        width: 400pt;
+    }
+
+    #description {
+        width: 625pt;
+    }
+
+    #instructions {
+        height: 100pt;
+        width: 625pt;
+    }
+
+    #time {
+        width: 100pt;
+    }
+
+    #drop {
+        width: 100pt;
+    }
+</style>
+
 <hidden id="visibleIngredients" value="@(Model.ModelRecipe.Ingredients.Count)"></hidden>
 <hidden id="elementsPerIngredient" value="@elementsPerIngredient"></hidden>
 <hidden id="elementsPerRecipe" value="@elementsPerRecipe"></hidden>
@@ -20,15 +45,15 @@ else
 }
 
 <br />
-<form method="post" asp-controller="Recipe" asp-action="Create">
+<form method="post" asp-controller="Recipe" asp-action="Create" asp->
     <div>
         <label class="control-label">Title</label>
-        <input name="ModelList[0]" class="form-control recipe-name" value="@Model.ModelRecipe.Name" autofocus />
+        <input name="ModelList[0]" class="form-control recipe-name" value="@Model.ModelRecipe.Name" autofocus id="title" />
     </div>
     <br />
     <div>
         <label class="control-label">Description</label>
-        <input name="ModelList[1]" class="form-control recipe-description" value="@Model.ModelRecipe.Description" />
+        <input name="ModelList[1]" class="form-control recipe-description" value="@Model.ModelRecipe.Description" id="description" />
     </div>
     <br />
     <div id="ingredient-container">
@@ -117,16 +142,16 @@ else
     <div>
         <label class="control-label">Instructions </label>
         <span> *Begin each new instruction with a number and a close parenthesis, e.g.: 1), 2), 3)... End each step with a forward slash "/"</span>
-        <textarea name="ModelList[2]" class="form-control recipe-instructions" rows="4">@Model.ModelRecipe.Instructions</textarea>
+        <textarea id="instructions" name="ModelList[2]" class="form-control recipe-instructions" rows="4">@Model.ModelRecipe.Instructions</textarea>
     </div>
     <br />
     <div>
         <label class="control-label">Preparation Time </label><span> (in minutes)</span>
-        <input name="ModelList[3]" class="form-control recipe-preptime" value="@Model.ModelRecipe.PrepTime" />
+        <input name="ModelList[3]" class="form-control recipe-preptime" value="@Model.ModelRecipe.PrepTime" id="time" />
     </div>
     <div>
         <label class="control-label">Cook Time </label><span> (in minutes)</span>
-        <input name="ModelList[4]" class="form-control recipe-cooktime" value="@Model.ModelRecipe.CookTime" />
+        <input name="ModelList[4]" class="form-control recipe-cooktime" value="@Model.ModelRecipe.CookTime" id="time" />
     </div>
     <br />
     <div>
