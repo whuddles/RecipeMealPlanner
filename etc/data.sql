@@ -109,10 +109,6 @@ CREATE TABLE mealPlan
 	day7			int				NULL				FOREIGN KEY REFERENCES day(day_id)
 );
 
-
-
-
-
 CREATE TABLE users_mealPlan
 (
 	users_id		int				FOREIGN KEY REFERENCES users(id),
@@ -137,6 +133,20 @@ CREATE TABLE meal_recipe
 	CONSTRAINT pk_meal_recipe PRIMARY KEY CLUSTERED (meal_id, recipe_id)
 );
 
+CREATE TABLE category
+(
+	category_id		int				IDENTITY			PRIMARY KEY,
+	category_name	varchar(50)		NOT NULL
+);
+
+CREATE TABLE recipe_category
+(
+	recipe_id		int,
+	category_id		int
+
+	CONSTRAINT pk_recipe_category PRIMARY KEY CLUSTERED (recipe_id, category_id)
+);
+
 SET IDENTITY_INSERT unit ON;
 
 INSERT INTO unit (unit_id, unit) VALUES (1, '-');
@@ -156,6 +166,10 @@ INSERT INTO unit (unit_id, unit) VALUES (14, 'dash');
 INSERT INTO unit (unit_id, unit) VALUES (15, 'jigger');
 INSERT INTO unit (unit_id, unit) VALUES (16, 'splash');
 INSERT INTO unit (unit_id, unit) VALUES (17, 'part');
+INSERT INTO unit (unit_id, unit) VALUES (18, 'extra-large');
+INSERT INTO unit (unit_id, unit) VALUES (19, 'large');
+INSERT INTO unit (unit_id, unit) VALUES (20, 'medium');
+INSERT INTO unit (unit_id, unit) VALUES (21, 'small');
 
 SET IDENTITY_INSERT unit OFF;
 
@@ -181,86 +195,86 @@ INSERT INTO number (number_id, number) VALUES (16, '16');
 INSERT INTO number (number_id, number) VALUES (17, '17');
 INSERT INTO number (number_id, number) VALUES (18, '18');
 INSERT INTO number (number_id, number) VALUES (19, '19');
-INSERT INTO number (number_id, number) VALUES (20, '10');
-INSERT INTO number (number_id, number) VALUES (21, '11');
-INSERT INTO number (number_id, number) VALUES (22, '12');
-INSERT INTO number (number_id, number) VALUES (23, '13');
-INSERT INTO number (number_id, number) VALUES (24, '14');
-INSERT INTO number (number_id, number) VALUES (25, '15');
-INSERT INTO number (number_id, number) VALUES (26, '16');
-INSERT INTO number (number_id, number) VALUES (27, '17');
-INSERT INTO number (number_id, number) VALUES (28, '18');
-INSERT INTO number (number_id, number) VALUES (29, '19');
-INSERT INTO number (number_id, number) VALUES (30, '10');
-INSERT INTO number (number_id, number) VALUES (31, '11');
-INSERT INTO number (number_id, number) VALUES (32, '12');
-INSERT INTO number (number_id, number) VALUES (33, '13');
-INSERT INTO number (number_id, number) VALUES (34, '14');
-INSERT INTO number (number_id, number) VALUES (35, '15');
-INSERT INTO number (number_id, number) VALUES (36, '16');
-INSERT INTO number (number_id, number) VALUES (37, '17');
-INSERT INTO number (number_id, number) VALUES (38, '18');
-INSERT INTO number (number_id, number) VALUES (39, '19');
-INSERT INTO number (number_id, number) VALUES (40, '10');
-INSERT INTO number (number_id, number) VALUES (41, '11');
-INSERT INTO number (number_id, number) VALUES (42, '12');
-INSERT INTO number (number_id, number) VALUES (43, '13');
-INSERT INTO number (number_id, number) VALUES (44, '14');
-INSERT INTO number (number_id, number) VALUES (45, '15');
-INSERT INTO number (number_id, number) VALUES (46, '16');
-INSERT INTO number (number_id, number) VALUES (47, '17');
-INSERT INTO number (number_id, number) VALUES (48, '18');
-INSERT INTO number (number_id, number) VALUES (49, '19');
-INSERT INTO number (number_id, number) VALUES (50, '10');
-INSERT INTO number (number_id, number) VALUES (51, '11');
-INSERT INTO number (number_id, number) VALUES (52, '12');
-INSERT INTO number (number_id, number) VALUES (53, '13');
-INSERT INTO number (number_id, number) VALUES (54, '14');
-INSERT INTO number (number_id, number) VALUES (55, '15');
-INSERT INTO number (number_id, number) VALUES (56, '16');
-INSERT INTO number (number_id, number) VALUES (57, '17');
-INSERT INTO number (number_id, number) VALUES (58, '18');
-INSERT INTO number (number_id, number) VALUES (59, '19');
-INSERT INTO number (number_id, number) VALUES (60, '10');
-INSERT INTO number (number_id, number) VALUES (61, '11');
-INSERT INTO number (number_id, number) VALUES (62, '12');
-INSERT INTO number (number_id, number) VALUES (63, '13');
-INSERT INTO number (number_id, number) VALUES (64, '14');
-INSERT INTO number (number_id, number) VALUES (65, '15');
-INSERT INTO number (number_id, number) VALUES (66, '16');
-INSERT INTO number (number_id, number) VALUES (67, '17');
-INSERT INTO number (number_id, number) VALUES (68, '18');
-INSERT INTO number (number_id, number) VALUES (69, '19');
-INSERT INTO number (number_id, number) VALUES (70, '10');
-INSERT INTO number (number_id, number) VALUES (71, '11');
-INSERT INTO number (number_id, number) VALUES (72, '12');
-INSERT INTO number (number_id, number) VALUES (73, '13');
-INSERT INTO number (number_id, number) VALUES (74, '14');
-INSERT INTO number (number_id, number) VALUES (75, '15');
-INSERT INTO number (number_id, number) VALUES (76, '16');
-INSERT INTO number (number_id, number) VALUES (77, '17');
-INSERT INTO number (number_id, number) VALUES (78, '18');
-INSERT INTO number (number_id, number) VALUES (79, '19');
-INSERT INTO number (number_id, number) VALUES (80, '10');
-INSERT INTO number (number_id, number) VALUES (81, '11');
-INSERT INTO number (number_id, number) VALUES (82, '12');
-INSERT INTO number (number_id, number) VALUES (83, '13');
-INSERT INTO number (number_id, number) VALUES (84, '14');
-INSERT INTO number (number_id, number) VALUES (85, '15');
-INSERT INTO number (number_id, number) VALUES (86, '16');
-INSERT INTO number (number_id, number) VALUES (87, '17');
-INSERT INTO number (number_id, number) VALUES (88, '18');
-INSERT INTO number (number_id, number) VALUES (89, '19');
-INSERT INTO number (number_id, number) VALUES (90, '10');
-INSERT INTO number (number_id, number) VALUES (91, '11');
-INSERT INTO number (number_id, number) VALUES (92, '12');
-INSERT INTO number (number_id, number) VALUES (93, '13');
-INSERT INTO number (number_id, number) VALUES (94, '14');
-INSERT INTO number (number_id, number) VALUES (95, '15');
-INSERT INTO number (number_id, number) VALUES (96, '16');
-INSERT INTO number (number_id, number) VALUES (97, '17');
-INSERT INTO number (number_id, number) VALUES (98, '18');
-INSERT INTO number (number_id, number) VALUES (99, '19');
+INSERT INTO number (number_id, number) VALUES (20, '20');
+INSERT INTO number (number_id, number) VALUES (21, '21');
+INSERT INTO number (number_id, number) VALUES (22, '22');
+INSERT INTO number (number_id, number) VALUES (23, '23');
+INSERT INTO number (number_id, number) VALUES (24, '24');
+INSERT INTO number (number_id, number) VALUES (25, '25');
+INSERT INTO number (number_id, number) VALUES (26, '26');
+INSERT INTO number (number_id, number) VALUES (27, '27');
+INSERT INTO number (number_id, number) VALUES (28, '28');
+INSERT INTO number (number_id, number) VALUES (29, '29');
+INSERT INTO number (number_id, number) VALUES (30, '30');
+INSERT INTO number (number_id, number) VALUES (31, '31');
+INSERT INTO number (number_id, number) VALUES (32, '32');
+INSERT INTO number (number_id, number) VALUES (33, '33');
+INSERT INTO number (number_id, number) VALUES (34, '34');
+INSERT INTO number (number_id, number) VALUES (35, '35');
+INSERT INTO number (number_id, number) VALUES (36, '36');
+INSERT INTO number (number_id, number) VALUES (37, '37');
+INSERT INTO number (number_id, number) VALUES (38, '38');
+INSERT INTO number (number_id, number) VALUES (39, '39');
+INSERT INTO number (number_id, number) VALUES (40, '40');
+INSERT INTO number (number_id, number) VALUES (41, '41');
+INSERT INTO number (number_id, number) VALUES (42, '42');
+INSERT INTO number (number_id, number) VALUES (43, '43');
+INSERT INTO number (number_id, number) VALUES (44, '44');
+INSERT INTO number (number_id, number) VALUES (45, '45');
+INSERT INTO number (number_id, number) VALUES (46, '46');
+INSERT INTO number (number_id, number) VALUES (47, '47');
+INSERT INTO number (number_id, number) VALUES (48, '48');
+INSERT INTO number (number_id, number) VALUES (49, '49');
+INSERT INTO number (number_id, number) VALUES (50, '50');
+INSERT INTO number (number_id, number) VALUES (51, '51');
+INSERT INTO number (number_id, number) VALUES (52, '52');
+INSERT INTO number (number_id, number) VALUES (53, '53');
+INSERT INTO number (number_id, number) VALUES (54, '54');
+INSERT INTO number (number_id, number) VALUES (55, '55');
+INSERT INTO number (number_id, number) VALUES (56, '56');
+INSERT INTO number (number_id, number) VALUES (57, '57');
+INSERT INTO number (number_id, number) VALUES (58, '58');
+INSERT INTO number (number_id, number) VALUES (59, '59');
+INSERT INTO number (number_id, number) VALUES (60, '60');
+INSERT INTO number (number_id, number) VALUES (61, '61');
+INSERT INTO number (number_id, number) VALUES (62, '62');
+INSERT INTO number (number_id, number) VALUES (63, '63');
+INSERT INTO number (number_id, number) VALUES (64, '64');
+INSERT INTO number (number_id, number) VALUES (65, '65');
+INSERT INTO number (number_id, number) VALUES (66, '66');
+INSERT INTO number (number_id, number) VALUES (67, '67');
+INSERT INTO number (number_id, number) VALUES (68, '68');
+INSERT INTO number (number_id, number) VALUES (69, '69');
+INSERT INTO number (number_id, number) VALUES (70, '70');
+INSERT INTO number (number_id, number) VALUES (71, '71');
+INSERT INTO number (number_id, number) VALUES (72, '72');
+INSERT INTO number (number_id, number) VALUES (73, '73');
+INSERT INTO number (number_id, number) VALUES (74, '74');
+INSERT INTO number (number_id, number) VALUES (75, '75');
+INSERT INTO number (number_id, number) VALUES (76, '76');
+INSERT INTO number (number_id, number) VALUES (77, '77');
+INSERT INTO number (number_id, number) VALUES (78, '78');
+INSERT INTO number (number_id, number) VALUES (79, '79');
+INSERT INTO number (number_id, number) VALUES (80, '80');
+INSERT INTO number (number_id, number) VALUES (81, '81');
+INSERT INTO number (number_id, number) VALUES (82, '82');
+INSERT INTO number (number_id, number) VALUES (83, '83');
+INSERT INTO number (number_id, number) VALUES (84, '84');
+INSERT INTO number (number_id, number) VALUES (85, '85');
+INSERT INTO number (number_id, number) VALUES (86, '86');
+INSERT INTO number (number_id, number) VALUES (87, '87');
+INSERT INTO number (number_id, number) VALUES (88, '88');
+INSERT INTO number (number_id, number) VALUES (89, '89');
+INSERT INTO number (number_id, number) VALUES (90, '90');
+INSERT INTO number (number_id, number) VALUES (91, '91');
+INSERT INTO number (number_id, number) VALUES (92, '92');
+INSERT INTO number (number_id, number) VALUES (93, '93');
+INSERT INTO number (number_id, number) VALUES (94, '94');
+INSERT INTO number (number_id, number) VALUES (95, '95');
+INSERT INTO number (number_id, number) VALUES (96, '96');
+INSERT INTO number (number_id, number) VALUES (97, '97');
+INSERT INTO number (number_id, number) VALUES (98, '98');
+INSERT INTO number (number_id, number) VALUES (99, '99');
 
 SET IDENTITY_INSERT number OFF;
 
@@ -316,9 +330,9 @@ INSERT INTO ingredient (ingredient_id, name) VALUES (32, 'wheat bread');
 INSERT INTO ingredient (ingredient_id, name) VALUES (33, 'cocoa powder');
 INSERT INTO ingredient (ingredient_id, name) VALUES (34, 'lemon juice');
 INSERT INTO ingredient (ingredient_id, name) VALUES (35, 'lime juice');
-INSERT INTO ingredient (ingredient_id, name) VALUES (36, 'white tequila');
+INSERT INTO ingredient (ingredient_id, name) VALUES (36, '1800 Silver tequila');
 INSERT INTO ingredient (ingredient_id, name) VALUES (37, 'sweetened lime juice');
-INSERT INTO ingredient (ingredient_id, name) VALUES (38, 'orange liqueur');
+INSERT INTO ingredient (ingredient_id, name) VALUES (38, 'Gran Marnier orange liqueur');
 INSERT INTO ingredient (ingredient_id, name) VALUES (39, 'ice, cubed');
 INSERT INTO ingredient (ingredient_id, name) VALUES (40, 'ice, crushed');
 INSERT INTO ingredient (ingredient_id, name) VALUES (41, 'fresh basil');
@@ -419,8 +433,8 @@ INSERT INTO ingredient (ingredient_id, name) VALUES (135, 'breakfast sausage, li
 INSERT INTO ingredient (ingredient_id, name) VALUES (136, 'smoked paprika');
 INSERT INTO ingredient (ingredient_id, name) VALUES (137, 'ground cayenne pepper');
 INSERT INTO ingredient (ingredient_id, name) VALUES (138, 'saigon cinnamon');
---INSERT INTO ingredient (ingredient_id, name) VALUES (139, 'zzz');
---INSERT INTO ingredient (ingredient_id, name) VALUES (140, 'zzz');
+INSERT INTO ingredient (ingredient_id, name) VALUES (139, 'Maker''s Mark bourbon');
+INSERT INTO ingredient (ingredient_id, name) VALUES (140, 'Diet Dr. Pepper');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (141, 'zzz');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (142, 'zzz');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (143, 'zzz');
@@ -490,8 +504,8 @@ INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (42, 'Egg Salad', 'Travis used to make this all the time', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (43, 'Tuna Salad', 'Good alone, on toast, or in a melt', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (44, 'Peanut Butter Marshmallow Graham Crackers', 'Better than s''mores!', '', 0, 0);
-----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (45, '', '', '', 0, 0);
-----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (46, '', '', '', 0, 0);
+INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (45, 'Perfect Margarita', 'It doesn''t get any better than this.', '1) Pour 1800 Silver, Gran Marnier, and sweetened lime juice into shaker with ice. /2) Add splash of fresh lime juice. /3) Salt rim of glass. /4) Shake, pour, drink. /5) Repeat until you understand Spanish, or until you stop understanding Spanish.', 1, 0);
+INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (46, 'Dr. Maker''s Relaxer', 'Need to relax? Call the Dr.!', '1) Pour Maker''s Mark and Diet Dr. Pepper into shaker with ice. /2) Shake, pour, drink. /3) Repeat until relaxed.', 1, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (47, '', '', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (48, '', '', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (49, '', '', '', 0, 0);
@@ -508,17 +522,64 @@ INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_
 
 SET IDENTITY_INSERT recipe OFF;
 
+SET IDENTITY_INSERT category ON;
+
+INSERT INTO category(category_id, category_name) VALUES (1, '-');
+INSERT INTO category(category_id, category_name) VALUES (2, 'breakfast');
+INSERT INTO category(category_id, category_name) VALUES (3, 'lunch');
+INSERT INTO category(category_id, category_name) VALUES (4, 'dinner');
+INSERT INTO category(category_id, category_name) VALUES (5, 'dessert');
+INSERT INTO category(category_id, category_name) VALUES (6, 'Italian');
+INSERT INTO category(category_id, category_name) VALUES (7, 'East Asian');
+INSERT INTO category(category_id, category_name) VALUES (8, 'American');
+INSERT INTO category(category_id, category_name) VALUES (9, 'soul food');
+INSERT INTO category(category_id, category_name) VALUES (10,'quick');
+INSERT INTO category(category_id, category_name) VALUES (11, 'entree');
+INSERT INTO category(category_id, category_name) VALUES (12, 'meat');
+INSERT INTO category(category_id, category_name) VALUES (13, 'Vegan');
+INSERT INTO category(category_id, category_name) VALUES (14, 'vegetable');
+INSERT INTO category(category_id, category_name) VALUES (15, 'side');
+INSERT INTO category(category_id, category_name) VALUES (16, 'starch');
+INSERT INTO category(category_id, category_name) VALUES (17, 'one-dish meal');
+INSERT INTO category(category_id, category_name) VALUES (18, 'kids');
+INSERT INTO category(category_id, category_name) VALUES (19, 'fusion');
+INSERT INTO category(category_id, category_name) VALUES (20, 'snack');
+INSERT INTO category(category_id, category_name) VALUES (21, 'sauce');
+INSERT INTO category(category_id, category_name) VALUES (22, 'Mediterranean');
+INSERT INTO category(category_id, category_name) VALUES (23, 'BBQ');
+INSERT INTO category(category_id, category_name) VALUES (24, 'cocktail');
+INSERT INTO category(category_id, category_name) VALUES (25, 'Mexican');
+--INSERT INTO category(category_id, category_name) VALUES (26, 'meal');
+--INSERT INTO category(category_id, category_name) VALUES (27, 'kids');
+--INSERT INTO category(category_id, category_name) VALUES (28, 'fusion');
+--INSERT INTO category(category_id, category_name) VALUES (29, 'snack');
+
+SET IDENTITY_INSERT category OFF;
+
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 20);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 3);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 10);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (2, 2)
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (2, 11);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (22, 22);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (45, 24);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (45, 10);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (45, 17);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (46, 24);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (46, 10);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (46, 17);
+
 SET IDENTITY_INSERT meal ON;
 
 INSERT INTO meal (meal_id, meal_name) VALUES (1, 'Example Meal');
 
 SET IDENTITY_INSERT meal OFF;
 
---SET IDENTITY_INSERT users ON;
+SET IDENTITY_INSERT users ON;
 
---INSERT INTO users (id, username, password, salt, role) VALUES (1, 'admin@email.com', 'frOinLiQ0GuJuiCIRM0J84AiSKs=', '3o5HLrYGTUc=', 'User');
+INSERT INTO users (id, username, password, salt, role) VALUES (1, 'admin@email.com', 'frOinLiQ0GuJuiCIRM0J84AiSKs=', '3o5HLrYGTUc=', 'User');
 
---SET IDENTITY_INSERT users OFF;
+SET IDENTITY_INSERT users OFF;
 
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (1, 1, 2, 2, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (1, 2, 10, 2, 0);
@@ -534,6 +595,17 @@ INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, un
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 119, 10, 1, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 15, 9, 0, 2);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 14, 9, 0, 2);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 36, 11, 2, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 38, 11, 2, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 37, 11, 2, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 35, 16, 1, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 39, 11, 6, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 14, 9, 0, 2);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (46, 139, 11, 4, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (46, 140, 11, 4, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (46, 39, 11, 6, 0);
 
+ALTER TABLE recipe_category ADD FOREIGN KEY (recipe_id) REFERENCES recipe(recipe_id)
+ALTER TABLE recipe_category ADD FOREIGN KEY (category_id) REFERENCES category(category_id)
 
 COMMIT TRANSACTION;

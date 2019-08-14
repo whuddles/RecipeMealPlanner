@@ -2,9 +2,11 @@
 
 @{
     ViewData["Title"] = "Create";
-    int count = ViewBag.IngredientCount;
+    int ingredientCount = ViewBag.IngredientCount;
+    int categoryCount = ViewBag.CategoryCount;
     int elementsPerIngredient = 4;
     int elementsPerRecipe = 5;
+    int maxCategories = 3;
 }
 
 <style>
@@ -25,12 +27,13 @@
     #time {
         max-width: 100pt;
     }
-
 </style>
 
 <hidden id="visibleIngredients" value="@(Model.ModelRecipe.Ingredients.Count)"></hidden>
+<hidden id="visibleCategories" value="@(Model.ModelRecipe.Categories.Count)"></hidden>
 <hidden id="elementsPerIngredient" value="@elementsPerIngredient"></hidden>
 <hidden id="elementsPerRecipe" value="@elementsPerRecipe"></hidden>
+<hidden id="maxCategories" value="@maxCategories"></hidden>
 
 @if (Model.ModelRecipe.RecipeId == 0)
 {
@@ -63,9 +66,9 @@ else
             <label class="col-sm-9">Ingredient Name</label>
         </div>
         <div class="ingredient-description form-inline">
-            @for (int i = 0; i < count; i++)
+            @for (int i = 0; i < ingredientCount; i++)
             {
-                <select class="ingredient-number-dropdown col-sm-1" name="ModelList[@((i * elementsPerIngredient) + elementsPerRecipe)]">
+                <select class="ingredient-number-dropdown col-sm-1" name="ModelList[@((i * elementsPerIngredient) + maxCategories + elementsPerRecipe)]">
                     @for (int j = 0; j < ViewBag.Numbers.Count; j++)
                     {
                         if (Model.ModelRecipe.Ingredients[i].Number == ViewBag.Numbers[j])
@@ -78,7 +81,7 @@ else
                         }
                     }
                 </select>
-                <select class="ingredient-fraction-dropdown col-sm-1" name="ModelList[@((i * elementsPerIngredient) + elementsPerRecipe + 1)]">
+                <select class="ingredient-fraction-dropdown col-sm-1" name="ModelList[@((i * elementsPerIngredient) + maxCategories + elementsPerRecipe + 1)]">
                     @for (int j = 0; j < ViewBag.Fractions.Count; j++)
                     {
                         if (Model.ModelRecipe.Ingredients[i].Fraction == ViewBag.Fractions[j])
@@ -91,7 +94,7 @@ else
                         }
                     }
                 </select>
-                <select class="ingredient-unit-dropdown col-sm-1" name="ModelList[@((i * elementsPerIngredient) + elementsPerRecipe + 2)]">
+                <select class="ingredient-unit-dropdown col-sm-1" name="ModelList[@((i * elementsPerIngredient) + maxCategories + elementsPerRecipe + 2)]">
                     @for (int j = 0; j < ViewBag.Units.Count; j++)
                     {
                         if (Model.ModelRecipe.Ingredients[i].Unit == ViewBag.Units[j])
@@ -104,7 +107,7 @@ else
                         }
                     }
                 </select>
-                <select class="ingredient-name-dropdown col-sm-9" name="ModelList[@((i * elementsPerIngredient) + elementsPerRecipe + 3)]">
+                <select class="ingredient-name-dropdown col-sm-9" name="ModelList[@((i * elementsPerIngredient) + maxCategories + elementsPerRecipe + 3)]">
                     @for (int j = 0; j < ViewBag.ExistingIngredients.Count; j++)
                     {
                         if (Model.ModelRecipe.Ingredients[i].Name == ViewBag.ExistingIngredients[j].Name)
@@ -151,12 +154,33 @@ else
         <input name="ModelList[4]" class="form-control recipe-cooktime" value="@Model.ModelRecipe.CookTime" id="time" />
     </div>
     <br />
+    <div id="category-container">
+        <label>Categories</label>
+        <div class="category-name form-inline">
+            @for (int i = 0; i < maxCategories; i++)
+            {
+                <select class="category-dropdown col-sm-2" name="ModelList[@(i + elementsPerRecipe)]">
+                    @for (int j = 0; j < ViewBag.ExistingCategories.Count; j++)
+                    {
+                        if (Model.ModelRecipe.Categories[i] == ViewBag.ExistingCategories[j])
+                        {
+                            <option selected>@ViewBag.ExistingCategories[j]</option>
+                        }
+                        else
+                        {
+                            <option>@ViewBag.ExistingCategories[j]</option>
+                        }
+                    }
+                </select>
+            }
+        </div>
+    </div>
     <div>
         <input type="submit" class="btn btn-primary submit-button" />
     </div>
 </form>
 
-<template>
+<template id="ingredient-template">
     <div class="ingredient-description form-inline">
         <select class="ingredient-number-dropdown col-sm-1">
             @for (int i = 0; i < ViewBag.Numbers.Count; i++)

@@ -78,6 +78,19 @@ namespace WebApplication.Web.DAL
                                                               ON r.recipe_id = users_recipe.recipe_id
                                                               WHERE users_recipe.id = @userId
                                                               AND i.name LIKE @searchString";
+        private string sqlGetCategoriesByRecipeId =   @"SELECT category_name
+                                                        FROM category c
+                                                        JOIN recipe_category r
+                                                        ON c.category_id = r.category_id
+                                                        WHERE r.recipe_id = @recipeId";
+        private string sqlUpdateRecipeCategory = @"INSERT INTO recipe_category(recipe_id, category_id)
+                                                   VALUES ((SELECT recipe_id
+                                                            FROM recipe
+                                                            WHERE recipe_id = @recipeId),
+                                                           (SELECT category_id
+                                                            FROM category
+                                                            WHERE category_name = @categoryName))";
+        private string sqlGetAllCategories = @"SELECT category_name FROM category";
 
         public RecipeSqlDAL(string connectionString)
         {
@@ -118,6 +131,7 @@ namespace WebApplication.Web.DAL
             if (result)
             {
                 UpdateCompositeTable(recipe);
+                UpdateRecipeCategories(recipe.Categories, recipe.RecipeId);
             }
 
             return recipe.RecipeId;
@@ -221,11 +235,35 @@ namespace WebApplication.Web.DAL
             }
         }
 
+        public void UpdateRecipeCategories(List<string> categories, int recipeId)
+        {
+            foreach(string str in categories)
+            {
+                try
+                {
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        SqlCommand cmd = new SqlCommand(sqlUpdateRecipeCategory, conn);
+                        cmd.Parameters.AddWithValue("@recipeId", recipeId);
+                        cmd.Parameters.AddWithValue("@categoryName", str);
+
+                        conn.Open();
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    
+                }
+            }
+        }
+
         public Recipe GetRecipeById(int recipeId)
         {
             Recipe recipe = new Recipe();
-
             List<Ingredient> ingredients = new List<Ingredient>();
+            List<string> categories = new List<string>();
 
             try
             {
@@ -245,18 +283,33 @@ namespace WebApplication.Web.DAL
                         recipe.CookTime = Convert.ToInt32(reader["cook_time"]);
                         recipe.Description = Convert.ToString(reader["description"]);
                     }
-                    conn.Close();
+                    reader.Close();
 
                     SqlCommand cmd2 = new SqlCommand(sqlQueryGetIngredientsByRecipeId, conn);
                     cmd2.Parameters.AddWithValue("@recipeId", recipeId);
-                    conn.Open();
-                    reader = cmd2.ExecuteReader();
 
+                    reader = cmd2.ExecuteReader();
                     while (reader.Read())
                     {
                         ingredients.Add(MapRowToIngredient(reader));
                     }
+                    reader.Close();
 
+                    SqlCommand cmd3 = new SqlCommand(sqlGetCategoriesByRecipeId, conn);
+                    cmd3.Parameters.AddWithValue("@recipeId", recipeId);
+
+                    reader = cmd3.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        categories.Add(Convert.ToString(reader["category_name"]));
+                    }
+
+                    while(categories.Count < 3)
+                    {
+                        categories.Add("-");
+                    }
+
+                    recipe.Categories = categories;
                     recipe.Ingredients = ingredients;
                     recipe.TotalTime = recipe.PrepTime + recipe.CookTime;
                     recipe.RecipeId = recipeId;
@@ -313,6 +366,26 @@ namespace WebApplication.Web.DAL
             }
 
             return allRecipes;
+        }
+
+        public List<string> GetAllCategories()
+        {
+            List<string> categories = new List<string>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlGetAllCategories, conn);
+
+                conn.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while(reader.Read())
+                {
+                    categories.Add(Convert.ToString(reader["category_name"]));
+                }
+            }
+
+                return categories;
         }
 
         public Recipe MapRowToRecipe(SqlDataReader reader)

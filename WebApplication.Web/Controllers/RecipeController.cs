@@ -43,6 +43,7 @@ namespace WebApplication.Web.Controllers
             string recipeStatus = HttpContext.Session.GetString("NewRecipeStatus");
             ViewBag.RecipeStatus = recipeStatus;
 
+            ViewBag.ExistingCategories = recipeDAL.GetAllCategories();
             ViewBag.ExistingIngredients = ingredientDAL.GetIngredients();
             ViewBag.Units = ingredientDAL.GetUnits();
             ViewBag.Numbers = ingredientDAL.GetNumbers();
@@ -52,6 +53,7 @@ namespace WebApplication.Web.Controllers
             RecipeViewModel viewModel = new RecipeViewModel();
             viewModel.ModelRecipe = recipe;
             ViewBag.IngredientCount = recipe.Ingredients.Count;
+            ViewBag.CategoryCount = recipe.Categories.Count;
 
             return View("Create", viewModel);
         }
@@ -69,16 +71,22 @@ namespace WebApplication.Web.Controllers
             List<Ingredient> ingredientList = new List<Ingredient>();
             List<string> ingredientStrArr = viewModel.ModelList;
 
+            List<string> categories = new List<string>();
+            categories.Add(ingredientStrArr[5]);
+            categories.Add(ingredientStrArr[6]);
+            categories.Add(ingredientStrArr[7]);
+
             Recipe recipe = new Recipe
             {
                 Name = ingredientStrArr[0],
                 Description = ingredientStrArr[1],
                 Instructions = ingredientStrArr[2],
                 PrepTime = Convert.ToInt32(ingredientStrArr[3]),
-                CookTime = Convert.ToInt32(ingredientStrArr[4])
+                CookTime = Convert.ToInt32(ingredientStrArr[4]),
+                Categories = categories
             };
 
-            for (int i = 5; i < ingredientStrArr.Count; i += 4)
+            for (int i = 8; i < ingredientStrArr.Count; i += 4)
             {
                 if(ingredientStrArr[i] != "**delete**")
                 {

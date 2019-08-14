@@ -15,6 +15,7 @@ namespace WebApplication.Web.DAL
         Recipe GetRecipeById(int recipeId);
 
         List<Recipe> GetAllRecipes();
+        List<string> GetAllCategories();
         List<Recipe> GetRecipesByUserId(int userId);
         void AddRecipeToUserAccount(int recipeId, int userId);
         List<Recipe> GetRecipesByIngredient(string searchString);

@@ -7,16 +7,17 @@
 
 $(function () {
     $(".ingredient-name-dropdown").chosen();
+    $(".category-dropdown").chosen();
 });
 
 let ingredientCount = parseInt($("#visibleIngredients").attr("value"));
 let elementsPerIngredient = parseInt($("#elementsPerIngredient").attr("value"));
-let elementsPerRecipe = parseInt($("#elementsPerRecipe").attr("value"));
+let elementsPerRecipe = parseInt($("#elementsPerRecipe").attr("value")) + parseInt($("#maxCategories").attr("value"));
 let extraIngredientIndex = ingredientCount * elementsPerIngredient + elementsPerRecipe;
 
 function addNextIngredientField() {
     let ingredientContainer = document.getElementById("ingredient-container");
-    let ingredient = document.importNode(document.querySelector("template").content, true);
+    let ingredient = document.importNode(document.querySelector("#ingredient-template").content, true);
 
     ingredientCount++;
 
