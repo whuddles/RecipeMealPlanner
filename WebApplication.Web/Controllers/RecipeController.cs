@@ -190,5 +190,16 @@ namespace WebApplication.Web.Controllers
 
             return View(userRecipes);
         }
+
+        [HttpPost]
+        public IActionResult MyRecipes(string searchString)
+        {
+            User user = authProvider.GetCurrentUser();            
+            
+            List<Recipe> foundRecipes = recipeDAL.GetRecipesByIngredientAndUserId(searchString, user.Id);
+
+            return View(foundRecipes);
+        }
+
     }
 }

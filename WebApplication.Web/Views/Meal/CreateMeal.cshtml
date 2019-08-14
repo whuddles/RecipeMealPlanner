@@ -9,7 +9,7 @@
 
 <style>
     #title {
-        width: 400pt;
+        max-width: 400pt;
     }
 </style>
 
@@ -17,7 +17,7 @@
 <hidden id="elementsPerMeal" value="@elementsPerMeal"></hidden>
 <hidden id="elementsPerRecipe" value="@elementsPerRecipe"></hidden>
 
-@if(Model.ModelMeal.MealId == 0)
+@if (Model.ModelMeal.MealId == 0)
 {
     <h2>Create a New Meal</h2>
 }
