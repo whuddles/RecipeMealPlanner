@@ -187,5 +187,14 @@ namespace WebApplication.Web.Controllers
 
             return View(userRecipes);
         }
+
+        [HttpPost]
+        public IActionResult MyRecipes(int userId, string searchString)
+        {            
+            List<Recipe> foundRecipes = recipeDAL.GetRecipesByIngredientAndUserId(searchString, userId);
+
+            return View(foundRecipes);
+        }
+
     }
 }
