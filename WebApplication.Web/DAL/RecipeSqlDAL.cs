@@ -444,7 +444,7 @@ namespace WebApplication.Web.DAL
             List<Recipe> recipes = new List<Recipe>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(sqlGetRecipesByIngredient, conn);
+                SqlCommand cmd = new SqlCommand(sqlGetRecipesByIngredientAndUserId, conn);
                 cmd.Parameters.AddWithValue("@searchString", "%" + searchString + "%");
                 cmd.Parameters.AddWithValue("@userId", userId);
                 conn.Open();

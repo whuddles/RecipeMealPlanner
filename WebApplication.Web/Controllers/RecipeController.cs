@@ -192,9 +192,11 @@ namespace WebApplication.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult MyRecipes(int userId, string searchString)
-        {            
-            List<Recipe> foundRecipes = recipeDAL.GetRecipesByIngredientAndUserId(searchString, userId);
+        public IActionResult MyRecipes(string searchString)
+        {
+            User user = authProvider.GetCurrentUser();            
+            
+            List<Recipe> foundRecipes = recipeDAL.GetRecipesByIngredientAndUserId(searchString, user.Id);
 
             return View(foundRecipes);
         }
