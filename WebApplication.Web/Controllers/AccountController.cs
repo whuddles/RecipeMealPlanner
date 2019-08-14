@@ -31,7 +31,7 @@ namespace WebApplication.Web.Controllers
         {
             if (authProvider.GetCurrentUser() != null)
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
@@ -73,7 +73,7 @@ namespace WebApplication.Web.Controllers
         {
             if (authProvider.GetCurrentUser() != null)
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
