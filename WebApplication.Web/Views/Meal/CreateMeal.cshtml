@@ -6,13 +6,20 @@
     int elementsPerMeal = 1;
     int elementsPerRecipe = 1;
 }
+
+<style>
+    #title {
+        width: 400pt;
+    }
+</style>
+
 <hidden id="visibleRecipes" value="@(Model.ModelMeal.Recipes.Count)"></hidden>
 <hidden id="elementsPerMeal" value="@elementsPerMeal"></hidden>
 <hidden id="elementsPerRecipe" value="@elementsPerRecipe"></hidden>
 
 @if(Model.ModelMeal.MealId == 0)
 {
-    <h2>Create a New Meal</h2>    
+    <h2>Create a New Meal</h2>
 }
 else
 {
@@ -25,7 +32,7 @@ else
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label class="control-label">Meal Name</label>
-        <input name="ModelList[0]" class="form-control" value="@Model.ModelMeal.Name" />        
+        <input id="title" class="form-control" value="@Model.ModelMeal.Name" />
     </div>
     <hr />
     <div id="recipe-container">

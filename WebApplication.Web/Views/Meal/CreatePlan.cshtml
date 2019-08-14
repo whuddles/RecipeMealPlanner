@@ -6,6 +6,13 @@
     int elementsPerPlan = 1;
     int elementsPerDay = 3;
 }
+
+<style>
+    #title {
+        width: 400pt;
+    }
+</style>
+
 <hidden id="visibleDays" value="@planDays"></hidden>
 <hidden id="elementsPerPlan" value="@elementsPerPlan"></hidden>
 <hidden id="elementsPerDay" value="@elementsPerDay"></hidden>
@@ -32,7 +39,7 @@ else
     }
     <div class="form-group">
         <label class="control-label"></label>
-        <input class="form-control mealPlan-name" value="@Model.ModelMealPlan.Name" name="ModelList[0]" />
+        <input id="title" class="form-control mealPlan-name" value="@Model.ModelMealPlan.Name" name="ModelList[0]" />
         <span asp-validation-for="ModelMealPlan.Name" class="text-danger"></span>
     </div>
 
