@@ -32,7 +32,7 @@ else
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label class="control-label">Meal Name</label>
-        <input id="title" class="form-control" value="@Model.ModelMeal.Name" />
+        <input id="title" class="form-control" value="@Model.ModelMeal.Name" name="ModelList[0]"/>
     </div>
     <hr />
     <div id="recipe-container">
