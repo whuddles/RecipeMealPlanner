@@ -5,6 +5,7 @@
 
 
 
+
 @if (Model == null)
 {
     <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
@@ -12,9 +13,32 @@
 }
 else
 {
-    <li><a asp-area="" asp-controller="Recipe" asp-action="AllRecipes">View All Recipes</a></li>
-    <li><a asp-area="" asp-controller="Recipe" asp-action="MyRecipes">View My Recipes</a></li>
-    <li><a asp-area="" asp-controller="Recipe" asp-action="Create">Create Recipe</a></li>
-    <li><a asp-area="" asp-controller="Account" asp-action="Index">Welcome @Model.Username</a></li>
-    <li><a asp-area="" asp-controller="Account" asp-action="Logoff">Logout</a></li>
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Recipes
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a asp-area="" asp-controller="Recipe" asp-action="Create">Create a Recipe</a></li>
+                        <li><a asp-area="" asp-controller="Recipe" asp-action="AllRecipes">All Recipes</a></li>
+                        <li><a asp-area="" asp-controller="Recipe" asp-action="MyRecipes">My Recipes</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Meals
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a asp-area="" asp-controller="Meal" asp-action="CreateMeal">Create a Meal</a></li>
+                        <li><a asp-area="" asp-controller="Meal" asp-action="CreatePlan">Create a Meal Plan</a></li>
+                        <li><a asp-area="" asp-controller="Meal" asp-action="AllMealPlans">All Meal Plans</a></li>
+                        <li><a asp-area="" asp-controller="Meal" asp-action="MyMealPlans">My Meal Plans</a></li>
+                    </ul>
+                </li>
+                <li><a asp-area="" asp-controller="Account" asp-action="Logoff">Logout</a></li>
+            </ul>
+            </div>
 }
