@@ -80,15 +80,18 @@ namespace WebApplication.Web.Controllers
 
             for (int i = 5; i < ingredientStrArr.Count; i += 4)
             {
-                Ingredient ingredient = new Ingredient
+                if(ingredientStrArr[i] != "**delete**")
                 {
-                    Number = ingredientStrArr[i],
-                    Fraction = ingredientStrArr[i + 1],
-                    Unit = ingredientStrArr[i + 2],
-                    Name = ingredientStrArr[i + 3]
-                };
+                    Ingredient ingredient = new Ingredient
+                    {
+                        Number = ingredientStrArr[i],
+                        Fraction = ingredientStrArr[i + 1],
+                        Unit = ingredientStrArr[i + 2],
+                        Name = ingredientStrArr[i + 3]
+                    };
 
-                ingredientList.Add(ingredient);
+                    ingredientList.Add(ingredient);
+                }
             }
 
             recipe.Ingredients = ingredientList;

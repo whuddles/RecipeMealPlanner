@@ -35,18 +35,28 @@ function addNextIngredientField() {
     ingredientContainer.appendChild(document.createElement("br"));
     ingredientContainer.appendChild(ingredient);
     //$("#ingredient-container").append('<div class="ingredient-description form-inline"><select class="ingredient-number-dropdown col-sm-1" id="IngredientNumber' + ingredientCount + '" name="Model.Ingredients[' + ingredientCount + '].Number"><option selected disabled >...</option>@for (int j = 0; j < ViewBag.Numbers.Count; j++){<option>@ViewBag.Numbers[j]</option>}</select ><select class="ingredient-fraction-dropdown col-sm-1" id="IngredientFraction' + ingredientCount + '" name="Model.Ingredients[' + ingredientCount + '].Fraction"><option selected disabled>...</option>\n@for (int j = 0; j < ViewBag.Fractions.Count; j++)\n{<option>@ViewBag.Fractions[j]</option>}</select><select class="ingredient-unit-dropdown col-sm-1" id="IngredientUnit' + ingredientCount + '" name="Model.Ingredients[' + ingredientCount + '].Unit"><option selected disabled>...</option>\n@for (int j = 0; j < ViewBag.Units.Count; j++)\n{<option>@ViewBag.Units[j]</option>}</select><select class= "ingredient-name-dropdown col-sm-8" id="IngredientName' + ingredientCount + '" name="Model.Ingredients[' + ingredientCount + '].Name"><option selected disabled>Choose an ingredient...</option>\n@for (int j = 0; j < ViewBag.ExistingIngredients.Count; j++)\n{<option>@ViewBag.ExistingIngredients[j].Name</option>}</select><button class="btn btn-danger ingredient-delete-button col-sm-1">Delete Ingredient</button></ div>');
-    $(".ingredient-name-dropdown").chosen();
+    $(".ingredient-name-dropdown").chosen();    
 }
 
 if (document.getElementById("nextIngredientButton") != null) {
     let nextIngredientButton = document.getElementById("nextIngredientButton");
-
+    
     nextIngredientButton.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
         addNextIngredientField();
     });
+    
+    // Remove ingredient button       
+    $(document).on("click", ".removeIngredientButton", function removeIngredientField(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $(this).parent().hide();
+            $(this).parent().children().children().addClass("toDelete");
+            $(".toDelete").attr("value", "**delete**");        
+    });
 }
+
 
 // Create Recipe - End
 
