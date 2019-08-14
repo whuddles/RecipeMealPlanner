@@ -117,7 +117,7 @@ namespace WebApplication.Web.Controllers
         [HttpPost]
         public IActionResult AddIngredient(string newIngredient)
         {
-            string[] newIngredients = newIngredient.Split(", ");
+            string[] newIngredients = newIngredient.Split("; ");
             List<Ingredient> existingIngredients = ingredientDAL.GetIngredients();
             string[] existingIngredientsArr = new string[existingIngredients.Count()];
             for(int i = 0; i < existingIngredients.Count(); i++)
