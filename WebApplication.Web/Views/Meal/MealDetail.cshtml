@@ -1,28 +1,50 @@
-﻿@model IEnumerable<WebApplication.Web.Models.Recipe>
+﻿@model WebApplication.Web.Models.Meal
 
 @{
-    ViewData["Title"] = "SearchCategoryResults";
-
+    ViewData["Title"] = "MealDetail";
 }
 
-<h2>Search Results</h2>
+<style>
+
+
+    #modify {
+        width: auto;
+        height: auto;
+    }
+
+    #add {
+        margin-left: 15px;
+        width: auto;
+        height: auto;
+    }
+
+    #container {
+        display: inline-flex;
+        top: 50%;
+        left: 50%;
+    }
+</style>
+
+
+<h1>Meal Details for @Model.Name</h1>
+
+<h3>Recipes</h3>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                Recipe @Html.DisplayNameFor(model => model.Name)
+                Recipe @Html.DisplayNameFor(model => model.Recipes[0].Name)
             </th>
             <th>
-                Recipe @Html.DisplayNameFor(model => model.Description)
+                Recipe @Html.DisplayNameFor(model => model.Recipes[0].Description)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Recipes)
         {
             <tr>
-
                 <td>
                     <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@item.RecipeId" target="_blank">@Html.DisplayFor(modelItem => item.Name)</a>
                 </td>
@@ -38,7 +60,3 @@
         }
     </tbody>
 </table>
-
-<br />
-
-<a asp-controller="Recipe" asp-action="AllRecipes">Return To All Recipes</a>

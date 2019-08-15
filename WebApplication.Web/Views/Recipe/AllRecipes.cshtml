@@ -2,25 +2,28 @@
 
 @{
     ViewData["Title"] = "AllRecipes";
-    
+
 }
 
 
-<h2>Recipes</h2>
-
+<h2>All Recipes</h2>
+<div class="form-inline">
     <form method="post" asp-controller="Recipe" asp-action="SearchIngredientResults">
+
         <p>
-            Search recipes by Ingredient: <input type="text" name="searchByIngredient" required="required">
-            <input type="submit" value="Search" />
+            Search recipes by Ingredient (bread, egg, garlic, etc.): <input type="text" name="searchByIngredient" required="required" class="form-control">
+            <input type="submit" class="btn btn-primary" value="Search" />
         </p>
+
     </form>
 
     <form method="post" asp-controller="Recipe" asp-action="SearchCategoryResults">
         <p>
-            Search recipes by Category: <input type="text" name="searchByCategory" required="required">
-            <input type="submit" value="Search" />
+            Search recipes by Category (Indian, vegan, quick, etc.): <input type="text" name="searchByCategory" required="required" class="form-control">
+            <input type="submit" class="btn btn-primary" value="Search" />
         </p>
     </form>
+</div>
 
 
 
@@ -41,7 +44,7 @@
             <tr>
 
                 <td>
-                    <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@item.RecipeId">@Html.DisplayFor(modelItem => item.Name)</a>
+                    <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@item.RecipeId" target="_blank">@Html.DisplayFor(modelItem => item.Name)</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)

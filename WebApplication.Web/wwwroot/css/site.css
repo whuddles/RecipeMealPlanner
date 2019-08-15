@@ -3,7 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color:ghostwhite;
+    background-color:beige;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
@@ -36,3 +36,16 @@ body {
 ul {
     list-style-type: none;
 }
+
+.navbar-inverse {
+    background-color:darkgoldenrod !important;
+    border-bottom-color: darkgoldenrod !important;
+}
+
+a.mynav {
+    background-color: #28a745 !important;
+}
+
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
+    color: #ffffff;
+} 
