@@ -88,7 +88,7 @@ namespace WebApplication.Web.DAL
                                                                             FROM day
                                                                             WHERE day_id = @day4));
                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAdd3DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day36) 
+        private string sqlAdd3DayMealPlan = @"INSERT INTO mealPlan(mealPlan_name, day1, day2, day3) 
                                                     VALUES (@mealPlanName, (SELECT day_id
                                                                             FROM day
                                                                             WHERE day_id = @day1), 
@@ -345,7 +345,7 @@ namespace WebApplication.Web.DAL
                     cmd3 = new SqlCommand(sqlAddDay, conn);
                     cmd3.Parameters.AddWithValue("@breakfast", mealPlan.Days[2].Breakfast.MealId);
                     cmd3.Parameters.AddWithValue("@lunch", mealPlan.Days[2].Lunch.MealId);
-                    cmd3.Parameters.AddWithValue("@dinner", mealPlan.Days[21].Dinner.MealId);
+                    cmd3.Parameters.AddWithValue("@dinner", mealPlan.Days[2].Dinner.MealId);
                     mealPlan.Days[2].DayId = Convert.ToInt32(cmd3.ExecuteScalar());
 
                     cmd4 = new SqlCommand(sqlAddDay, conn);
@@ -520,13 +520,34 @@ namespace WebApplication.Web.DAL
                 }
             }
 
-            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[0])));
-            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[1])));
-            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[2])));
-            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[3])));
-            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[4])));
-            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[5])));
-            days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[6])));
+            if(daysList[0] != null)
+            {
+                days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[0])));
+            }
+            if (daysList[1] != null)
+            {
+                days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[1])));
+            }
+            if (daysList[2] != null)
+            {
+                days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[2])));
+            }
+            if (daysList[3] != null)
+            {
+                days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[3])));
+            }
+            if (daysList[4] != null)
+            {
+                days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[4])));
+            }
+            if (daysList[5] != null)
+            {
+                days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[5])));
+            }            
+            if (daysList[6] != null)
+            {
+                days.Add(GetDayInMealPlan(Convert.ToInt32(daysList[6])));
+            }
 
             mealPlan.Days = days;
             return mealPlan;
