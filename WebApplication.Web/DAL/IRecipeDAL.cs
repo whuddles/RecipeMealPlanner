@@ -21,6 +21,6 @@ namespace WebApplication.Web.DAL
         List<Recipe> GetRecipesByIngredient(string searchString);
         List<Recipe> GetRecipesByIngredientAndUserId(string searchString, int userId);
         List<Recipe> GetRecipesByCategory(string searchString);
-
+        List<Recipe> GetRecipesByCategoryAndUserId(string searchString, int userId);
     }
 }

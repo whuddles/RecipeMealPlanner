@@ -1,28 +1,11 @@
 ﻿@model IEnumerable<WebApplication.Web.Models.Recipe>
 
 @{
-    ViewData["Title"] = "AllRecipes";
-    
+    ViewData["Title"] = "SearchMyRecipesByCategoryResults";
+
 }
 
-
-<h2>Recipes</h2>
-
-    <form method="post" asp-controller="Recipe" asp-action="SearchIngredientResults">
-        <p>
-            Search recipes by Ingredient (bread, egg, garlic, etc.): <input type="text" name="searchByIngredient" required="required">
-            <input type="submit" value="Search" />
-        </p>
-    </form>
-
-    <form method="post" asp-controller="Recipe" asp-action="SearchCategoryResults">
-        <p>
-            Search recipes by Category (Indian, vegan, quick, etc.): <input type="text" name="searchByCategory" required="required">
-            <input type="submit" value="Search" />
-        </p>
-    </form>
-
-
+<h2>Search Results</h2>
 
 <table class="table">
     <thead>
@@ -55,3 +38,7 @@
         }
     </tbody>
 </table>
+
+<br />
+
+<a asp-controller="Recipe" asp-action="MyRecipes">Return To My Recipes</a>
