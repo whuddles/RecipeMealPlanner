@@ -170,8 +170,24 @@ INSERT INTO unit (unit_id, unit) VALUES (18, 'extra-large');
 INSERT INTO unit (unit_id, unit) VALUES (19, 'large');
 INSERT INTO unit (unit_id, unit) VALUES (20, 'medium');
 INSERT INTO unit (unit_id, unit) VALUES (21, 'small');
+INSERT INTO unit (unit_id, unit) VALUES (22, 'leaf(ves)');
 
 SET IDENTITY_INSERT unit OFF;
+
+SET IDENTITY_INSERT fraction ON
+
+INSERT INTO fraction (fraction_id, fraction) VALUES (0, '-');
+INSERT INTO fraction (fraction_id, fraction) VALUES (1, '1/8');
+INSERT INTO fraction (fraction_id, fraction) VALUES (2, '1/4');
+INSERT INTO fraction (fraction_id, fraction) VALUES (3, '1/3');
+INSERT INTO fraction (fraction_id, fraction) VALUES (4, '3/8');
+INSERT INTO fraction (fraction_id, fraction) VALUES (5, '1/2');
+INSERT INTO fraction (fraction_id, fraction) VALUES (6, '5/8');
+INSERT INTO fraction (fraction_id, fraction) VALUES (7, '2/3');
+INSERT INTO fraction (fraction_id, fraction) VALUES (8, '3/4');
+INSERT INTO fraction (fraction_id, fraction) VALUES (9, '7/8');
+
+SET IDENTITY_INSERT fraction OFF
 
 SET IDENTITY_INSERT number ON;
 
@@ -277,21 +293,6 @@ INSERT INTO number (number_id, number) VALUES (98, '98');
 INSERT INTO number (number_id, number) VALUES (99, '99');
 
 SET IDENTITY_INSERT number OFF;
-
-SET IDENTITY_INSERT fraction ON
-
-INSERT INTO fraction (fraction_id, fraction) VALUES (0, '-');
-INSERT INTO fraction (fraction_id, fraction) VALUES (1, '1/8');
-INSERT INTO fraction (fraction_id, fraction) VALUES (2, '1/4');
-INSERT INTO fraction (fraction_id, fraction) VALUES (3, '1/3');
-INSERT INTO fraction (fraction_id, fraction) VALUES (4, '3/8');
-INSERT INTO fraction (fraction_id, fraction) VALUES (5, '1/2');
-INSERT INTO fraction (fraction_id, fraction) VALUES (6, '5/8');
-INSERT INTO fraction (fraction_id, fraction) VALUES (7, '2/3');
-INSERT INTO fraction (fraction_id, fraction) VALUES (8, '3/4');
-INSERT INTO fraction (fraction_id, fraction) VALUES (9, '7/8');
-
-SET IDENTITY_INSERT fraction OFF
 
 SET IDENTITY_INSERT ingredient ON;
 
@@ -435,12 +436,12 @@ INSERT INTO ingredient (ingredient_id, name) VALUES (137, 'ground cayenne pepper
 INSERT INTO ingredient (ingredient_id, name) VALUES (138, 'saigon cinnamon');
 INSERT INTO ingredient (ingredient_id, name) VALUES (139, 'Maker''s Mark bourbon');
 INSERT INTO ingredient (ingredient_id, name) VALUES (140, 'Diet Dr. Pepper');
---INSERT INTO ingredient (ingredient_id, name) VALUES (141, 'zzz');
---INSERT INTO ingredient (ingredient_id, name) VALUES (142, 'zzz');
---INSERT INTO ingredient (ingredient_id, name) VALUES (143, 'zzz');
---INSERT INTO ingredient (ingredient_id, name) VALUES (144, 'zzz');
---INSERT INTO ingredient (ingredient_id, name) VALUES (145, 'zzz');
---INSERT INTO ingredient (ingredient_id, name) VALUES (146, 'zzz');
+INSERT INTO ingredient (ingredient_id, name) VALUES (141, 'graham crackers');
+INSERT INTO ingredient (ingredient_id, name) VALUES (142, 'mini marshmallows');
+INSERT INTO ingredient (ingredient_id, name) VALUES (143, 'pecans');
+INSERT INTO ingredient (ingredient_id, name) VALUES (144, 'canned tuna in water');
+INSERT INTO ingredient (ingredient_id, name) VALUES (145, 'celery');
+INSERT INTO ingredient (ingredient_id, name) VALUES (146, 'avocado');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (147, 'zzz');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (148, 'zzz');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (149, 'zzz');
@@ -462,7 +463,7 @@ SET IDENTITY_INSERT recipe ON;
 
 INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (1, 'Peanut Butter and Jelly Sandwich', 'The classic sandwich for kids of all ages', '1) Spread peanut butter on first slice of bread. /2) Spread jelly on second slice of bread. /3) Put both pieces of bread together with peanut butter and jelly sides facing inward. /4) Cut into rectangles or triangles. /5) Relive the simple joy of childhood!', 2, 0);
 INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (2, 'Cheesy Scrambled Eggs', 'A breakfast favorite', '1) Heat 10" skillet on medium-low heat. /2) Crack eggs into bowl, discard shells, and add milk. /3) Whisk eggs and milk vigorously until pale and slightly frothy. /4) Grate or slice cheese as desired. /5) Chop onion finely, reserving some green for garnish. /6) Melt butter in skillet. /7) Sautee onion in butter for 30 seconds to 1 minute. /8) Pour eggs into skillet and stir continuously with wooden spoon or chopsticks for about 90 seconds, or until mostly solid, but still slightly runny. /9) Add cheese to top of eggs and cover for 20-30 seconds to melt. /10) Scoop eggs onto plate, garnish with reserved green onion rounds, and serve.', 5, 3);
---INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (3, 'Easy Caprese Salad', 'Simple italian goodness, arguably healthy', '1) Wash basil and tomatoes. /2) Rough chop basil or cut into ~1/4" wide strips. /3) Cut tomatoes in half, if desired. /4) Cut mozz into bite size pieces. /5) Arrange artfully on plate or in bowl. /6) Drizzle with balsamic reduction, or Simple Balsamic Vinaigrette (see recipes).', 10, 0);
+INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (3, 'Easy Caprese Salad', 'Simple italian goodness, arguably healthy', '1) Wash basil and tomatoes. /2) Rough chop basil or cut into ~1/4" wide strips. /3) Cut tomatoes in half, if desired. /4) Cut mozz into bite size pieces. /5) Arrange artfully on plate or in bowl. /6) Drizzle with balsamic reduction, or Simple Balsamic Vinaigrette (see recipes).', 10, 0);
 --INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (4, 'Buttermilk Pancakes', 'These are not your mother''s pancakes. They''re my grandmother''s pancakes!', '1) Add buttermilk, oil, vanilla extract, and egg to 1qt measuring cup, then mix thoroughly. /2) Add flour 1/3 cup at a time, gently mixing. DO NOT OVERMIX. There should be lumps remaining when you are finished. /3) Preheat non-stick pan to medium, or griddle to 350F. /4) Flip bubbles appear all over upper surface of batter (2-3 minutes). /5) Cook for another 2-3 minutes. /6) Serve with butter, syrup, fruit, powdered sugar, peanut butter, or whatever you like on pancakes.', 5, 5);
 --INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (5, 'Naan Pizza', 'French bread pizza is so passe.', '1) Preheat toaster oven to 400F. /2) Spread 1-2 Tbsp of your favorite sauce on each piece of naan. /3) Sprinkle 1/4 cup mozz on each piece of naan. /4) Evenly distribute pepperoni slices across naan. /5) Sprinkle grated parmesan on top of pepperoni. /6) Cook for 10 minutes, or until cheese in centers begins to brown slightly.', 10, 10);
 --INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (6, 'Crock Pot Mac & Cheese', 'So creamy, so cheesy, so easy!', '1) Boil macaroni noodles for 6-7 minutes. /2) Grate cheddar and gruyere. /3) Combine mayo, sour cream, cream of chicken soup, spices, and grated cheeses in crock pot. /4) Cook on high for 1.5-2 hours, or on low for 3 hours.', 10, 90);
@@ -483,7 +484,7 @@ INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (21, 'Mega Salad', 'ALL YOUR VEG ARE BELONG TO US', '', 0, 0);
 INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (22, 'Simple Balsamic Vinaigrette', 'The simplest balsamic vinaigrette worth making', '1) Mince or grate garlic cloves. /2) Combine all ingredients except pepper and mix thoroughly. /3) Add pepper to taste. /4) If too acidic, add a little more maple syrup. /5) Serve immediately, mixing before each use. /6) Will keep for about a week if refrigerated (allow to come to room temp before serving).', 5, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (23, 'Ola Mae''s BEST Pecan Pie', 'Easy to learn, difficult to master.', '', 20, 45);
---INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (24, 'Fresh Fruit Bowl', 'Get Fruit. Cut fruit. Put cut fruit in bowl.', '', 0, 0);
+--INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (24, 'Fresh Fruit Bowl', 'Get Fruit. Cut fruit. Put cut fruit in bowl. Eat.', 'See description.', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (25, 'Jalen''s Teriyaki Beef', 'Pair with stir fry noodles or rice and veggies', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (26, 'Stir Fry Noodles and Veggies', 'Serve underneath a generous portion of Jalen''s Teriyaki Beef', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (27, 'Buttermilk Biscuits', 'These deserve to be smothered in sausage gravy!', '', 0, 0);
@@ -500,10 +501,10 @@ INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (38, 'Snickerdoodle Cookies', 'Everyone''s favorite', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (39, 'Grilled Steak and Veggie Skewers', 'You can''t beat ''em', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (40, 'Grilled Shrimp and Veggie Skewers', 'Put another shrimp on the barbie!', '', 0, 0);
-----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (41, 'Creamy Pasta Salad', '', '', 0, 0);
+----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (41, 'Creamy Pasta Salad', 'Perfect for a summer BBQ', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (42, 'Egg Salad', 'Travis used to make this all the time', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (43, 'Tuna Salad', 'Good alone, on toast, or in a melt', '', 0, 0);
-----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (44, 'Peanut Butter Marshmallow Graham Crackers', 'Better than s''mores!', '', 0, 0);
+INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (44, 'Peanut Butter Marshmallow Graham Crackers', 'Better than s''mores!', '1) Separate graham crackers into squares. /2) Spread 2 tsp. peanut butter on each cracker. /3) Put 9 mini marshmallows on each cracker. /4) Put crackers on top rack of toaster oven and broil on high for 2-3 minutes, until tops of marshmallows are brown.', 5, 2);
 INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (45, 'Perfect Margarita', 'It doesn''t get any better than this.', '1) Pour 1800 Silver, Gran Marnier, and sweetened lime juice into shaker with ice. /2) Add splash of fresh lime juice. /3) Salt rim of glass. /4) Shake, pour, drink. /5) Repeat until you understand Spanish, or until you stop understanding Spanish.', 1, 0);
 INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (46, 'Dr. Maker''s Relaxer', 'Need to relax? Call the Dr.!', '1) Pour Maker''s Mark and Diet Dr. Pepper into shaker with ice. /2) Shake, pour, drink. /3) Repeat until relaxed.', 1, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (47, '', '', '', 0, 0);
@@ -533,7 +534,7 @@ INSERT INTO category(category_id, category_name) VALUES (6, 'Italian');
 INSERT INTO category(category_id, category_name) VALUES (7, 'East Asian');
 INSERT INTO category(category_id, category_name) VALUES (8, 'American');
 INSERT INTO category(category_id, category_name) VALUES (9, 'soul food');
-INSERT INTO category(category_id, category_name) VALUES (10,'quick');
+INSERT INTO category(category_id, category_name) VALUES (10, 'quick');
 INSERT INTO category(category_id, category_name) VALUES (11, 'entree');
 INSERT INTO category(category_id, category_name) VALUES (12, 'meat');
 INSERT INTO category(category_id, category_name) VALUES (13, 'Vegan');
@@ -542,17 +543,17 @@ INSERT INTO category(category_id, category_name) VALUES (15, 'side');
 INSERT INTO category(category_id, category_name) VALUES (16, 'starch');
 INSERT INTO category(category_id, category_name) VALUES (17, 'one-dish meal');
 INSERT INTO category(category_id, category_name) VALUES (18, 'kids');
-INSERT INTO category(category_id, category_name) VALUES (19, 'fusion');
+INSERT INTO category(category_id, category_name) VALUES (19, 'salad');
 INSERT INTO category(category_id, category_name) VALUES (20, 'snack');
 INSERT INTO category(category_id, category_name) VALUES (21, 'sauce');
 INSERT INTO category(category_id, category_name) VALUES (22, 'Mediterranean');
 INSERT INTO category(category_id, category_name) VALUES (23, 'BBQ');
 INSERT INTO category(category_id, category_name) VALUES (24, 'cocktail');
 INSERT INTO category(category_id, category_name) VALUES (25, 'Mexican');
---INSERT INTO category(category_id, category_name) VALUES (26, 'meal');
---INSERT INTO category(category_id, category_name) VALUES (27, 'kids');
---INSERT INTO category(category_id, category_name) VALUES (28, 'fusion');
---INSERT INTO category(category_id, category_name) VALUES (29, 'snack');
+INSERT INTO category(category_id, category_name) VALUES (26, 'Greek');
+INSERT INTO category(category_id, category_name) VALUES (27, 'Chinese');
+INSERT INTO category(category_id, category_name) VALUES (28, 'Indian');
+INSERT INTO category(category_id, category_name) VALUES (29, 'Japanese');
 
 SET IDENTITY_INSERT category OFF;
 
@@ -561,7 +562,13 @@ INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 3);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 10);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (2, 2)
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (2, 11);
-INSERT INTO recipe_category (recipe_id, category_id) VALUES (22, 22);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (3, 19);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (3, 22);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (3, 6);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (22, 21);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (22, 6);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (44, 5);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (44, 20);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (45, 24);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (45, 10);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (45, 17);
@@ -589,12 +596,18 @@ INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, un
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (2, 6, 1, 0, 3);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (2, 7, 11, 2, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (2, 8, 10, 2, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (3, 69, 12, 0, 5);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (3, 70, 12, 0, 5);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (3, 41, 22, 15, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 87, 5, 0, 5);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 83, 10, 3, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 89, 10, 1, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 119, 10, 1, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 15, 9, 0, 2);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (22, 14, 9, 0, 2);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (44, 141, 1, 3, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (44, 2, 10, 4, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (44, 142, 1, 54, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 36, 11, 2, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 38, 11, 2, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (45, 37, 11, 2, 0);
