@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Detail";
     string[] instructions = Model.Instructions.Split('/');
-    string id = Convert.ToString(Model.RecipeId);
+    string id = Convert.ToString(Model.RecipeId);    
 }
 
 <style>
@@ -71,6 +71,16 @@
         }
     </ul>
 
+</div>
+
+<div>
+    <h3>Categories</h3>
+    <ul>
+        @for (int i = 0; i < Model.Categories.Count; i++)
+        {
+            <li>@Model.Categories[i]</li>
+        }
+    </ul>
 </div>
 
 <br />
