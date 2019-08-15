@@ -64,7 +64,7 @@ else
                         }
                     }
                 </select>
-                <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+                @*<button class="btn btn-primary show-meal-details">Show Meal Details</button>*@
             </div>
             <div class="meal-container lunch">
                 <label>Lunch</label>
@@ -81,7 +81,7 @@ else
                         }
                     }
                 </select>
-                <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+                @*<button class="btn btn-primary show-meal-details">Show Meal Details</button>*@
             </div>
             <div class="meal-container dinner">
                 <label>Dinner</label>
@@ -98,7 +98,7 @@ else
                         }
                     }
                 </select>
-                <button class="btn btn-primary show-meal-details">Show Meal Details</button>
+                @*<button class="btn btn-primary show-meal-details">Show Meal Details</button>*@
             </div>
         }
     </div>
@@ -109,7 +109,7 @@ else
         <hr />
         <label>Can't find the meal you want? Create it here!</label>
         <br />
-        <button class="btn btn-success" id="newMealButton" asp-controller="Meal" asp-action="CreateMeal">Create New Meal</button>
+        <a class="btn btn-success" id="newMealButton" asp-controller="Meal" asp-action="CreateMeal" asp-route-id="0" target="_blank">Create New Meal</a>
         <hr />
     </div>
     <div class="form-group">
