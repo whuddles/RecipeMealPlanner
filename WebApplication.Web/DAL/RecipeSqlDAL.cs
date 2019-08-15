@@ -11,19 +11,19 @@ namespace WebApplication.Web.DAL
     public class RecipeSqlDAL : IRecipeDAL
     {
         private string connectionString;
-        private string sqlAddRecipe =                             @"INSERT INTO recipe (name, description, instructions, prep_time, cook_time) 
+        private string sqlAddRecipe = @"INSERT INTO recipe (name, description, instructions, prep_time, cook_time) 
                                                                     VALUES (@name, @description, @instructions, @prepTime, @cookTime);
                                                                     SELECT SCOPE_IDENTITY()";
-        private string sqlAddIdsToIngredients =                   @"SELECT ingredient_id
+        private string sqlAddIdsToIngredients = @"SELECT ingredient_id
                                                                     FROM ingredient
                                                                     WHERE name = @name";
-        private string sqlGetUnitId =                             @"SELECT unit_id
+        private string sqlGetUnitId = @"SELECT unit_id
                                                                     FROM unit
                                                                     WHERE unit = @unit";
-        private string sqlGetFractionId =                         @"SELECT fraction_id
+        private string sqlGetFractionId = @"SELECT fraction_id
                                                                     FROM fraction   
                                                                     WHERE fraction = @fraction";
-        private string sqlUpdateCompositeTable =                  @"INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id)
+        private string sqlUpdateCompositeTable = @"INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id)
                                                                     VALUES ((SELECT recipe_id
                                                                             FROM recipe
                                                                             WHERE recipe_id = @recipeId), 
@@ -39,10 +39,10 @@ namespace WebApplication.Web.DAL
                                                                             (SELECT fraction_id
                                                                             FROM fraction
                                                                             WHERE fraction_id = @fractionId))";
-        private string sqlQueryGetRecipeById =                    @"SELECT name as recipeName, description, instructions, prep_time, cook_time
+        private string sqlQueryGetRecipeById = @"SELECT name as recipeName, description, instructions, prep_time, cook_time
                                                                     FROM recipe
                                                                     WHERE recipe.recipe_id = @recipeId";
-        private string sqlQueryGetIngredientsByRecipeId =         @"SELECT ingredient.name as ingredientName, unit.unit, number.number, fraction.fraction
+        private string sqlQueryGetIngredientsByRecipeId = @"SELECT ingredient.name as ingredientName, unit.unit, number.number, fraction.fraction
                                                                     FROM recipe
                                                                     JOIN recipe_ingredient_unit_number_fraction on recipe.recipe_id = recipe_ingredient_unit_number_fraction.recipe_id
                                                                     JOIN ingredient on ingredient.ingredient_id = recipe_ingredient_unit_number_fraction.ingredient_id
@@ -50,14 +50,14 @@ namespace WebApplication.Web.DAL
                                                                     JOIN number on number.number_id = recipe_ingredient_unit_number_fraction.number_id
                                                                     JOIN fraction on fraction.fraction_id = recipe_ingredient_unit_number_fraction.fraction_id
                                                                     WHERE recipe.recipe_id = @recipeId";
-        private string sqlQueryGetAllRecipes =                    @"SELECT * FROM recipe";
-        private string sqlInsertUserIdAndRecipeIdToUsersRecipe =  @"INSERT INTO users_recipe (id, recipe_id) 
+        private string sqlQueryGetAllRecipes = @"SELECT * FROM recipe";
+        private string sqlInsertUserIdAndRecipeIdToUsersRecipe = @"INSERT INTO users_recipe (id, recipe_id) 
                                                                     VALUES (@userId, @recipeId)";
-        private string sqlQueryGetRecipesByUserId =               @"SELECT recipe.name as name, recipe.description, recipe.instructions, recipe.prep_time, recipe.cook_time, recipe.recipe_id
+        private string sqlQueryGetRecipesByUserId = @"SELECT recipe.name as name, recipe.description, recipe.instructions, recipe.prep_time, recipe.cook_time, recipe.recipe_id
                                                                     FROM recipe
                                                                     JOIN users_recipe ON recipe.recipe_id = users_recipe.recipe_id
                                                                     WHERE users_recipe.id = @userId";
-        private string sqlCheckUserAccountForRecipe =             @"SELECT COUNT(recipe_id) as recipeCount 
+        private string sqlCheckUserAccountForRecipe = @"SELECT COUNT(recipe_id) as recipeCount 
                                                                     FROM users_recipe
                                                                     WHERE id = @userId
                                                                     AND recipe_id = @recipeId";
@@ -78,7 +78,7 @@ namespace WebApplication.Web.DAL
                                                               ON r.recipe_id = users_recipe.recipe_id
                                                               WHERE users_recipe.id = @userId
                                                               AND i.name LIKE @searchString";
-        private string sqlGetCategoriesByRecipeId =   @"SELECT category_name
+        private string sqlGetCategoriesByRecipeId = @"SELECT category_name
                                                         FROM category c
                                                         JOIN recipe_category r
                                                         ON c.category_id = r.category_id
@@ -100,7 +100,7 @@ namespace WebApplication.Web.DAL
         public int AddRecipe(Recipe recipe)
         {
             bool result = false;
-            
+
             recipe.Ingredients = AddIdsToIngredients(recipe.Ingredients);
 
             try
@@ -130,8 +130,15 @@ namespace WebApplication.Web.DAL
 
             if (result)
             {
-                UpdateCompositeTable(recipe);
-                UpdateRecipeCategories(recipe.Categories, recipe.RecipeId);
+                try
+                {
+                    UpdateCompositeTable(recipe);
+                    UpdateRecipeCategories(recipe.Categories, recipe.RecipeId);
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                }
             }
 
             return recipe.RecipeId;
@@ -218,26 +225,33 @@ namespace WebApplication.Web.DAL
         {
             foreach (Ingredient ingredient in recipe.Ingredients)
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                try
                 {
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
 
-                    SqlCommand cmd = new SqlCommand(sqlUpdateCompositeTable, conn);
-                    cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
-                    cmd.Parameters.AddWithValue("@ingredientId", ingredient.IngredientId);
-                    cmd.Parameters.AddWithValue("@unitId", ingredient.UnitId);
-                    cmd.Parameters.AddWithValue("@fractionId", ingredient.FractionId);
-                    cmd.Parameters.AddWithValue("@numberId", Convert.ToInt32(ingredient.Number));
+                        SqlCommand cmd = new SqlCommand(sqlUpdateCompositeTable, conn);
+                        cmd.Parameters.AddWithValue("@recipeId", recipe.RecipeId);
+                        cmd.Parameters.AddWithValue("@ingredientId", ingredient.IngredientId);
+                        cmd.Parameters.AddWithValue("@unitId", ingredient.UnitId);
+                        cmd.Parameters.AddWithValue("@fractionId", ingredient.FractionId);
+                        cmd.Parameters.AddWithValue("@numberId", Convert.ToInt32(ingredient.Number));
 
-                    conn.Open();
+                        conn.Open();
 
-                    cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
                 }
             }
         }
 
         public void UpdateRecipeCategories(List<string> categories, int recipeId)
         {
-            foreach(string str in categories)
+            foreach (string str in categories)
             {
                 try
                 {
@@ -252,9 +266,9 @@ namespace WebApplication.Web.DAL
                         cmd.ExecuteNonQuery();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    
+
                 }
             }
         }
@@ -304,7 +318,7 @@ namespace WebApplication.Web.DAL
                         categories.Add(Convert.ToString(reader["category_name"]));
                     }
 
-                    while(categories.Count < 3)
+                    while (categories.Count < 3)
                     {
                         categories.Add("-");
                     }
@@ -360,7 +374,7 @@ namespace WebApplication.Web.DAL
                 throw;
             }
 
-            if(allRecipes.Count > 0)
+            if (allRecipes.Count > 0)
             {
                 allRecipes.Sort((x, y) => x.Name.CompareTo(y.Name));
             }
@@ -379,13 +393,13 @@ namespace WebApplication.Web.DAL
                 conn.Open();
 
                 SqlDataReader reader = cmd.ExecuteReader();
-                while(reader.Read())
+                while (reader.Read())
                 {
                     categories.Add(Convert.ToString(reader["category_name"]));
                 }
             }
 
-                return categories;
+            return categories;
         }
 
         public Recipe MapRowToRecipe(SqlDataReader reader)
@@ -429,7 +443,7 @@ namespace WebApplication.Web.DAL
         }
 
         public void AddRecipeToUserAccount(int recipeId, int userId)
-        {            
+        {
             if (!CheckUserAccountForRecipe(recipeId, userId))
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -503,13 +517,13 @@ namespace WebApplication.Web.DAL
                 cmd.Parameters.AddWithValue("@searchString", "%" + searchString + "%");
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
-                
+
                 while (reader.Read())
                 {
                     recipes.Add(MapRowToRecipe(reader));
                 }
             }
-                    return recipes;
+            return recipes;
         }
 
         public List<Recipe> GetRecipesByIngredientAndUserId(string searchString, int userId)
