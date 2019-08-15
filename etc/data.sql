@@ -470,9 +470,9 @@ INSERT INTO ingredient (ingredient_id, name) VALUES (164, 'english muffin');
 INSERT INTO ingredient (ingredient_id, name) VALUES (165, 'fruit preserves');
 INSERT INTO ingredient (ingredient_id, name) VALUES (166, 'Kerrygold butter');
 INSERT INTO ingredient (ingredient_id, name) VALUES (167, 'butter, unsalted');
---INSERT INTO ingredient (ingredient_id, name) VALUES (168, 'zzz');
---INSERT INTO ingredient (ingredient_id, name) VALUES (169, 'zzz');
---INSERT INTO ingredient (ingredient_id, name) VALUES (170, 'zzz');
+INSERT INTO ingredient (ingredient_id, name) VALUES (168, 'champagne');
+INSERT INTO ingredient (ingredient_id, name) VALUES (169, 'orange juice');
+INSERT INTO ingredient (ingredient_id, name) VALUES (170, 'orange');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (171, 'zzz');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (172, 'zzz');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (173, 'zzz');
@@ -482,6 +482,16 @@ INSERT INTO ingredient (ingredient_id, name) VALUES (167, 'butter, unsalted');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (177, 'zzz');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (178, 'zzz');
 --INSERT INTO ingredient (ingredient_id, name) VALUES (179, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (180, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (181, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (182, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (183, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (184, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (185, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (186, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (187, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (188, 'zzz');
+--INSERT INTO ingredient (ingredient_id, name) VALUES (189, 'zzz');
 
 SET IDENTITY_INSERT ingredient OFF;
 
@@ -536,7 +546,7 @@ INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (47, 'Ultimate Browned Butter Rice Krispie Treats', '', '', 0, 0);
 INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (48, 'Fried Bacon', 'It''s fried bacon', '1) Preheat pan to medium-low or griddle to 325F. /2) Cook bacon until desired crispiness is reached.', 0, 10);
 INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (49, 'Jesse''s Lunch Fruit', 'The fruit Jesse eats every day at lunch', 'Wash and/or peel as appropriate.', 1, 0);
-----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (50, '', '', '', 0, 0);
+INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (50, 'Mimosa', 'The best way to start drinking all day', '1) Pour ingredients in glass. /2) Garnish with orange slice.', 1, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (51, '', '', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (52, '', '', '', 0, 0);
 ----INSERT INTO recipe (recipe_id, name, description, instructions, prep_time, cook_time) VALUES (53, '', '', '', 0, 0);
@@ -649,6 +659,9 @@ INSERT INTO recipe_category (recipe_id, category_id) VALUES (48, 3);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (48, 4);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (49, 3);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (49, 10);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (50, 24);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (50, 10);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (50, 17);
 
 SET IDENTITY_INSERT meal ON;
 
@@ -806,6 +819,9 @@ INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, un
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (48, 26, 2, 4, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (49, 63, 20, 1, 0);
 INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (49, 64, 19, 1, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (50, 168, 4, 4, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (50, 169, 4, 4, 0);
+INSERT INTO recipe_ingredient_unit_number_fraction (recipe_id, ingredient_id, unit_id, number_id, fraction_id) VALUES (50, 170, 2, 1, 0);
 
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (1, 24);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (1, 30);
@@ -825,6 +841,7 @@ INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 2);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 4);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 48);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 24);
+INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 50);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (8, 13);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (8, 20);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (8, 45);
