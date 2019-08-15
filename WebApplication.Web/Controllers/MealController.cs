@@ -29,7 +29,14 @@ namespace WebApplication.Web.Controllers
         {
             return View();
         }
-        
+
+        public IActionResult MealDetail(int id = 1)
+        {
+            Meal meal = mealPlanDAL.GetMealById(id);     
+
+            return View(meal);
+        }
+
         [HttpGet]
         public IActionResult CreateMeal(int id = 0)
 
@@ -75,6 +82,11 @@ namespace WebApplication.Web.Controllers
             meal.Recipes = recipes;
 
             int mealId = mealPlanDAL.CreateMeal(meal);
+
+            if (mealId > 0)
+            {                
+                return RedirectToAction("MealDetail", "Meal", new { id = Convert.ToInt32(mealId) });
+            }
 
             return RedirectToAction("CreateMeal");
         }
