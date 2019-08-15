@@ -600,7 +600,7 @@ INSERT INTO category(category_id, category_name) VALUES (35, 'sandwich');
 SET IDENTITY_INSERT category OFF;
 
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 20);
-INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 3);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 13);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (1, 10);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (2, 2)
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (2, 11);
@@ -639,6 +639,7 @@ INSERT INTO recipe_category (recipe_id, category_id) VALUES (19, 15);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (19, 4);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (20, 15);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (20, 19);
+INSERT INTO recipe_category (recipe_id, category_id) VALUES (20, 13);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (22, 21);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (22, 6);
 INSERT INTO recipe_category (recipe_id, category_id) VALUES (24, 10);
