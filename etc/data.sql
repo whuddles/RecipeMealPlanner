@@ -825,7 +825,6 @@ INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 2);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 4);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 48);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 24);
-INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (7, 46);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (8, 13);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (8, 20);
 INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (8, 45);
