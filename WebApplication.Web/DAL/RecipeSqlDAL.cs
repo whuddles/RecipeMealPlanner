@@ -91,6 +91,13 @@ namespace WebApplication.Web.DAL
                                                             FROM category
                                                             WHERE category_name = @categoryName))";
         private string sqlGetAllCategories = @"SELECT category_name FROM category";
+        private string sqlGetRecipesByCategory = @" SELECT *
+                                                    FROM recipe r
+                                                    JOIN recipe_category rc
+                                                    ON r.recipe_id = rc.recipe_id   
+                                                    JOIN category c
+                                                    ON c.category_id = rc.category_id
+                                                    WHERE c.category_name LIKE @searchString";
 
         public RecipeSqlDAL(string connectionString)
         {
@@ -534,6 +541,25 @@ namespace WebApplication.Web.DAL
                 SqlCommand cmd = new SqlCommand(sqlGetRecipesByIngredientAndUserId, conn);
                 cmd.Parameters.AddWithValue("@searchString", "%" + searchString + "%");
                 cmd.Parameters.AddWithValue("@userId", userId);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    recipes.Add(MapRowToRecipe(reader));
+                }
+            }
+            return recipes;
+        }
+
+        public List<Recipe> GetRecipesByCategory(string searchString)
+        {
+            List<Recipe> recipes = new List<Recipe>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sqlGetRecipesByCategory, conn);
+                cmd.Parameters.AddWithValue("@searchString", "%" + searchString + "%");
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 

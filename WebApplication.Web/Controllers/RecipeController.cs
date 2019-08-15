@@ -164,9 +164,17 @@ namespace WebApplication.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AllRecipes(string searchString)
+        public IActionResult SearchIngredientResults(string searchByIngredient)
         {           
-            List<Recipe> foundRecipes = recipeDAL.GetRecipesByIngredient(searchString);
+            List<Recipe> foundRecipes = recipeDAL.GetRecipesByIngredient(searchByIngredient);
+
+            return View(foundRecipes);
+        }
+
+        [HttpPost]
+        public IActionResult SearchCategoryResults(string searchByCategory)
+        {
+            List<Recipe> foundRecipes = recipeDAL.GetRecipesByCategory(searchByCategory);
 
             return View(foundRecipes);
         }
