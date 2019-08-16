@@ -185,7 +185,7 @@ namespace WebApplication.Web.Controllers
             User user = authProvider.GetCurrentUser();
             recipeDAL.AddRecipeToUserAccount(recipeId, user.Id);
 
-            return RedirectToAction("MyRecipes", "Recipe", new { userId = user.Id });
+            return RedirectToAction("AllRecipes");
         }
 
         [HttpGet]
